@@ -1,5 +1,6 @@
 function [FMT] =  fcnFMTLOAD(filename)
-
+%This funciton loads the raw .mat files from the pixhawk into the
+%corresponding formatted .mat files.
 load(filename);
 varList = Seen;
 
@@ -15,23 +16,23 @@ for i = 1:length(varList)
         end
         
         
-%     catch
-%         try
-%             % eg: FMT.PARM = PARM
-%             eval(sprintf('FMT.%s = %s;',varList{i},varList{i}));
-%         catch
-%             eval(sprintf('disp(%s);',varList{i}));
-%         end
-%     end
-
-
-% eg: clear AHR2_label
-    eval(sprintf('clear %s;',varList{i}));
-    eval(sprintf('clear %s_label;',varList{i}));
-
-end
-
-FMT.Seen = Seen;
-FMT.PARM = PARM;
-
+        %     catch
+        %         try
+        %             % eg: FMT.PARM = PARM
+        %             eval(sprintf('FMT.%s = %s;',varList{i},varList{i}));
+        %         catch
+        %             eval(sprintf('disp(%s);',varList{i}));
+        %         end
+        %     end
+        
+        
+        % eg: clear AHR2_label
+        eval(sprintf('clear %s;',varList{i}));
+        eval(sprintf('clear %s_label;',varList{i}));
+        
+    end
+    
+    FMT.Seen = Seen;
+    FMT.PARM = PARM;
+    
 end
