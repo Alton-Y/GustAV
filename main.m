@@ -14,9 +14,12 @@ pixhawkfiles = fcnFILELIST(pixhawkpath,'.mat');
 weatherfiles = fcnFILELIST(weatherpath,'.CSV');
 
 %% Load all files and format
+% SETUP
+INFO.timezone = -4;
+
 
 % pixhawk output
-FMT = fcnFMTLOAD(pixhawkpath,pixhawkfiles);
+[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles);
 
 %ground station files
 GNDSTN = fcnGNDSTNLOAD(weatherpath,weatherfiles);
