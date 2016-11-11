@@ -77,7 +77,7 @@ for num = 1:length(listing)
     WindSpeed = cell2mat(raw(idx, 14));
     WindDirection = cell2mat(raw(idx, 15));
     
-    Time = datenum(Year+2000,Month,Day,Hour,Minute,Second+Millisecond./1000);
+    Time = datenum(Year+2000,Month,Day,Hour-4,Minute,Second+Millisecond./1000);
     
     if exist('GNDSTN') == 0
         GNDSTN.Time = Time;
