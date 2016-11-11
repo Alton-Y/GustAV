@@ -81,7 +81,7 @@ for num = 1:length(listing)
     
     if exist('GNDSTN') == 0
         GNDSTN.TimeLOCAL = Time;
-        GNDSTN.TimeUS = Time - INFO.pixhawkstart;
+        GNDSTN.TimeS = (Time - INFO.pixhawkstart).*24.*3600;
         GNDSTN.Humidity = Humidity;
         GNDSTN.TempC = Temp;
         GNDSTN.TempF = convtemp(Temp, 'C','F') ;
@@ -90,7 +90,7 @@ for num = 1:length(listing)
         GNDSTN.WindDirection = WindDirection;
     else
         GNDSTN.TimeLOCAL = [GNDSTN.TimeLOCAL;Time;];
-        GNDSTN.TimeUS = [GNDSTN.TimeUS;Time - INFO.pixhawkstart;];
+        GNDSTN.TimeS = [GNDSTN.TimeS;(Time - INFO.pixhawkstart).*24.*3600;];
         GNDSTN.Humidity = [GNDSTN.Humidity;Humidity;];
         GNDSTN.TempC = [GNDSTN.TempC;Temp;];
         GNDSTN.TempF = [GNDSTN.TempF;convtemp(Temp, 'C','F');] ;
