@@ -60,7 +60,7 @@ for i = 1:length(varList)
         eval(sprintf('clear %s_label;',varList{i}));
         
         try
-            FMT.(varList{i}).timelocal = pixhawkstart+[FMT.(varList{i}).TimeUS]./1e6./86400;
+            FMT.(varList{i}).TimeLOCAL = pixhawkstart+[FMT.(varList{i}).TimeUS]./1e6./86400;
         end      
     end
     
