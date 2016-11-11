@@ -22,5 +22,7 @@ INFO.timezone = -4;
 [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles);
 
 %ground station files
-GNDSTN = fcnGNDSTNLOAD(weatherpath,weatherfiles);
+GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles);
 
+%% Plotting Package
+fcnPLOTPACKAGE(INFO,FMT,GNDSTN);
