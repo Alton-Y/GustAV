@@ -1,4 +1,4 @@
-function GNDSTN = fcnGNDSTNLOAD(weatherpath,weatherfiles)
+function GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles);
 %This funciton loads the CSV data from the weather station into the
 %corresponding .mat files.
 listing = weatherfiles;
@@ -77,19 +77,23 @@ for num = 1:length(listing)
     WindSpeed = cell2mat(raw(idx, 14));
     WindDirection = cell2mat(raw(idx, 15));
     
-    Time = datenum(Year+2000,Month,Day,Hour-4,Minute,Second+Millisecond./1000);
+    Time = datenum(Year+2000,Month,Day,Hour+INFO.timezone,Minute,Second+Millisecond./1000);
     
     if exist('GNDSTN') == 0
-        GNDSTN.Time = Time;
+        GNDSTN.timelocal = Time;
+        GNDSTN.TimeUS = Time - INFO.pixhawkstart;
         GNDSTN.Humidity = Humidity;
-        GNDSTN.Temp = Temp;
+        GNDSTN.TempC = Temp;
+        GNDSTN.TempF = convtemp(Temp, 'C','F') ;
         GNDSTN.Pressure = Pressure;
         GNDSTN.WindSpeed = WindSpeed;
         GNDSTN.WindDirection = WindDirection;
     else
-        GNDSTN.Time = [GNDSTN.Time;Time;];
+        GNDSTN.timelocal = [GNDSTN.timelocal;Time;];
+        GNDSTN.TimeUS = [GNDSTN.TimeUS;Time - INFO.pixhawkstart;];
         GNDSTN.Humidity = [GNDSTN.Humidity;Humidity;];
-        GNDSTN.Temp = [GNDSTN.Temp;Temp;];
+        GNDSTN.TempC = [GNDSTN.TempC;Temp;];
+        GNDSTN.TempF = [GNDSTN.TempF;convtemp(Temp, 'C','F');] ;
         GNDSTN.Pressure = [GNDSTN.Pressure;Pressure;];
         GNDSTN.WindSpeed = [GNDSTN.WindSpeed;WindSpeed;];
         GNDSTN.WindDirection = [GNDSTN.WindDirection;WindDirection;];
