@@ -33,6 +33,11 @@ end
 INFO.pixhawkstart = pixhawkstart;
 
 
+
+
+FMT.Seen = Seen;
+FMT.PARM = PARM;
+
 for i = 1:length(varList)
     %     if exist(varList{i}) == 1 % check if label exists but main array doesn't
     try
@@ -62,23 +67,21 @@ for i = 1:length(varList)
         try
             FMT.(varList{i}).TimeS = [FMT.(varList{i}).TimeUS]./1e6;
             FMT.(varList{i}).TimeLOCAL = pixhawkstart+[FMT.(varList{i}).TimeS]./86400;
-        end      
+        end
     end
-    
-    FMT.Seen = Seen;
-    FMT.PARM = PARM;
-    
-    try
-        FMT.WIND.VWE = FMT.NKF7.VWE;
-        FMT.WIND.VWN = FMT.NKF7.VWN;
-        FMT.WIND.SPD = ([FMT.NKF7.VWE].^2+[FMT.NKF7.VWN].^2).^0.5;
-        FMT.WIND.DIR = rem(90-atan2d([FMT.NKF7.VWN],[FMT.NKF7.VWE])+180,360); 
-        FMT.WIND.TimeS = FMT.NKF7.TimeS;
-        FMT.WIND.TimeLOCAL = FMT.NKF7.TimeLOCAL;
-    end
-    
-    
-    
-    
-    
+end
+
+
+% Writing derived wind direction and speed into FMT.WIND
+try
+    FMT.WIND.VWE = FMT.NKF7.VWE;
+    FMT.WIND.VWN = FMT.NKF7.VWN;
+    FMT.WIND.SPD = ([FMT.NKF7.VWE].^2+[FMT.NKF7.VWN].^2).^0.5;
+    FMT.WIND.DIR = rem(90-atan2d([FMT.NKF7.VWN],[FMT.NKF7.VWE])+180,360);
+    FMT.WIND.TimeS = FMT.NKF7.TimeS;
+    FMT.WIND.TimeLOCAL = FMT.NKF7.TimeLOCAL;
+catch
+    warning('Unable to create FMT.WIND');
+end
+
 end
