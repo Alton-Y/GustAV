@@ -80,7 +80,7 @@ for num = 1:length(listing)
     Time = datenum(Year+2000,Month,Day,Hour+INFO.timezone,Minute,Second+Millisecond./1000);
     
     if exist('GNDSTN') == 0
-        GNDSTN.timelocal = Time;
+        GNDSTN.TimeLOCAL = Time;
         GNDSTN.TimeUS = Time - INFO.pixhawkstart;
         GNDSTN.Humidity = Humidity;
         GNDSTN.TempC = Temp;
@@ -89,7 +89,7 @@ for num = 1:length(listing)
         GNDSTN.WindSpeed = WindSpeed;
         GNDSTN.WindDirection = WindDirection;
     else
-        GNDSTN.timelocal = [GNDSTN.timelocal;Time;];
+        GNDSTN.TimeLOCAL = [GNDSTN.TimeLOCAL;Time;];
         GNDSTN.TimeUS = [GNDSTN.TimeUS;Time - INFO.pixhawkstart;];
         GNDSTN.Humidity = [GNDSTN.Humidity;Humidity;];
         GNDSTN.TempC = [GNDSTN.TempC;Temp;];
