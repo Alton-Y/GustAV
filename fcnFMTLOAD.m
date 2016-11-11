@@ -1,7 +1,8 @@
-function [FMT] =  fcnFMTLOAD(filename)
-%This funciton loads the raw .mat files from the pixhawk into the
+function FMT = fcnFMTLOAD(pixhawkpath,pixhawkfiles)
+% This funciton loads the raw .mat files from the pixhawk into the
 %corresponding formatted .mat files.
-load(filename);
+filename = pixhawkfiles{1};
+load(strcat('./',pixhawkpath,'/',filename));
 varList = Seen;
 
 for i = 1:length(varList)

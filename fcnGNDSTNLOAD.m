@@ -1,19 +1,19 @@
-function [GNDSTN]= fcnGNDSTNLOAD()
+function GNDSTN = fcnGNDSTNLOAD(weatherpath,weatherfiles)
 %This funciton loads the CSV data from the weather station into the
 %corresponding .mat files.
-listing = dir;
+listing = weatherfiles;
 
 
-for num = 4:length(listing)-1
+for num = 1:length(listing)
     
     
-    filename = listing(num).name
+    filename = listing{num}
     delimiter = ',';
     formatSpec = '%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%[^\n\r]';
     
     
     
-    fileID = fopen(filename,'r');
+    fileID = fopen(strcat('./',weatherpath,'/',filename),'r');
     dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter,  'ReturnOnError', false);
     fclose(fileID);
     raw = repmat({''},length(dataArray{1}),length(dataArray)-1);
