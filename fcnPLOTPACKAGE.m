@@ -70,7 +70,7 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
-xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
+xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 clear s1 s2 s3 s4
 
 %% plot 2 (wind data)
@@ -138,7 +138,7 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
-xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
+xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 clear s1 s2 s3 s4
 
 %% tuning stuff
@@ -216,5 +216,5 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
-xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
+xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 clear s1 s2 s3 s4
