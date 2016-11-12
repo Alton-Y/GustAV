@@ -70,6 +70,7 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
+xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
 clear s1 s2 s3 s4
 
 %% plot 2 (wind data)
@@ -80,12 +81,9 @@ clf(2)
 s1 = subplot(4,1,1);
 hold on
 
-s1 = subplot(4,1,1);
-hold on
-
 %press
 pgnd = plot(GNDSTN.TimeS,GNDSTN.Pressure,'-k');
-palt=plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
+palt= plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
 
 ylabel('Pressure');
 axis tight
@@ -140,7 +138,7 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
-
+xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
 clear s1 s2 s3 s4
 
 %% tuning stuff
@@ -170,7 +168,7 @@ ax.YColor = 'k';
 grid on
 box on
 
-s2=subplot(4,1,2)
+s2=subplot(4,1,2);
 hold on
 dem=plot(FMT.CTUN.TimeS,FMT.CTUN.NavRoll,'-k');
 ach=plot(FMT.CTUN.TimeS,FMT.CTUN.Roll,'-b');
@@ -205,7 +203,7 @@ ax.YColor = 'k';
 grid on
 box on
 
-s4= subplot(4,1,4)
+s4= subplot(4,1,4);
 hold on
 dem=plot(FMT.CTUN.TimeS,FMT.CTUN.NavPitch,'-k');
 ach=plot(FMT.CTUN.TimeS,FMT.CTUN.Pitch,'-b');
@@ -218,4 +216,5 @@ grid on
 box on
 
 linkaxes([s1,s2,s3,s4],'x');
+xlim([INFO.flight.startTimeS,INFO.flight.endTimeS]);
 clear s1 s2 s3 s4
