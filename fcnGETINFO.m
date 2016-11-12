@@ -54,8 +54,10 @@ INFO.segment.modeStr = ModeStr(Modes(:,2)+1)';
 INFO.segment.modeAbbr = ModeAbbr(Modes(:,2)+1)';
 INFO.segment.startTimeS = Modes(:,3);
 INFO.segment.endTimeS = Modes(:,4);
+INFO.segment.durationS = Modes(:,4)-Modes(:,3);
 INFO.segment.startTimeLOCAL = INFO.pixhawkstart+Modes(:,3)./86400;
 INFO.segment.endTimeLOCAL = INFO.pixhawkstart+Modes(:,4)./86400;
+
 
 if flagError ~= 1
     fprintf('Get FMT Info\n');
