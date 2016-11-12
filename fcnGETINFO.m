@@ -15,30 +15,48 @@ else
 end
 
 
-% start old code
-    ModeChange = [FMT.MODE.TimeS,FMT.MODE.ModeNum]; %Copy mode
-    ModeChange(:,3) = [diff(FMT.MODE.ModeNum);NaN]; %find diff between mode change
-    ModeChange(:,4) = FMT.MODE.LineNo;%mode start line index
-    ModeChange = ModeChange(ModeChange(:,3)~=0,:);
-%     ModeChange(:,5) = [ModeChange(2:end,4)-1;nan];
-    ModeChange(:,6) = [ModeChange(2:end,1)-1;FMT.STAT.TimeS(end)];
-    % Segment Mode StartTimeUS EndTimeUS isArmed isFlying
-    Modes = [[1:length(ModeChange(:,1))]',ModeChange(:,[2 1 6])];
-% end old code
 
+% Detech Flights in FMT
+try
+idxFlightStart = find(diff(FMT.STAT.isFlying)==1);
+idxFlightEnd = find(diff(FMT.STAT.isFlying)==-1);
+if length(idxFlightStart) == length(idxFlightEnd)
+    INFO.flight.startTimeS = FMT.STAT.TimeS(idxFlightStart);
+    INFO.flight.endTimeS = FMT.STAT.TimeS(idxFlightEnd);
+    INFO.flight.startTimeLOCAL = INFO.pixhawkstart+FMT.STAT.TimeS(idxFlightStart)./86400;
+    INFO.flight.endTimeLOCAL = INFO.pixhawkstart+FMT.STAT.TimeS(idxFlightEnd)./86400;
+    INFO.flight.durationS = FMT.STAT.TimeS(idxFlightEnd) - FMT.STAT.TimeS(idxFlightStart);
+else
+    warning('Flight Log Mismatch.');
+end
+catch
+    warning('Error in Finding Completed Flight Log.');
+end
+
+
+
+
+
+% Detect Mode Change and Split it into Segments
+% start old code
+ModeChange = [FMT.MODE.TimeS,FMT.MODE.ModeNum]; %Copy mode
+ModeChange(:,3) = [diff(FMT.MODE.ModeNum);NaN]; %find diff between mode change
+ModeChange(:,4) = FMT.MODE.LineNo;%mode start line index
+ModeChange = ModeChange(ModeChange(:,3)~=0,:);
+%     ModeChange(:,5) = [ModeChange(2:end,4)-1;nan];
+ModeChange(:,6) = [ModeChange(2:end,1)-1;FMT.STAT.TimeS(end)];
+% Segment Mode StartTimeUS EndTimeUS isArmed isFlying
+Modes = [(1:length(ModeChange(:,1)))',ModeChange(:,[2 1 6])];
+% end old code
 ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};
 ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};
-
-
-INFO.segments.mode = Modes(:,2);
-INFO.segments.modeStr = ModeStr(Modes(:,2)+1)';
-INFO.segments.modeAbbr = ModeAbbr(Modes(:,2)+1)';
-
-INFO.segments.startTimeS = Modes(:,3);
-INFO.segments.endTimeS = Modes(:,4);
-INFO.segments.startTimeLOCAL = INFO.pixhawkstart+Modes(:,3)./86400;
-INFO.segments.endTimeLOCAL = INFO.pixhawkstart+Modes(:,4)./86400;
-
+INFO.segment.mode = Modes(:,2);
+INFO.segment.modeStr = ModeStr(Modes(:,2)+1)';
+INFO.segment.modeAbbr = ModeAbbr(Modes(:,2)+1)';
+INFO.segment.startTimeS = Modes(:,3);
+INFO.segment.endTimeS = Modes(:,4);
+INFO.segment.startTimeLOCAL = INFO.pixhawkstart+Modes(:,3)./86400;
+INFO.segment.endTimeLOCAL = INFO.pixhawkstart+Modes(:,4)./86400;
 
 
 end
