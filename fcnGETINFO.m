@@ -1,7 +1,7 @@
 function [ INFO ] = fcnGETINFO( INFO, FMT )
 %FCNGETINFO Summary of this function goes here
 %   Detailed explanation goes here
-
+flagError = 0;
 if isfield(FMT,'GPS') == 0
     % No GPS DATA FOUND
     INFO.statusGPS = -1;
@@ -28,13 +28,12 @@ if length(idxFlightStart) == length(idxFlightEnd)
     INFO.flight.durationS = FMT.STAT.TimeS(idxFlightEnd) - FMT.STAT.TimeS(idxFlightStart);
 else
     warning('Flight Log Mismatch.');
+    flagError = 1;
 end
 catch
     warning('Error in Finding Completed Flight Log.');
+    flagError = 1;
 end
-
-
-
 
 
 % Detect Mode Change and Split it into Segments
@@ -58,6 +57,34 @@ INFO.segment.endTimeS = Modes(:,4);
 INFO.segment.startTimeLOCAL = INFO.pixhawkstart+Modes(:,3)./86400;
 INFO.segment.endTimeLOCAL = INFO.pixhawkstart+Modes(:,4)./86400;
 
+if flagError ~= 1
+    fprintf('Get FMT Info\n');
+    fprintf('Flt# Start LT  End LT    Duration  maxGS   maxIAS  maxAGL\n');
+    for n = 1:length(INFO.flight.durationS)
+        startLT = datestr(INFO.flight.startTimeLOCAL(n),'HH:MM:SS');
+        endLT = datestr(INFO.flight.endTimeLOCAL(n),'HH:MM:SS');
+        durationmmss = datestr(INFO.flight.durationS(n)./86400,'MM:SS');
+        try
+            t1 = INFO.flight.startTimeS(n);
+            t2 = INFO.flight.endTimeS(n);
+            idxARSP = (FMT.ARSP.TimeS >= t1 & FMT.ARSP.TimeS <= t2);
+            idxBARO = (FMT.BARO.TimeS >= t1 & FMT.BARO.TimeS <= t2);
+            idxGPS = (FMT.GPS.TimeS >= t1 & FMT.GPS.TimeS <= t2);
+            maxIAS = max(FMT.ARSP.Airspeed(idxARSP));
+            maxAGL = max(FMT.BARO.Alt(idxBARO));
+            maxGS = max(FMT.GPS.Spd(idxGPS));
+            
+        catch
+            maxGS = nan;
+            maxIAS = nan;
+            maxAGL = nan;
+        end
+        fprintf(' %02d  %s  %s  %s     %5.2f   %5.2f   %5.1f\n',n,startLT,endLT,durationmmss,maxGS,maxIAS,maxAGL);
+    end
+    fprintf('\n\n');
+else
+    fprintf('Error in fcnGETINFO\n');
+end
 
 end
 
