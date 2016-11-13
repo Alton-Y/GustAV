@@ -7,14 +7,20 @@ clf(fig);
 s1=subplot(4,1,1);
 hold on
 yyaxis left
-dem=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.Demanded(FMT.ATRP.Type == 0),'.k');
-ach=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.Achieved(FMT.ATRP.Type == 0),'.b');
+try
+    dem=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.Demanded(FMT.ATRP.Type == 0),'.k');
+    ach=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.Achieved(FMT.ATRP.Type == 0),'.b');
+catch
+end
 ylabel('Rate (deg/s)')
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.P(FMT.ATRP.Type == 0),'-k');
-legend([dem,ach,p],{'Demanded Roll Rate','Achieved Roll Rate','P Gain'},'location','northwest')
+try
+    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.P(FMT.ATRP.Type == 0),'-k');
+    legend([dem,ach,p],{'Demanded Roll Rate','Achieved Roll Rate','P Gain'},'location','northwest')
+catch
+end
 % set(gca,'XTickMode','manual');
 % datetick('x','HH:MM:SS')
 axis tight
@@ -50,14 +56,20 @@ box on
 s3=subplot(4,1,3);
 hold on
 yyaxis left
-dem=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.Demanded(FMT.ATRP.Type == 1),'.k');
-ach=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.Achieved(FMT.ATRP.Type == 1),'.b');
+try
+    dem=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.Demanded(FMT.ATRP.Type == 1),'.k');
+    ach=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.Achieved(FMT.ATRP.Type == 1),'.b');
+catch
+end
 ylabel('Rate (deg/s)')
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.P(FMT.ATRP.Type == 1),'-k');
-legend([dem,ach,p],{'Demanded Pitch Rate','Achieved Pitch Rate','P Gain'},'location','northwest')
+try
+    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.P(FMT.ATRP.Type == 1),'-k');
+    legend([dem,ach,p],{'Demanded Pitch Rate','Achieved Pitch Rate','P Gain'},'location','northwest')
+catch
+end
 % set(gca,'XTickMode','manual');
 axis tight
 % xlim([minx,maxx]);
