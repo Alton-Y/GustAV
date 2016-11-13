@@ -9,3 +9,6 @@ winddata(INFO,FMT,GNDSTN,windfig);
 
 tunefig = figure(3);
 tuningdata(INFO,FMT,GNDSTN,tunefig);
+
+ekffig = figure(4);
+ekfexplore(INFO,FMT,GNDSTN,ekffig);
