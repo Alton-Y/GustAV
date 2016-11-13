@@ -1,4 +1,7 @@
 function [] = generalinfo(INFO,FMT,GNDSTN,fig)
+%Plots airspeed, altitude, yaw, track, roll, pitch and control inputs
+
+
 fig.Name = 'General Info';
 clf(fig);
 % set(gcf,'numbertitle','off','name','myfigure') % See the help for GCF

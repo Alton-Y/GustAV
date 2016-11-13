@@ -1,4 +1,5 @@
 function [] = tuningdata(INFO,FMT,GNDSTN,fig)
+%plots autotune info
 
 fig.Name = 'AutoTune Info';
 clf(fig);

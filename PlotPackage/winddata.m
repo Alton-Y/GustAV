@@ -1,4 +1,5 @@
 function [] = winddata(INFO,FMT,GNDSTN,fig)
+%Plots ground station data
 fig.Name = 'Wind Data';
 clf(fig);
 
