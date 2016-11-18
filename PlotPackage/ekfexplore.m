@@ -34,6 +34,13 @@ grid on
 box on
 legend([imu1,imu2],{'ARSP IMU1','ARSP IMU2'},'location','northwest');
 
+s3=subplot(4,1,4);
+hold on
+imu1=plot(FMT.IMU.TimeS,FMT.IMU.AccY,'-k');
+axis tight
+grid on
+box on
+% legend([imu1,imu2],{'ARSP IMU1','ARSP IMU2'},'location','northwest');
 
 linkaxes([s1,s2,s3],'x');
 xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
