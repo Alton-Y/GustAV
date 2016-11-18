@@ -62,8 +62,9 @@ ail=plot(FMT.RCIN.TimeS,FMT.RCIN.C1,'-k');
 elv=plot(FMT.RCIN.TimeS,FMT.RCIN.C2,'--b');
 %rudder
 rud=plot(FMT.RCIN.TimeS,FMT.RCIN.C4,'-.r');
-
-legend([ail,elv,rud],{'Aileron','Elevator','Rudder'},'location','northwest')
+%throttle
+thr=plot(FMT.RCIN.TimeS,FMT.RCIN.C3,'-r');
+legend([ail,elv,rud,thr],{'Aileron','Elevator','Rudder','Throttle'},'location','northwest')
 ylabel('Control Request')
 axis tight
 % datetick('x','HH:MM:SS')
