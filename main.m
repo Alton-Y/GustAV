@@ -18,11 +18,11 @@ weatherfiles = fcnFILELIST(weatherpath,'.CSV');
 INFO.timezone = -4;
 
 % pixhawk output
-[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(2));
+[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(1));
 [ INFO ] = fcnGETINFO( INFO, FMT );
 %
 %ground station files
-GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles);
+GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles,1);
 
 %% Plotting Package
 fcnPLOTPACKAGE(INFO,FMT,GNDSTN);
