@@ -75,6 +75,7 @@ elseif version == 2
     
     
     % NaN Handling
+    Pressure = Pressure./10;
     WindSpeed(WindSpeed < 0) = nan;
     Pressure(Pressure < 100) = nan;
     WindDirection(WindDirection == 0) = nan;
