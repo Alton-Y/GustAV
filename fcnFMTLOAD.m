@@ -46,6 +46,8 @@ for i = 1:length(varList)
         
         for j = 1:length(label)
             % eg: FMT.AHR2.LineNo = AHR2(:,1)
+            spaceidx = isspace(label{j}); %remove spaces
+            label{j}=label{j}(spaceidx ==0);
             eval(sprintf('FMT.%s.%s = %s(:,%i);',varList{i},label{j},varList{i},j));
         end
         
