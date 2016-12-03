@@ -6,7 +6,7 @@ s1=subplot(3,1,1);
 hold on
 hdem=plot(FMT.TECS.TimeS,FMT.TECS.hdem,'-k');
 h=plot(FMT.TECS.TimeS,FMT.TECS.h,'--b');
-legend([hdem,h],{'demanded alt','alt'},'location','northwest');
+legend([hdem,h],{'Demanded ALT','Actual ALT'},'location','northwest');
 ylabel('m AGL');
 axis tight
 grid on
@@ -16,7 +16,7 @@ s2=subplot(3,1,2);
 hold on
 sdem=plot(FMT.TECS.TimeS,FMT.TECS.spdem,'-k');
 s=plot(FMT.TECS.TimeS,FMT.TECS.sp,'--b');
-legend([sdem,s],{'demanded arsp','arsp'},'location','northwest');
+legend([sdem,s],{'Demanded ARSP','Actual ARSP'},'location','northwest');
 ylabel('m/s');
 axis tight
 grid on
@@ -26,8 +26,8 @@ end
 s3=subplot(3,1,3);
 hold on
 thr=plot(FMT.RCOU.TimeS,FMT.RCOU.C3,'-k');
-legend([thr],{'throttle'},'location','northwest');
-ylabel('PWM sig.');
+legend([thr],{'throttleOUT'},'location','northwest');
+ylabel('Control OUT');
 axis tight
 grid on
 box on
