@@ -24,22 +24,23 @@ grid on
 box on
 legend([att,imu1,imu2],{'Pitch ATT','Pitch IMU1','Pitch IMU2'},'location','northwest');
 
-s3=subplot(4,1,3);
+s3=subplot(4,1,3); %airspeed error (should be below 0.3. Above 1 data from pitot is ignored)
 hold on
 imu1=plot(FMT.NKF4.TimeS,FMT.NKF4.SVT,'--b');
 imu2=plot(FMT.NKF9.TimeS,FMT.NKF9.SVT,'--r');
-ylabel('Ratio');
+ylabel('Error Ratio');
 axis tight
 grid on
 box on
 legend([imu1,imu2],{'ARSP IMU1','ARSP IMU2'},'location','northwest');
 
-s3=subplot(4,1,4);
-hold on
-imu1=plot(FMT.IMU.TimeS,FMT.IMU.AccY,'-k');
-axis tight
-grid on
-box on
+% s3=subplot(4,1,4);
+% hold on
+% imu1=plot(FMT.IMU.TimeS,FMT.IMU.AccY,'-k');
+% ylabel('Accel (m/s^2)');
+% axis tight
+% grid on
+% box on
 % legend([imu1,imu2],{'ARSP IMU1','ARSP IMU2'},'location','northwest');
 
 linkaxes([s1,s2,s3],'x');
