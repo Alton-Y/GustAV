@@ -1,20 +1,24 @@
 function [] = fcnPLOTPACKAGE(INFO,FMT,GNDSTN)
 addpath('./PlotPackage')
 
-% genfig=figure(1);
-% generalinfo(INFO,FMT,GNDSTN,genfig);
-
+genfig=figure(1);
+generalinfo(INFO,FMT,GNDSTN,genfig);
+% 
 % windfig = figure(2);
 % winddata(INFO,FMT,GNDSTN,windfig);
-
+% 
 % tunefig = figure(3);
 % tuningdata(INFO,FMT,GNDSTN,tunefig);
 
-% ekffig = figure(4);
+channelfig = figure(4);
+channeldata(INFO,FMT,GNDSTN,channelfig);
+% 
+% ekffig = figure(5);
 % ekfexplore(INFO,FMT,GNDSTN,ekffig);
-
-% tecsfig = figure(5);
+% % 
+% tecsfig = figure(6);
 % tecsexplore(INFO,FMT,GNDSTN,tecsfig);
 
-% battfig = figure(6);
+% battfig = figure(7);
 % batterydata(INFO,FMT,GNDSTN,battfig);
+
