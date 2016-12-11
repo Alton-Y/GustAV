@@ -5,7 +5,8 @@ clf(fig);
 s1=subplot(3,1,1);
 hold on
 v=plot(FMT.CURR.TimeS,FMT.CURR.Volt,'-k');
-legend([v],{'Voltage (Main Battery)'},'location','northwest');
+v2=plot(FMT.CUR2.TimeS,FMT.CUR2.Volt,'-b');
+legend([v,v2],{'Voltage (Main Battery)','Voltage (Avionics Battery)'},'location','northwest');
 ylabel('V');
 axis tight
 grid on
@@ -15,7 +16,8 @@ box on
 s2=subplot(3,1,2);
 hold on
 a=plot(FMT.CURR.TimeS,FMT.CURR.Curr,'-k');
-legend([a],{'Amps (Main Battery)'},'location','northwest');
+a2=plot(FMT.CUR2.TimeS,FMT.CUR2.Curr,'-b');
+legend([a,a2],{'Amps (Main Battery)','Amps (Avionics Battery)'},'location','northwest');
 ylabel('A');
 axis tight
 grid on
@@ -24,7 +26,8 @@ box on
 s3=subplot(3,1,3);
 hold on
 a=plot(FMT.CURR.TimeS,FMT.CURR.CurrTot,'-k');
-legend([a],{'Total Draw (Main Battery)'},'location','northwest');
+a2=plot(FMT.CUR2.TimeS,FMT.CUR2.CurrTot,'-b');
+legend([a,a2],{'Total Draw (Main Battery)','Total Draw (Avionics Battery)'},'location','northwest');
 ylabel('mAh');
 axis tight
 grid on
