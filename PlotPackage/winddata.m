@@ -46,7 +46,11 @@ ax = gca;
 ax.YColor = 'b';
 % datetick('x','HH:MM:SS')
 axis tight
-legend([gnd,air],{'Wind Speed GND', 'Wind Speed ALT'},'location','northwest')
+if isempty(gnd)==1 %if there is no gndstation
+    legend([air],{'Wind Speed ALT'},'location','northwest')
+else
+    legend([air,gnd],{'Wind Speed ALT','Wind Speed GND'},'location','northwest')
+end
 grid on
 box on
 
@@ -56,7 +60,11 @@ hold on
 gnd=plot(GNDSTN.TimeS(GNDSTN.TimeS>min(FMT.WIND.TimeS)),GNDSTN.WindDirection(GNDSTN.TimeS>min(FMT.WIND.TimeS)),'-k');
 air=plot(FMT.WIND.TimeS,FMT.WIND.DIR,'--b');
 ylabel('Wind Direction (deg)')
-legend([gnd,air],{'Wind Direction GND (from)','Wind Direction ALT (from)'},'location','southwest')
+if isempty(gnd)==1 %if there is no gndstation
+    legend([air],{'Wind Direction ALT (from)'},'location','northwest')
+else
+    legend([gnd,air],{'Wind Direction GND (from)','Wind Direction ALT (from)'},'location','southwest')
+end
 % datetick('x','HH:MM:SS')
 axis tight
 grid on
