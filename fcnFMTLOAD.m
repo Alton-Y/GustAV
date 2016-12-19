@@ -3,7 +3,8 @@ function [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles)
 %corresponding formatted .mat files.
 filename = pixhawkfiles{1};
 load(strcat(pixhawkpath,'/',filename));
-varList = Seen;
+
+varList = sort(Seen);
 
 
 
