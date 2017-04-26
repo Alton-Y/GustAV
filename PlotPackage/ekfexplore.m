@@ -35,14 +35,27 @@ legend([att,imu1,imu2],{'Pitch ATT','Pitch IMU1','Pitch IMU2'},'location','north
 
 s3=subplot(4,1,3); %airspeed error (should be below 0.3. Above 1 data from pitot is ignored)
 hold on
+yyaxis left
 imu1=plot(FMT.NKF4.TimeS,FMT.NKF4.SVT,'--b');
 imu2=plot(FMT.NKF9.TimeS,FMT.NKF9.SVT,'--r');
 maxl = plot([min(FMT.NKF4.TimeS) max(FMT.NKF4.TimeS)],[1 1],'-r');
+ax = gca;
+ax.YColor = 'k';
 ylabel('Error Ratio');
+axis tight
+
+yyaxis right
+hold on
+ivt= plot(FMT.NKF3.TimeS,FMT.NKF3.IVT,'-k');
+ivt2= plot(FMT.NKF3.TimeS,FMT.NKF8.IVT,'--k');
+ax = gca;
+ax.YColor = 'k';
+ylabel('Airspeed Innovation');
+
 axis tight
 grid on
 box on
-legend([imu1,imu2,maxl],{'SVT IMU1','SVT IMU2','MAX ERROR'},'location','northwest');
+legend([imu1,imu2,maxl,ivt,ivt2],{'SVT IMU1','SVT IMU2','MAX ERROR','IVT IMU1','IVT IMU2'},'location','northwest');
 
 s4=subplot(4,1,4); %mag error (should be below 0.3. Above 1 data from pitot is ignored)
 hold on
