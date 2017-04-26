@@ -1,5 +1,5 @@
 %% Grab all filenames
-clear
+% clear
 clc
 
 % directory of flight
@@ -15,14 +15,14 @@ weatherfiles = fcnFILELIST(weatherpath,'.CSV');
 
 %% Load all files and format
 % SETUP
-INFO.timezone = -4;
+INFO.timezone = 0;
 
 % pixhawk output
-[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(1));
+[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(3));
 [ INFO ] = fcnGETINFO( INFO, FMT );
 %
 %ground station files
-GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles,1);
+GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles(16),3);
 
 %% Plotting Package
 fcnPLOTPACKAGE(INFO,FMT,GNDSTN);
