@@ -1,4 +1,4 @@
-function [] = winddata(INFO,FMT,GNDSTN,fig)
+function [] = winddata(INFO,FMT,GNDSTN,AVT,fig)
 %Plots ground station data
 fig.Name = 'Wind Data';
 clf(fig);
@@ -8,12 +8,13 @@ hold on
 
 %press
 pgnd = plot(GNDSTN.TimeS,GNDSTN.Pressure,'-k');
-palt= plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
+palt = plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
+pavt = plot(AVT.ADP.TimeS,AVT.ADP.P_STATIC,'--r');
 
 ylabel('Pressure');
 axis tight
 % datetick('x','HH:MM:SS')
-legend([pgnd,palt],{'Pressure GND','Pressure ALT',},'location','northwest')
+legend([pgnd,palt,pavt],{'Pressure GND','Pressure Pixhawk','Pressure Aventech'},'location','northwest')
 grid on
 box on
 
@@ -21,9 +22,12 @@ s2= subplot(4,1,2);
 hold on
 
 tgnd = plot(GNDSTN.TimeS,GNDSTN.TempC,'-k');
-tair=plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
+tair = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
+tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
+tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
 
-legend([tgnd,tair],{'Temp GND','Temp AIR'},'location','northwest')
+legend([tgnd,tair,tfast,tavt],{'Temp GND','Temp Pixhawk',...
+    'Temp Aventech Fast','Temp Aventech'},'location','northwest')
 ylabel('Temp C')
 axis tight
 % datetick('x','HH:MM:SS')
