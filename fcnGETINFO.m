@@ -15,6 +15,10 @@ else
 end
 
 
+% Copy Pixhawk MAG DEC to [INFO] to correct Weather Station
+idxMAGDEC = find(strcmp([FMT.PARM(:,1)],'COMPASS_DEC'),1);
+INFO.COMPASS_DEC_DEG = rad2deg(FMT.PARM{idxMAGDEC,2});
+
 
 % Detech Flights in FMT
 try

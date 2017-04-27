@@ -176,7 +176,12 @@ end
 
 
 %%
-
+% Convert MAG heading to True North Heading
+try
+    GNDSTN.WindDirection = GNDSTN.WindDirection + INFO.COMPASS_DEC_DEG;
+catch
+    warning('NOT FOUND: INFO.COMPASS_DEC_DEG');
+end
 
 
 

@@ -45,7 +45,7 @@ axis tight
 grid on
 box on
 
-s3 = subplot(4,1,3)
+s3 = subplot(4,1,3);
 hold on
 %throttle
 thrin=plot(FMT.RCIN.TimeS,FMT.RCIN.C3,'--r');
