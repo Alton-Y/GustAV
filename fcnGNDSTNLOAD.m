@@ -3,6 +3,8 @@ function GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles,version)
 %corresponding .mat files.
 listing = weatherfiles;
 
+leapSecs = 17;
+
 rawCSV = [];
 fprintf('Loading %i Weather CSV Files.\n',length(weatherfiles));
 for num = 1:length(listing)
@@ -144,7 +146,7 @@ else %if version is 3
 
     % Filter Invalid Values
     % Negative or Zero Wind Speed
-    idxW = rawCSV(:,3) > 0;
+    idxW = rawCSV(:,3) >= 0;
     % tempf = exactly 32.00
     idxT = rawCSV(:,5) ~= 32.0;
     % Negative or Zero Pressure
@@ -159,7 +161,7 @@ else %if version is 3
     WindDirection = rawCSV(idx,2);
     TimeMS = rawCSV(idx,1);
     %TimeMS(79)
-    TimeLOCAL = (TimeMS-SyncBoardTime)./1000./86400+SyncSatTime;
+    TimeLOCAL = (TimeMS-SyncBoardTime)./1000./86400+SyncSatTime + leapSecs./86400;
     
 
     GNDSTN.TimeLOCAL = TimeLOCAL;
