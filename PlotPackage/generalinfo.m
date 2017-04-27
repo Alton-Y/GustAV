@@ -68,7 +68,8 @@ legend([ail,elv,rud,thr],{'Aileron','Elevator','Rudder','Throttle'},'location','
 ylabel('Control Request')
 axis tight
 % datetick('x','HH:MM:SS')
-axis tight
+% axis tight
+ylim([1000 2000])
 grid on
 box on
 
