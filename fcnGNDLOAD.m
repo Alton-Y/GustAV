@@ -3,7 +3,8 @@ function GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles,version)
 %corresponding .mat files.
 listing = weatherfiles;
 
-leapSecs = 17;
+% leapSecs = 17;
+leapSecs = 18;
 
 rawCSV = [];
 fprintf('Loading %i Weather CSV Files.\n',length(weatherfiles));
