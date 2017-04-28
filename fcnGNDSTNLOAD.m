@@ -1,4 +1,4 @@
-function GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles,version)
+function GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles,version)
 %This funciton loads the CSV data from the weather station into the
 %corresponding .mat files.
 listing = weatherfiles;
@@ -96,16 +96,16 @@ if version ~= 3
     end
     
     
-    GNDSTN.TimeLOCAL = TimeLOCAL;
-    GNDSTN.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
-    GNDSTN.Humidity = Humidity;
-    GNDSTN.TempC = Temp;
-    GNDSTN.TempF = convtemp(Temp, 'C','F') ;
-    GNDSTN.Pressure = Pressure;
-    GNDSTN.WindSpeed = WindSpeed;
-    GNDSTN.WindDirection = WindDirection;
+    GND.TimeLOCAL = TimeLOCAL;
+    GND.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.Humidity = Humidity;
+    GND.TempC = Temp;
+    GND.TempF = convtemp(Temp, 'C','F') ;
+    GND.Pressure = Pressure;
+    GND.WindSpeed = WindSpeed;
+    GND.WindDirection = WindDirection;
     try
-        GNDSTN.TimeMS = TimeMS;
+        GND.TimeMS = TimeMS;
     end
     
     
@@ -164,21 +164,21 @@ else %if version is 3
     TimeLOCAL = (TimeMS-SyncBoardTime)./1000./86400+SyncSatTime + leapSecs./86400;
     
 
-    GNDSTN.TimeLOCAL = TimeLOCAL;
-    GNDSTN.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
-    GNDSTN.Humidity = Humidity;
-    GNDSTN.TempC = Temp;
-    GNDSTN.TempF = convtemp(Temp, 'C','F') ;
-    GNDSTN.Pressure = Pressure;
-    GNDSTN.WindSpeed = WindSpeed;
-    GNDSTN.WindDirection = WindDirection;
+    GND.TimeLOCAL = TimeLOCAL;
+    GND.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.Humidity = Humidity;
+    GND.TempC = Temp;
+    GND.TempF = convtemp(Temp, 'C','F') ;
+    GND.Pressure = Pressure;
+    GND.WindSpeed = WindSpeed;
+    GND.WindDirection = WindDirection;
 end
 
 
 %%
 % Convert MAG heading to True North Heading
 try
-    GNDSTN.WindDirection = GNDSTN.WindDirection + INFO.COMPASS_DEC_DEG;
+    GND.WindDirection = GND.WindDirection + INFO.COMPASS_DEC_DEG;
 catch
     warning('NOT FOUND: INFO.COMPASS_DEC_DEG');
 end

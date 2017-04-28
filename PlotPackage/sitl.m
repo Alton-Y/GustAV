@@ -1,4 +1,4 @@
-function [] = sitl(INFO,FMT,GNDSTN,fig)
+function [] = sitl(INFO,FMT,GND,fig)
 %Plots airspeed, altitude, yaw, track, roll, pitch and control inputs
 
 

@@ -23,10 +23,10 @@ INFO.timezone = 0;
 [ INFO ] = fcnGETINFO( INFO, FMT );
 %
 %ground station files
-GNDSTN = fcnGNDSTNLOAD(INFO,weatherpath,weatherfiles(16),3);
+GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(16),3);
 
 % Aventch Files
 AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(1));
 
 %% Plotting Package
-fcnPLOTPACKAGE(INFO,FMT,GNDSTN,AVT);
+fcnPLOTPACKAGE(INFO,FMT,GND,AVT);

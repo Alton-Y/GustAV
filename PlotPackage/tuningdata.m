@@ -1,4 +1,4 @@
-function [] = tuningdata(INFO,FMT,GNDSTN,fig)
+function [] = tuningdata(INFO,FMT,GND,fig)
 %plots autotune info
 
 fig.Name = 'AutoTune Info';

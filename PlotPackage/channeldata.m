@@ -1,4 +1,4 @@
-function [] = channeldata(INFO,FMT,GNDSTN,fig)
+function [] = channeldata(INFO,FMT,GND,fig)
 %plots channel data
 
 fig.Name = 'Channel Data';

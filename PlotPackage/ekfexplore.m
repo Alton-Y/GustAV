@@ -1,4 +1,4 @@
-function ekfexplore(INFO,FMT,GNDSTN,fig)
+function ekfexplore(INFO,FMT,GND,fig)
 fig.Name = 'EKF Explore';
 clf(fig);
 

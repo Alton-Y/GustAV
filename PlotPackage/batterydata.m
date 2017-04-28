@@ -1,4 +1,4 @@
-function batterydata(INFO,FMT,GNDSTN,fig)
+function batterydata(INFO,FMT,GND,fig)
 fig.Name = 'Battery Data';
 clf(fig);
 

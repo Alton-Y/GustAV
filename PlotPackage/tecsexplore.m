@@ -1,4 +1,4 @@
-function tecsexplore(INFO,FMT,GNDSTN,fig)
+function tecsexplore(INFO,FMT,GND,fig)
 fig.Name = 'TECS Explore';
 clf(fig);
 try

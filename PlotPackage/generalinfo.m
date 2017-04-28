@@ -1,4 +1,4 @@
-function [] = generalinfo(INFO,FMT,GNDSTN,fig)
+function [] = generalinfo(INFO,FMT,GND,fig)
 %Plots airspeed, altitude, yaw, track, roll, pitch and control inputs
 
 
