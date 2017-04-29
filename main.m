@@ -29,4 +29,18 @@ GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(16),3);
 AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(1));
 
 %% Plotting Package
+close all
 fcnPLOTPACKAGE(INFO,FMT,GND,AVT);
+
+%% Sync FMT, GND, AVT to common timeseries
+% Set timeseries frequency
+syncFreq = 30; 
+% syncDatenum holds the datenums of each synced datapoint 
+syncDatenum = min(INFO.flight.startTimeLOCAL):1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
+% convert syncDatenum to TimeS for plotting
+syncTimeS = (syncDatenum-INFO.pixhawkstart).*86400;
+% Sync FMT, GND, AVT to common syncDatenum
+[ SYNCFMT ] = fcnSYNC( FMT, syncDatenum, 'linear', 1 );
+[ SYNCGND ] = fcnSYNC( GND, syncDatenum, 'linear', 2 );
+[ SYNCAVT ] = fcnSYNC( AVT, syncDatenum, 'linear', 3 );
+
