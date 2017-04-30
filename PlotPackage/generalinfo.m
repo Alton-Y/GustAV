@@ -1,4 +1,4 @@
-function [] = generalinfo(INFO,FMT,GND,fig)
+function [] = generalinfo(INFO,FMT,GND,AVT,fig)
 %Plots airspeed, altitude, yaw, track, roll, pitch and control inputs
 
 
@@ -11,7 +11,8 @@ hold on
 
 %airspeed
 yyaxis left
-arsp=plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
+arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
+arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
 ylabel('Airspeed (m/s)');
 ax = gca;
 ax.YColor = 'k';
@@ -23,7 +24,7 @@ ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 axis tight
-legend([arsp,alt],{'Airspeed', 'Altitude'},'location','northwest')
+legend([arsp,arsp_avt,alt],{'Pixhawk Airspeed', 'Aventech Airspeed', 'Altitude'},'location','northwest')
 grid on
 box on
 

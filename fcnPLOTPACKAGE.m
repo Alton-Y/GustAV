@@ -2,7 +2,7 @@ function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT)
 addpath('./PlotPackage')
 
 genfig=figure(1);
-generalinfo(INFO,FMT,GND,genfig);
+generalinfo(INFO,FMT,GND,AVT,genfig);
 % 
 windfig = figure(2);
 winddata(INFO,FMT,GND,AVT,windfig);
