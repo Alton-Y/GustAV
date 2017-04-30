@@ -47,7 +47,7 @@ axis tight
 yyaxis right
 hold on
 ivt= plot(FMT.NKF3.TimeS,FMT.NKF3.IVT,'-k');
-ivt2= plot(FMT.NKF3.TimeS,FMT.NKF8.IVT,'--k');
+ivt2= plot(FMT.NKF8.TimeS,FMT.NKF8.IVT,'--k');
 ax = gca;
 ax.YColor = 'k';
 ylabel('Airspeed Innovation');
