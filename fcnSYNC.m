@@ -21,9 +21,18 @@ if mode == 1 || mode == 3
         try
             fn2 = fieldnames(FMT.(fn{n}));
             for j = 1:length(fn2)
+
+                
+                
                 if isempty(strfind(fn2{j},'Time')) == 1
                     SYNCFMT.(fn{n}).(fn2{j}) = [interp1(FMT.(fn{n}).TimeLOCAL,FMT.(fn{n}).(fn2{j}),plotDatenumArray,interpMethod,NaN)]';
+                    
+                    if strcmp(fn{n},'MODE') == 1
+                        SYNCFMT.(fn{n}).(fn2{j}) = [interp1(FMT.(fn{n}).TimeLOCAL,FMT.(fn{n}).(fn2{j}),plotDatenumArray,'previous','extrap')]';
+                    end
+                    
                 end
+                
             end
         catch
             %         n
