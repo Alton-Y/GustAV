@@ -5,7 +5,7 @@ function [ SYNCFMT ] = fcnSYNC( FMT, plotDatenumArray, interpMethod, mode )
 % Mode == 2: Ground Station - GND Data
 % Mode == 3: Aventech - AVT Data
 
-if mode == 1 || mode == 3
+% if mode == 1 || mode == 2 || mode == 3
     fn = fieldnames(FMT);
     
     if mode == 1
@@ -41,14 +41,14 @@ if mode == 1 || mode == 3
     end
     
     
-elseif mode == 2
-    fn2 = fieldnames(FMT);
-    for j = 1:length(fn2)
-        if isempty(strfind(fn2{j},'Time')) == 1
-            SYNCFMT.(fn2{j}) = [interp1(FMT.TimeLOCAL,FMT.(fn2{j}),plotDatenumArray,interpMethod,NaN)]';
-        end
-    end
-end
+% elseif mode == 2
+%     fn2 = fieldnames(FMT);
+%     for j = 1:length(fn2)
+%         if isempty(strfind(fn2{j},'Time')) == 1
+%             SYNCFMT.(fn2{j}) = [interp1(FMT.TimeLOCAL,FMT.(fn2{j}),plotDatenumArray,interpMethod,NaN)]';
+%         end
+%     end
+% end
 
 
 
