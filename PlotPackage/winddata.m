@@ -7,7 +7,7 @@ s1 = subplot(4,1,1);
 hold on
 
 %press
-pgnd = plot(GND.TimeS,GND.Pressure,'-k');
+pgnd = plot(GND.ATMO.TimeS,GND.ATMO.Pressure,'-k');
 palt = plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
 pavt = plot(AVT.ADP.TimeS,AVT.ADP.P_STATIC,'--r');
 
@@ -21,7 +21,7 @@ box on
 s2= subplot(4,1,2);
 hold on
 
-tgnd = plot(GND.TimeS,GND.TempC,'-k');
+tgnd = plot(GND.ATMO.TimeS,GND.ATMO.TempC,'-k');
 tair = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
 tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
 tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
@@ -39,7 +39,7 @@ s3=subplot(4,1,3);
 hold on
 %wind speed ground
 yyaxis left
-gnd=plot(GND.TimeS(GND.TimeS>min(FMT.WIND.TimeS)),GND.WindSpeed(GND.TimeS>min(FMT.WIND.TimeS)),'-k');
+gnd=plot(GND.ATMO.TimeS(GND.ATMO.TimeS>min(FMT.WIND.TimeS)),GND.ATMO.WindSpeed(GND.ATMO.TimeS>min(FMT.WIND.TimeS)),'-k');
 ylabel('Velocity GND (m/s)');
 ax = gca;
 ax.YColor = 'k';
@@ -61,7 +61,7 @@ box on
 s4=subplot(4,1,4);
 hold on
 %wind dir
-gnd=plot(GND.TimeS(GND.TimeS>min(FMT.WIND.TimeS)),GND.WindDirection(GND.TimeS>min(FMT.WIND.TimeS)),'-k');
+gnd=plot(GND.ATMO.TimeS(GND.ATMO.TimeS>min(FMT.WIND.TimeS)),GND.ATMO.WindDirection(GND.ATMO.TimeS>min(FMT.WIND.TimeS)),'-k');
 air=plot(FMT.WIND.TimeS,FMT.WIND.DIR,'--b');
 ylabel('Wind Direction (deg)')
 if isempty(gnd)==1 %if there is no gndstation

@@ -97,21 +97,21 @@ if version ~= 3
     end
     
     
-    GND.TimeLOCAL = TimeLOCAL;
-    GND.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
-    GND.Humidity = Humidity;
-    GND.TempC = Temp;
-    GND.TempF = convtemp(Temp, 'C','F') ;
-    GND.Pressure = Pressure;
-    GND.WindSpeed = WindSpeed;
-    GND.WindDirection = WindDirection;
+    GND.ATMO.TimeLOCAL = TimeLOCAL;
+    GND.ATMO.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.ATMO.Humidity = Humidity;
+    GND.ATMO.TempC = Temp;
+    GND.ATMO.TempF = convtemp(Temp, 'C','F') ;
+    GND.ATMO.Pressure = Pressure;
+    GND.ATMO.WindSpeed = WindSpeed;
+    GND.ATMO.WindDirection = WindDirection;
     try
-        GND.TimeMS = TimeMS;
+        GND.ATMO.TimeMS = TimeMS;
     end
     
     
     
-else %if version is 3
+else %if version is 3 - Since APR 2017
     
     disp('weather log version 3')
     
@@ -165,21 +165,25 @@ else %if version is 3
     TimeLOCAL = (TimeMS-SyncBoardTime)./1000./86400+SyncSatTime + leapSecs./86400;
     
 
-    GND.TimeLOCAL = TimeLOCAL;
-    GND.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
-    GND.Humidity = Humidity;
-    GND.TempC = Temp;
-    GND.TempF = convtemp(Temp, 'C','F') ;
-    GND.Pressure = Pressure;
-    GND.WindSpeed = WindSpeed;
-    GND.WindDirection = WindDirection;
+    GND.ATMO.TimeLOCAL = TimeLOCAL;
+    GND.ATMO.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.ATMO.Humidity = Humidity;
+    GND.ATMO.TempC = Temp;
+    GND.ATMO.TempF = convtemp(Temp, 'C','F') ;
+    GND.ATMO.Pressure = Pressure;
+    GND.ATMO.WindSpeed = WindSpeed;
+    GND.ATMO.WindDirection = WindDirection;
+%     
+%     GND.GPS.Lat = rawCSV(idxGPS,20);
+%     GND.GPS.Lon = rawCSV(idxGPS,21);
+%     GND.GPS.Hdop = rawCSV(idxGPS,11);
 end
 
 
 %%
 % Convert MAG heading to True North Heading
 try
-    GND.WindDirection = GND.WindDirection + INFO.COMPASS_DEC_DEG;
+    GND.ATMO.WindDirection = GND.ATMO.WindDirection + INFO.COMPASS_DEC_DEG;
 catch
     warning('NOT FOUND: INFO.COMPASS_DEC_DEG');
 end
