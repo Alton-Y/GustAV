@@ -21,4 +21,7 @@ tecsexplore(INFO,FMT,GND,tecsfig);
 % 
 battfig = figure(7);
 batterydata(INFO,FMT,GND,battfig);
-% 
+
+posfig = figure(8);
+position(INFO,FMT,GND,AVT,posfig);
+

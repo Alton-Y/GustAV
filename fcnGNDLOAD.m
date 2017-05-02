@@ -166,17 +166,31 @@ else %if version is 3 - Since APR 2017
     
 
     GND.ATMO.TimeLOCAL = TimeLOCAL;
-    GND.ATMO.TimeS = (TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.ATMO.TimeS = (GND.ATMO.TimeLOCAL - INFO.pixhawkstart).*24.*3600;
     GND.ATMO.Humidity = Humidity;
     GND.ATMO.TempC = Temp;
     GND.ATMO.TempF = convtemp(Temp, 'C','F') ;
     GND.ATMO.Pressure = Pressure;
     GND.ATMO.WindSpeed = WindSpeed;
     GND.ATMO.WindDirection = WindDirection;
-%     
-%     GND.GPS.Lat = rawCSV(idxGPS,20);
-%     GND.GPS.Lon = rawCSV(idxGPS,21);
-%     GND.GPS.Hdop = rawCSV(idxGPS,11);
+%   
+    
+    GND.GPS.TimeLOCAL = (rawCSV(idxGPS,1)-SyncBoardTime)./1000./86400+SyncSatTime + leapSecs./86400;
+    GND.GPS.TimeS = (GND.GPS.TimeLOCAL - INFO.pixhawkstart).*24.*3600;
+    GND.GPS.Fix = rawCSV(idxGPS,9);
+    GND.GPS.Numsats = rawCSV(idxGPS,10);
+    GND.GPS.Hdop = rawCSV(idxGPS,11);
+    GND.GPS.Age = rawCSV(idxGPS,12);
+    GND.GPS.Lat = rawCSV(idxGPS,20);
+    GND.GPS.Lon = rawCSV(idxGPS,21);
+    GND.GPS.Year = rawCSV(idxGPS,13);
+    GND.GPS.Month = rawCSV(idxGPS,14);
+    GND.GPS.Day = rawCSV(idxGPS,15);
+    GND.GPS.Hour = rawCSV(idxGPS,16);
+    GND.GPS.Minute = rawCSV(idxGPS,17);
+    GND.GPS.Second = rawCSV(idxGPS,18);
+    GND.GPS.Hundredth = rawCSV(idxGPS,19);
+
 end
 
 

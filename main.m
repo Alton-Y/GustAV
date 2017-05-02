@@ -19,17 +19,17 @@ aventechfiles = fcnFILELIST(aventechpath,'_adp.out');
 INFO.timezone = 0;
 
 % pixhawk output
-[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(3));
+[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(6));
 [ INFO ] = fcnGETINFO( INFO, FMT );
 %
 %ground station files
-GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(16),3);
+GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(1),3);
 
 % Aventch Files
-AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(1));
+AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(3));
 
 %% Plotting Package
-close all
+% close all
 fcnPLOTPACKAGE(INFO,FMT,GND,AVT);
 
 %% Sync FMT, GND, AVT to common timeseries
