@@ -18,7 +18,7 @@ OUTdataFreq = 1;
 
 %%
 
-try
+try % IMPORT ADP FILE
     ADPfilename = strcat(aventechpath,'/',aventechfiles{1});
     
     startRow = 3;
@@ -40,8 +40,7 @@ try
     AVT.ADP.P_ALPHA = dataArray{:,6}(idx);
     AVT.ADP.P_BETA = dataArray{:,7}(idx);
     AVT.ADP.P_PS = dataArray{:,8}(idx);
-    % clearvars filename startRow formatSpec fileID dataArray ans;
-    
+    % clearvars filename startRow formatSpec fileID dataArray ans
     
     [ ADPTimeAddH ] = fcnAVTTIME( TimeH(idx), ADPdataFreq );
     
@@ -62,19 +61,69 @@ end
 
 
 
-OUTfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','')
+try % IMPORT AIMMS FILE
+    AIMMSfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','_aimms');
+    startRow = 4;
+    delimiter = ' ';
+    formatSpec = '%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s%[^\n\r]';
+    fileID = fopen(AIMMSfilename,'r');
+    dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true, 'EmptyValue' ,NaN,'HeaderLines' ,startRow-1, 'ReturnOnError', false, 'EndOfLine', '\r\n');
+    fclose(fileID);
+    
+    AVT.AIMMS.TimeH = dataArray{:, 1};
+    
+    AVT.AIMMS.TimeLOCAL = dateLOCAL + AVT.AIMMS.TimeH./24  + leapSecs/86400;
+    AVT.AIMMS.TimeS = (AVT.AIMMS.TimeLOCAL-INFO.pixhawkstart).*86400;
+    
+    AVT.AIMMS.Temp = dataArray{:, 2};
+    AVT.AIMMS.RH = dataArray{:, 3};
+    AVT.AIMMS.P_stat = dataArray{:, 4};
+    AVT.AIMMS.Uw = dataArray{:, 5};
+    AVT.AIMMS.Vw = dataArray{:, 6};
+    AVT.AIMMS.Lat = dataArray{:, 7};
+    AVT.AIMMS.Long = dataArray{:, 8};
+    AVT.AIMMS.Z = dataArray{:, 9};
+    AVT.AIMMS.Ui = dataArray{:, 10};
+    AVT.AIMMS.Vi = dataArray{:, 11};
+    AVT.AIMMS.Wi = dataArray{:, 12};
+    AVT.AIMMS.Roll = dataArray{:, 13};
+    AVT.AIMMS.Pitch = dataArray{:, 14};
+    AVT.AIMMS.Heading = dataArray{:, 15};
+    AVT.AIMMS.TAS = dataArray{:, 16};
+    AVT.AIMMS.Wi1 = dataArray{:, 17};
+    AVT.AIMMS.AoS = dataArray{:, 18};
+    AVT.AIMMS.P_beta = dataArray{:, 19};
+    AVT.AIMMS.P_alpha = dataArray{:, 20};
+    AVT.AIMMS.C_p = dataArray{:, 21};
+    
+    fprintf('Aventech AIMMS %s Loaded.\n',aventechfiles{1})
+    
+catch
+    fprintf('Aventech AIMMS %s ERROR.\n',aventechfiles{1})
+end
+
+
+
+
+
+
+
+
+
+
+
+
+OUTfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','');
 formatSpec = '%11f%7f%6f%7f%7f%7f%10f%11f%6f%8f%8f%8f%7f%7f%7f%6f%7f%7f%8f%8f%4f%C%[^\n\r]';
 fileID = fopen(OUTfilename,'r');
 dataArray = textscan(fileID, formatSpec, 'Delimiter', '', 'WhiteSpace', '', 'TextType', 'string',  'ReturnOnError', false);
 fclose(fileID);
-
 
 [ OUTTimeAddH ] = fcnAVTTIME( dataArray{:,1}, OUTdataFreq );
 
 OUTTimeCorrectedH = dataArray{:,1} + OUTTimeAddH + leapSecs/3600;
 AVT.OUT.TimeLOCAL = dateLOCAL + OUTTimeCorrectedH./24;
 AVT.OUT.TimeS = (AVT.OUT.TimeLOCAL-INFO.pixhawkstart).*86400;
-
 
 % AVT.OUT.Temp = dataArray{:, 2};
 % AVT.OUT.RH = dataArray{:, 3};
@@ -97,6 +146,15 @@ AVT.OUT.ARSP = dataArray{:, 16};
 % AVT.OUT.C = dataArray{:, 20};
 % VarName21 = dataArray{:, 21};
 % VarName22 = dataArray{:, 22};
+
+
+
+
+
+
+
+
+
 
 
 

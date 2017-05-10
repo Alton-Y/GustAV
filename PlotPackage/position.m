@@ -17,9 +17,9 @@ mstruct = defaultm(mstruct);
 [RoadsX,RoadsY] = mfwdtran(mstruct,Field.Roads(:,2),Field.Roads(:,1));
 [TreesX,TreesY] = mfwdtran(mstruct,Field.Treeline(:,2),Field.Treeline(:,1));
 
-
+try
 [cmdX,cmdY] = mfwdtran(mstruct,FMT.CMD.Lat,FMT.CMD.Lng);
-
+end
 
 
 
@@ -34,9 +34,10 @@ hold on
 % Draw Ground Station Position
 scatter(mean(gndX),mean(gndY),75,'r*','LineWidth',1.5)
 
+try
 % Draw Waypoint Locations
 scatter(cmdX,cmdY,50,'bd','LineWidth',1.5)
-
+end
 
 % Draw Runway
 plot(RwyX,RwyY,'-k','Color',[0.2 0.2 0.2]);
@@ -54,11 +55,15 @@ ylim(pylim);
 s2 = subplot(1,2,2);
 
 pxyz = plot3(X,Y,FMT.GPS.Alt);
+
 hold on
+
+
+try
 homeAlt = mean(FMT.ORGN.Alt(FMT.ORGN.Alt>0));
-
-
 plot3(cmdX,cmdY,FMT.CMD.Alt+homeAlt);
+end
+
 hold off
 
 axis equal
