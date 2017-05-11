@@ -14,6 +14,7 @@ end
 leapSecs = 17;
 ADPdataFreq = 50;
 OUTdataFreq = 1;
+IMUdataFreq = 100;
 
 
 %%
@@ -95,7 +96,7 @@ try % IMPORT AIMMS FILE
     AVT.AIMMS.P_beta = dataArray{:, 19};
     AVT.AIMMS.P_alpha = dataArray{:, 20};
     AVT.AIMMS.C_p = dataArray{:, 21};
-
+    
     fprintf('Aventech AIMMS %s Loaded.\n',AIMMSfilename)
 catch
     fprintf('Aventech AIMMS %s ERROR.\n',AIMMSfilename)
@@ -125,11 +126,8 @@ for n = 1:2 % LOAD GPSSAT FILES (GPSSAT1 & GPSSAT2)
         GPSSAT.Cycle = dataArray{:, 1};
         GPSSAT.TimeWk = dataArray{:, 2};
         
-        
         GPSSAT.TimeLOCAL = dateLOCAL + rem(GPSSAT.TimeWk,86400)./86400 + leapSecs/86400;
-    	GPSSAT.TimeS = (GPSSAT.TimeLOCAL-INFO.pixhawkstart).*86400;
-        
-        
+        GPSSAT.TimeS = (GPSSAT.TimeLOCAL-INFO.pixhawkstart).*86400;
         
         GPSSAT.SatOK = dataArray{:, 3};
         GPSSAT.SatNotOk = dataArray{:, 4};
@@ -145,6 +143,72 @@ for n = 1:2 % LOAD GPSSAT FILES (GPSSAT1 & GPSSAT2)
     catch
         fprintf('Aventech %s %s ERROR.\n',structName, GPSSATfilename)
     end
+end
+
+
+
+
+try % IMPORT IMUINT FILE
+    IMUINTfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','_imuint');
+    delimiter = ' ';
+    formatSpec = '%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%[^\n\r]';
+    fileID = fopen(IMUINTfilename,'r');
+    dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true, 'EmptyValue' ,NaN, 'ReturnOnError', false);
+    fclose(fileID);
+    
+    % This can check if the integration cycle matches the column index
+    if sum((dataArray{:, 1} == (1:length(dataArray{:, 1}))')~=1)~= 0
+        warning('integration cycle does not match the column index');
+    end
+    
+    cycleIndex = AVT.GPSSAT1.Cycle ~= 0;
+    cycle = AVT.GPSSAT1.Cycle(cycleIndex);
+    timelocal = AVT.GPSSAT1.TimeLOCAL(cycleIndex) - leapSecs/86400;
+    
+    % Back track to cycle index = 0
+%     cycle0 = dateLOCAL + rem(timeWk(1),86400)./86400 - cycle(1)/86400*(1/IMUdataFreq);
+    
+    % preallocation
+    AVT.IMUINT.TimeLOCAL = nan(length(dataArray{:, 1}),1);
+    
+    AVT.IMUINT.TimeLOCAL(cycle) = timelocal;
+    
+    for n = 2:length(AVT.IMUINT.TimeLOCAL)
+        if isnan(AVT.IMUINT.TimeLOCAL(n)) == 1
+            AVT.IMUINT.TimeLOCAL(n) = AVT.IMUINT.TimeLOCAL(n-1)+1/IMUdataFreq/86400;
+        end
+    end
+    
+    AVT.IMUINT.Cycle 	 = dataArray{:, 1};
+    
+%     AVT.IMUINT.TimeLOCAL = cycle0 + AVT.IMUINT.Cycle.*(1/IMUdataFreq)./86400;
+    AVT.IMUINT.TimeS = (AVT.IMUINT.TimeLOCAL-INFO.pixhawkstart).*86400;
+    
+    AVT.IMUINT.Roll 	 = dataArray{:, 2};
+    AVT.IMUINT.Pitch 	 = dataArray{:, 3};
+    AVT.IMUINT.Yaw 		 = dataArray{:, 4};
+    AVT.IMUINT.RollRate  = dataArray{:, 5};
+    AVT.IMUINT.PitchRate = dataArray{:, 6};
+    AVT.IMUINT.YawRate 	 = dataArray{:, 7};
+    AVT.IMUINT.VN 		 = dataArray{:, 8};
+    AVT.IMUINT.VE 		 = dataArray{:, 9};
+    AVT.IMUINT.VD 		 = dataArray{:, 10};
+    AVT.IMUINT.AccN 	 = dataArray{:, 11};
+    AVT.IMUINT.AccE 	 = dataArray{:, 12};
+    AVT.IMUINT.AccD 	 = dataArray{:, 13};
+    AVT.IMUINT.BiasX 	 = dataArray{:, 14};
+    AVT.IMUINT.BiasY 	 = dataArray{:, 15};
+    AVT.IMUINT.BiasZ 	 = dataArray{:, 16};
+    AVT.IMUINT.GyrX 	 = dataArray{:, 17};
+    AVT.IMUINT.GyrY 	 = dataArray{:, 18};
+    AVT.IMUINT.GyrZ 	 = dataArray{:, 19};
+    AVT.IMUINT.AccX 	 = dataArray{:, 20};
+    AVT.IMUINT.AccY 	 = dataArray{:, 21};
+    AVT.IMUINT.AccZ 	 = dataArray{:, 22};
+    
+    fprintf('Aventech IMUINT %s Loaded.\n',IMUINTfilename)
+catch
+    fprintf('Aventech IMUINT %s ERROR.\n',IMUINTfilename)
 end
 
 
