@@ -95,17 +95,57 @@ try % IMPORT AIMMS FILE
     AVT.AIMMS.P_beta = dataArray{:, 19};
     AVT.AIMMS.P_alpha = dataArray{:, 20};
     AVT.AIMMS.C_p = dataArray{:, 21};
-    
-    fprintf('Aventech AIMMS %s Loaded.\n',aventechfiles{1})
-    
+
+    fprintf('Aventech AIMMS %s Loaded.\n',AIMMSfilename)
 catch
-    fprintf('Aventech AIMMS %s ERROR.\n',aventechfiles{1})
+    fprintf('Aventech AIMMS %s ERROR.\n',AIMMSfilename)
 end
 
 
 
-
-
+for n = 1:2 % LOAD GPSSAT FILES (GPSSAT1 & GPSSAT2)
+    if n == 1
+        GPSSATfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','_gpssat1');
+        structName = 'GPSSAT1';
+    else
+        GPSSATfilename = strrep(strcat(aventechpath,'/',aventechfiles{1}),'_adp','_gpssat2');
+        structName = 'GPSSAT2';
+    end
+    
+    try % IMPORT AIMMS FILE
+        GPSSAT = [];
+        
+        delimiter = ' ';
+        startRow = 2;
+        formatSpec = '%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%[^\n\r]';
+        fileID = fopen(GPSSATfilename,'r');
+        dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true, 'HeaderLines' ,startRow-1, 'ReturnOnError', false, 'EndOfLine', '\r\n');
+        fclose(fileID);
+        
+        GPSSAT.Cycle = dataArray{:, 1};
+        GPSSAT.TimeWk = dataArray{:, 2};
+        
+        
+        GPSSAT.TimeLOCAL = dateLOCAL + rem(GPSSAT.TimeWk,86400)./86400 + leapSecs/86400;
+    	GPSSAT.TimeS = (GPSSAT.TimeLOCAL-INFO.pixhawkstart).*86400;
+        
+        
+        
+        GPSSAT.SatOK = dataArray{:, 3};
+        GPSSAT.SatNotOk = dataArray{:, 4};
+        GPSSAT.SatRef = dataArray{:, 5};
+        GPSSAT.SatStatus = dataArray{:, 6};
+        GPSSAT.NavMode = dataArray{:, 7};
+        GPSSAT.SatCount = dataArray{:, 8};
+        %     VarName32 = dataArray{:, 32};
+        
+        AVT.(structName) = GPSSAT;
+        
+        fprintf('Aventech %s %s Loaded.\n',structName, GPSSATfilename)
+    catch
+        fprintf('Aventech %s %s ERROR.\n',structName, GPSSATfilename)
+    end
+end
 
 
 
