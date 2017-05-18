@@ -2,7 +2,7 @@
 % figure
 % Sync FMT, GND, AVT to common timeseries
 % Set timeseries frequency
-syncFreq = 30; 
+syncFreq = 50; 
 % syncDatenum holds the datenums of each synced datapoint 
 syncDatenum = min(INFO.flight.startTimeLOCAL):1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
 % convert syncDatenum to TimeS for plotting
@@ -49,6 +49,49 @@ hold off
 zticks(50:25:150)
 
 grid on
+
+
+
+
+%%
+figure(10)
+subplot(2,1,1)
+% plot(syncTimeS, SYNCAVT.ADP.P_ALPHA,'k')
+cla
+xlabel('Time [s]')
+ylabel('Alpha Diff. Pressure [Pa]');
+hold on
+plot(AVT.ADP.TimeS, smooth(AVT.ADP.P_ALPHA,50,'lowess'),'k')
+hold off
+grid on
+grid minor
+xlim([1200 1900])
+ylim([-100 100])
+
+
+subplot(2,1,2)
+% plot(syncTimeS, SYNCAVT.ADP.P_ALPHA,'k')
+cla
+xlabel('Time [s]')
+ylabel('Beta Diff. Pressure [Pa]');
+hold on
+plot(AVT.ADP.TimeS, smooth(AVT.ADP.P_BETA,50,'lowess'),'k')
+hold off
+grid on
+grid minor
+xlim([1200 1900])
+ylim([-100 100])
+
+
+
+figure(11)
+scatter(SYNCFMT.ATT.Pitch(idxS), SYNCAVT.ADP.P_ALPHA(idxS), [], SYNCAVT.OUT.ARSP(idxS))
+
+
+
+
+
+
 
 
 
