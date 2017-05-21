@@ -59,5 +59,9 @@ grid on
 box on
 
 linkaxes([s1,s2,s3],'x');
+try
 xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+catch
+    axis tight
+end
 clear s1 s2 s3 s4
