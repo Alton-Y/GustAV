@@ -70,5 +70,9 @@ legend([imu1,imu2,maxl],{'SM IMU1','SM IMU2','MAX ERROR'},'location','northwest'
 
 
 linkaxes([s1,s2,s3,s4],'x');
+try
 xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+catch
+    axis tight
+end
 clear s1 s2 s3
