@@ -22,12 +22,13 @@ s2= subplot(4,1,2);
 hold on
 
 tgnd = plot(GND.ATMO.TimeS,GND.ATMO.TempC,'-k');
-tair = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
+tair_imu = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
+tair_arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Temp,'-b');
 tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
 tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
 
-legend([tgnd,tair,tfast,tavt],{'Temp GND','Temp Pixhawk',...
-    'Temp Aventech Fast','Temp Aventech'},'location','northwest')
+legend([tgnd,tair_imu,tair_arsp,tfast,tavt],{'Temp GND','Temp Pix IMU',...
+    'Temp Pix ARSP','Temp Aventech Fast','Temp Aventech'},'location','northwest')
 ylabel('Temp C')
 axis tight
 % datetick('x','HH:MM:SS')
