@@ -26,14 +26,15 @@ end
 s3=subplot(3,1,3);
 hold on
 thr=plot(FMT.RCOU.TimeS,FMT.RCOU.C3,'-k');
-legend([thr],{'throttleOUT'},'location','northwest');
-ylabel('Control OUT');
+legend([thr],{'THR OUT'},'location','northwest');
+ylabel('PWM');
 axis tight
 grid on
 box on
 
-
-linkaxes([s1,s2,s3],'x');
+try
+    linkaxes([s1,s2,s3],'x');
+end
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
