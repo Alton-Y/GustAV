@@ -15,13 +15,13 @@ ax = gca;
 ax.YColor = 'k';
 yyaxis right
 thr = plot(FMT.RCOU.TimeS,FMT.RCOU.C3,'--b');
-ylabel('Throttle Out');
+ylabel('PWM');
 ax = gca;
 ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 axis tight
-legend([rpm,thr],{'RPM','Throttle'},'location','northwest')
+legend([rpm,thr],{'RPM','THR OUT'},'location','northwest')
 grid on
 box on
 

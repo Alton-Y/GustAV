@@ -4,7 +4,7 @@ function [] = channeldata(INFO,FMT,GND,fig)
 fig.Name = 'Channel Data';
 clf(fig);
 
-s1 = subplot(4,1,1);
+s1 = subplot(3,1,1);
 hold on
 
 %airspeed
@@ -25,7 +25,7 @@ legend([arsp,alt],{'Airspeed', 'Altitude'},'location','northwest')
 grid on
 box on
 
-s2 =subplot(4,1,2);
+s2 =subplot(3,1,2);
 hold on
 %aileron
 ailin=plot(FMT.RCIN.TimeS,FMT.RCIN.C1,'--k');
@@ -45,7 +45,7 @@ axis tight
 grid on
 box on
 
-s3 = subplot(4,1,3);
+s3 = subplot(3,1,3);
 hold on
 %throttle
 thrin=plot(FMT.RCIN.TimeS,FMT.RCIN.C3,'--r');
@@ -64,4 +64,4 @@ xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
     axis tight
 end
-clear s1 s2 s3 s4
+clear s1 s2 s3 

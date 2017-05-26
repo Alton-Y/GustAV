@@ -65,8 +65,8 @@ elv=plot(FMT.RCIN.TimeS,FMT.RCIN.C2,'--b');
 rud=plot(FMT.RCIN.TimeS,FMT.RCIN.C4,'-.r');
 %throttle
 thr=plot(FMT.RCIN.TimeS,FMT.RCIN.C3,'-r');
-legend([ail,elv,rud,thr],{'Aileron','Elevator','Rudder','Throttle'},'location','northwest')
-ylabel('Control Request')
+legend([ail,elv,rud,thr],{'AIL IN','ELE IN','RUD IN','THR IN'},'location','northwest')
+ylabel('PWM')
 axis tight
 % datetick('x','HH:MM:SS')
 % axis tight
