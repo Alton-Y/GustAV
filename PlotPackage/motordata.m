@@ -4,7 +4,30 @@ function [] = motordata(INFO,FMT,fig)
 fig.Name = 'Motor Data';
 clf(fig);
 
-s1 = subplot(2,1,1);
+s1 = subplot(3,1,1);
+hold on
+
+%airspeed
+yyaxis left
+arsp=plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
+ylabel('Airspeed (m/s)');
+axis tight
+ax = gca;
+ax.YColor = 'k';
+yyaxis right
+alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
+ylabel('Altitude (m)');
+ax = gca;
+ax.YColor = 'b';
+axis tight
+% datetick('x','HH:MM:SS')
+axis tight
+legend([arsp,alt],{'Airspeed', 'Altitude'},'location','northwest')
+grid on
+box on
+
+
+s2 = subplot(3,1,2);
 hold on
 
 %rpm
@@ -25,7 +48,7 @@ legend([rpm,thr],{'RPM','THR OUT'},'location','northwest')
 grid on
 box on
 
-s2 =subplot(2,1,2);
+s3 =subplot(3,1,3);
 hold on
 
 %volts
@@ -46,10 +69,10 @@ legend([volt,amp],{'Voltage', 'Amperage'},'location','northwest')
 grid on
 box on
 
-linkaxes([s1,s2],'x');
+linkaxes([s1,s2,s3],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
         axis tight
 end
-clear s1 s2
+clear s1 s2 s3
