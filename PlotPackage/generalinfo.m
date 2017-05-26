@@ -13,6 +13,7 @@ hold on
 yyaxis left
 arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
 arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
+axis tight
 ylabel('Airspeed (m/s)');
 ax = gca;
 ax.YColor = 'k';
@@ -23,7 +24,7 @@ ax = gca;
 ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
-axis tight
+
 legend([arsp,arsp_avt,alt],{'Pixhawk Airspeed', 'Aventech Airspeed', 'Altitude'},'location','northwest')
 grid on
 box on

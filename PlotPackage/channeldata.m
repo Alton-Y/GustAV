@@ -11,6 +11,7 @@ hold on
 yyaxis left
 arsp=plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
 ylabel('Airspeed (m/s)');
+axis tight
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
