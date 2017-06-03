@@ -32,7 +32,9 @@ hold on
 
 %rpm
 yyaxis left
-rpm=plot(FMT.RPM.TimeS,FMT.RPM.rpm1,'-k');
+if isfield(FMT,'RPM')==1
+    rpm=plot(FMT.RPM.TimeS,FMT.RPM.rpm1,'-k');
+end
 ylabel('RPM');
 ax = gca;
 ax.YColor = 'k';
@@ -44,7 +46,11 @@ ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 axis tight
-legend([rpm,thr],{'RPM','THR OUT'},'location','northwest')
+if isfield(FMT,'RPM')==1
+    legend([rpm,thr],{'RPM','THR OUT'},'location','northwest')
+else
+    legend([thr],{'THR OUT'},'location','northwest')
+end
 grid on
 box on
 
@@ -73,6 +79,6 @@ linkaxes([s1,s2,s3],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
-        axis tight
+    axis tight
 end
 clear s1 s2 s3
