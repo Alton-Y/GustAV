@@ -15,14 +15,14 @@ axis tight
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
-ylabel('Altitude (m)');
+crt = plot(FMT.BARO.TimeS,FMT.BARO.CRt,'--b');
+ylabel('Climb Rate (m/s)');
 ax = gca;
 ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 axis tight
-legend([arsp,alt],{'Airspeed', 'Altitude'},'location','northwest')
+legend([arsp,crt],{'Airspeed', 'Climb Rate'},'location','northwest')
 grid on
 box on
 
