@@ -30,13 +30,13 @@ s2 =subplot(3,1,2);
 hold on
 %aileron
 ailin=plot(FMT.RCIN.TimeS,FMT.RCIN.C1,'--k');
-ailou=plot(FMT.RCOU.TimeS,FMT.RCOU.C1,'-k');
+ailou=plot(FMT.RCOU.TimeS,FMT.RCOU.C1,'.k');
 %elevator
 elvin=plot(FMT.RCIN.TimeS,FMT.RCIN.C2,'--b');
-elvou=plot(FMT.RCOU.TimeS,FMT.RCOU.C2,'-b');
+elvou=plot(FMT.RCOU.TimeS,FMT.RCOU.C2,'.b');
 %rudder
 rudin=plot(FMT.RCIN.TimeS,FMT.RCIN.C4,'--r');
-rudou=plot(FMT.RCOU.TimeS,FMT.RCOU.C4,'-r');
+rudou=plot(FMT.RCOU.TimeS,FMT.RCOU.C4,'.r');
 
 legend([ailin,ailou,elvin,elvou,rudin,rudou],{'AIL IN','AIL OUT','ELE IN','ELE OUT','RUD IN','RUD OUT'},'location','northwest')
 ylabel('PWM')
