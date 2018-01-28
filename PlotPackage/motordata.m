@@ -33,7 +33,7 @@ hold on
 %rpm
 yyaxis left
 if isfield(FMT,'RPM')==1
-    rpm=plot(FMT.RPM.TimeS,FMT.RPM.rpm1,'-k');
+    rpm=plot(FMT.RPM.TimeS,FMT.RPM.rpm1,'.-k');
 end
 ylabel('RPM');
 ax = gca;
