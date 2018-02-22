@@ -28,3 +28,5 @@ position(INFO,FMT,GND,AVT,posfig);
 motorfig = figure(9);
 motordata(INFO,FMT,motorfig);
 
+telemfig = figure(10);
+rssidata(INFO,FMT,telemfig);
