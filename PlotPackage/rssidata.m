@@ -49,7 +49,7 @@ axis tight
 s3 = subplot(3,2,5);
 yyaxis left
 hold on
-txp=plot(FMT.RAD.TimeS,FMT.RAD.TxBuf);
+txp=plot(FMT.RAD.TimeS,100-FMT.RAD.TxBuf); % FMT.RAD.TxBuf: percentage of buffer not used
 
 grid on
 box on
@@ -59,7 +59,8 @@ yyaxis right
 hold on
 axis tight
 errp=plot(FMT.RAD.TimeS,FMT.RAD.RxErrors);
-legend([txp,errp],{'Tx Buff','Rx Err'});
+fixed = plot(FMT.RAD.TimeS,FMT.RAD.Fixed);
+legend([txp,errp,fixed],{'Tx Buff %','Rx Err','Fixed Err'});
 
 %% SNR PLOT
 % GPS X Y
@@ -86,6 +87,7 @@ axis equal
 hcb=colorbar;
 title(hcb,'Avg SNR')
 caxis([1 3]);
+setAxes3DPanAndZoomStyle(zoom(gca),gca,'camera')
 % try
 %     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 % catch
@@ -93,11 +95,15 @@ caxis([1 3]);
 % end
 
 %% DISTANCE REMAINING 
+% see 
+%http://ardupilot.org/copter/docs/common-3dr-radio-advanced-configuration-and-technical-information.html#diagnosing-range-problems
+% and
+%http://ardupilot.org/copter/docs/common-antenna-design.html#common-antenna-design-understanding-db-watts-and-dbm
+
 s6=subplot(3,2,6);
 fademargin(:,1) = ((FMT.RAD.RSSI-FMT.RAD.Noise) )./2;
 fademargin(:,2) = ((FMT.RAD.RemRSSI-FMT.RAD.RemNoise) )./2;
-numdoubs = fademargin./6;
-rangetimes = 2.^numdoubs;
+rangetimes = 2.^(fademargin./6);
 distremain = rangetimes.* interp1(FMT.AHR2.TimeS(FMT.AHR2.Lat~=0),dist,FMT.RAD.TimeS);
 
 plot(FMT.RAD.TimeS,distremain);
