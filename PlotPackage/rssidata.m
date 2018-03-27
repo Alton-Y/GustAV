@@ -1,5 +1,9 @@
 function [] = rssidata(INFO,FMT,fig)
 %plots channel data
+%I think in the data flash log, local is the planes transceiver, remote is
+%the ground unit. In mission planner, local is the ground unit, rem is the
+%aircraft.
+
 
 fig.Name = 'Telem RSSI Data';
 clf(fig);
