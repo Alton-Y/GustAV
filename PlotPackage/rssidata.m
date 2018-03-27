@@ -7,36 +7,37 @@ clf(fig);
 %% RAW RSSI AND NOISE DATA
 s1 = subplot(3,2,1);
 hold on
-rssip = plot(FMT.RAD.TimeS,FMT.RAD.RSSI);
-remrssip = plot(FMT.RAD.TimeS,FMT.RAD.RemRSSI);
-noisep = plot(FMT.RAD.TimeS,FMT.RAD.Noise);
-remnoisep = plot(FMT.RAD.TimeS,FMT.RAD.RemNoise);
+rssip = plot(FMT.RAD.TimeS,FMT.RAD.RSSI,'-b');
+remrssip = plot(FMT.RAD.TimeS,FMT.RAD.RemRSSI,'-r');
+noisep = plot(FMT.RAD.TimeS,FMT.RAD.Noise,'--b');
+remnoisep = plot(FMT.RAD.TimeS,FMT.RAD.RemNoise,'--r');
 
 grid on
 box on
 
 ylabel('RSSI');
-legend([rssip,remrssip,noisep,remnoisep],{'RSSI','RSSI Rem','Noise','Noise Rem'});
+legend([rssip,remrssip,noisep,remnoisep],{'RSSI','RSSI Remote','Noise','Noise Remote'});
 axis tight
 
 %% DISTANCE TO ORIGIN / FIRST TAKEOFF
+%note! AHR2 is backup position. Should use POS instead.
 s2 = subplot(3,2,3);
 hold on
 try %try to use EKF origin
-[actlen,az] = distance(mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)),mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)), FMT.AHR2.Lat,FMT.AHR2.Lng);
+[actlen,az] = distance(mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)),mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)), FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
 catch
     warning('No EKF Origin')
     flying = find(FMT.STAT.isFlying); %use location of first takeoff    
-    [actlen,az] = distance(FMT.AHR2.Lat(flying(1)), FMT.AHR2.Lng(flying(1)), FMT.AHR2.Lat(FMT.AHR2.Lat~=0),FMT.AHR2.Lng(FMT.AHR2.Lat~=0));
+    [actlen,az] = distance(FMT.POS.Lat(flying(1)), FMT.POS.Lng(flying(1)), FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
     
 end
 dist = distdim(actlen,'deg','m','earth');
 
-distp = plot(FMT.AHR2.TimeS(FMT.AHR2.Lat~=0),dist);
+distp = plot(FMT.POS.TimeS(FMT.POS.Lat~=0),dist);
 try
-altp = plot(FMT.AHR2.TimeS,FMT.AHR2.Alt-mean(FMT.ORGN.Alt));
+altp = plot(FMT.POS.TimeS,FMT.POS.Alt-mean(FMT.ORGN.Alt));
 catch
-    altp = plot(FMT.AHR2.TimeS(FMT.AHR2.Alt>0.1),FMT.AHR2.Alt(FMT.AHR2.Alt>0.1)-FMT.AHR2.Alt(flying(1)));
+    altp = plot(FMT.POS.TimeS(FMT.POS.Alt>0.1),FMT.POS.Alt(FMT.POS.Alt>0.1)-FMT.POS.Alt(flying(1)));
 end
 legend([distp,altp],{'Dist. to Origin','Alt'});
 ylabel('m')
@@ -68,20 +69,20 @@ mstruct = defaultm('mercator');
 try 
     mstruct.origin = [mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)) mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)) 0]; % TEMAC LOCATION
 catch
-    mstruct.origin = [FMT.AHR2.Lat(flying(1))  FMT.AHR2.Lng(flying(1)) 0]; % TEMAC LOCATION
+    mstruct.origin = [FMT.POS.Lat(flying(1))  FMT.POS.Lng(flying(1)) 0]; % TEMAC LOCATION
 
 end
 mstruct.geoid = referenceEllipsoid('wgs84','meters');
 mstruct = defaultm(mstruct);
-[X,Y] = mfwdtran(mstruct,FMT.AHR2.Lat(FMT.AHR2.Lat~=0),FMT.AHR2.Lng(FMT.AHR2.Lat~=0));
+[X,Y] = mfwdtran(mstruct,FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
 
 subplot(3,2,2);
 colormap(flipud(jet(100)));
-cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.AHR2.TimeS(FMT.AHR2.Lat~=0));
+cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.POS.TimeS(FMT.POS.Lat~=0));
 try
-pxyz = scatter3(X,Y,FMT.AHR2.Alt-mean(FMT.ORGN.Alt),ones(size(X)),cdata);
+pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-mean(mean(FMT.ORGN.Alt)),ones(size(X)),cdata);
 catch
- pxyz = scatter3(X,Y,FMT.AHR2.Alt(FMT.AHR2.Lat~=0)-FMT.AHR2.Alt(flying(1)),ones(size(X)),cdata);   
+ pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-FMT.POS.Alt(flying(1)),ones(size(X)),cdata);   
 end
 axis equal
 hcb=colorbar;
@@ -104,12 +105,13 @@ s6=subplot(3,2,6);
 fademargin(:,1) = ((FMT.RAD.RSSI-FMT.RAD.Noise) )./2;
 fademargin(:,2) = ((FMT.RAD.RemRSSI-FMT.RAD.RemNoise) )./2;
 rangetimes = 2.^(fademargin./6);
-distremain = rangetimes.* interp1(FMT.AHR2.TimeS(FMT.AHR2.Lat~=0),dist,FMT.RAD.TimeS);
-
-plot(FMT.RAD.TimeS,distremain);
+distremain = rangetimes.* interp1(FMT.POS.TimeS(FMT.POS.Lat~=0),dist,FMT.RAD.TimeS);
+hold on
+plot(FMT.RAD.TimeS,distremain(:,1),'-b');
+plot(FMT.RAD.TimeS,distremain(:,2),'-r');
 ax = gca;
 ax.YAxis.Exponent = 0;
-legend('Dist','Rem Dist');
+legend('Dist','Dist Remote');
 ylabel('m');
 grid on
 box on
