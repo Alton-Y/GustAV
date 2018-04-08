@@ -59,12 +59,20 @@ hold on
 
 %volts
 yyaxis left
+try
+    volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt,'-k');
+catch
 volt=plot(FMT.CURR.TimeS,FMT.CURR.Volt,'-k');
+end
 ylabel('Volts');
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
+try
+   amp = plot(FMT.BAT.TimeS,FMT.BAT.Curr,'--b'); 
+catch
 amp = plot(FMT.CURR.TimeS,FMT.CURR.Curr,'--b');
+end
 ylabel('Amps');
 ax = gca;
 ax.YColor = 'b';

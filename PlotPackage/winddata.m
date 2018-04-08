@@ -22,7 +22,11 @@ s2= subplot(4,1,2);
 hold on
 
 tgnd = plot(GND.ATMO.TimeS,GND.ATMO.TempC,'-k');
-tair_imu = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b');
+try
+  tair_imu = plot(FMT.IMU.TimeS,FMT.IMU.T,'--b');  %AP3.8
+catch
+    tair_imu = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b'); %earlier AP version
+end
 tair_arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Temp,'-b');
 tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
 tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
