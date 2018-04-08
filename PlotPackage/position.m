@@ -2,7 +2,7 @@ function [] = position(INFO,FMT,GND,AVT,fig)
 %Plots ground station data
 fig.Name = 'Position Plot';
 load('Field.mat');
-
+clf(fig)
 
 % GPS X Y
 mstruct = defaultm('mercator');
@@ -10,7 +10,11 @@ mstruct.origin = [43.9534 -79.3207 0]; % TEMAC LOCATION
 mstruct.geoid = referenceEllipsoid('wgs84','meters');
 mstruct = defaultm(mstruct);
 [X,Y] = mfwdtran(mstruct,FMT.GPS.Lat,FMT.GPS.Lng);
-
+[X2,Y2] = mfwdtran(mstruct,FMT.POS.Lat,FMT.POS.Lng);
+try
+    [X3,Y3] = mfwdtran(mstruct,FMT.GPS2.Lat,FMT.GPS2.Lng);
+catch
+end
 [gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
 [RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
 [LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
@@ -24,12 +28,19 @@ end
 
 
 s1 = subplot(1,2,1);
+hold on
 pxy = plot(X,Y,'-k');
+pxy2 = plot(X2,Y2,'-b');
+try 
+    pxy3 = plot(X3,Y3,'-r');
+catch
+end
+
 axis equal
 pylim = ylim;
 pxlim = xlim;
 % 
-hold on
+% hold on
 
 % Draw Ground Station Position
 scatter(mean(gndX),mean(gndY),75,'r*','LineWidth',1.5)
@@ -50,13 +61,23 @@ grid on
 % axis equal
 xlim(pxlim);
 ylim(pylim);
+try
+    legend([pxy,pxy2,pxy3],{'GPS1 Pos','EKF Pos','GPS2 Pos'});
+catch
+legend([pxy,pxy2],{'GPS1 Pos','EKF Pos'});
+end
 
-
+%% XYZ 
 s2 = subplot(1,2,2);
-
-pxyz = plot3(X,Y,FMT.GPS.Alt);
-
 hold on
+pxyz = plot3(X,Y,FMT.GPS.Alt,'k');
+pxyz2 = plot3(X2,Y2,FMT.POS.Alt,'b');
+try
+    pxyz3 = plot3(X3,Y3,FMT.GPS2.Alt,'r');
+catch
+end
+% legend([pxyz,pxyz2],{'GPS1 Pos','EKF Pos'});
+% % hold on
 
 
 try
@@ -65,7 +86,7 @@ plot3(cmdX,cmdY,FMT.CMD.Alt+homeAlt);
 end
 
 hold off
-
+setAxes3DPanAndZoomStyle(zoom(gca),gca,'camera')
 axis equal
 
 
