@@ -87,4 +87,12 @@ catch
     warning('Unable to create FMT.WIND');
 end
 
+% Add MAVLINK messages sent
+try   
+    for count = 1:size(MSG1,2)        
+        FMT.MSG.MessageStr(count)= string(MSG1{count}(3));
+    end
+catch
+    warning('Unable to read MAVLINK messages');
+end
 end
