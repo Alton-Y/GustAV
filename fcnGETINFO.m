@@ -20,7 +20,7 @@ idxMAGDEC = find(strcmp([FMT.PARM(:,1)],'COMPASS_DEC'),1);
 INFO.COMPASS_DEC_DEG = rad2deg(FMT.PARM{idxMAGDEC,2});
 
 
-% Detech Flights in FMT
+% Detect Flights in FMT
 try
 idxFlightStart = find(diff(FMT.STAT.isFlying)==1);
 idxFlightEnd = find(diff(FMT.STAT.isFlying)==-1);
