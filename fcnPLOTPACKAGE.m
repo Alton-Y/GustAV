@@ -30,3 +30,6 @@ motordata(INFO,FMT,motorfig);
 
 telemfig = figure(10);
 rssidata(INFO,FMT,telemfig);
+
+hardwarefig = figure(11);
+hardware(INFO,FMT,hardwarefig);
