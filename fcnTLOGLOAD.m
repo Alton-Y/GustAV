@@ -29,6 +29,8 @@ clear count
 %time isn't right in the matlab? I don't know.
 %using time_boot_ms_mavlink_system_time_t and a dataflash entry, it looks like the estimation of
 %boot time is 1 day, 4 hours and 16.5 seconds off? 
+%TimeS is reference to INFO.pixhawkstart so it will align with the current
+%dataflash
 timelocal = datenum(TLOG.onboard_control_sensors_enabled_mavlink_sys_status_t(:,1)) + 1 + (4/24) + (16.5/60/60/24);
 timeS = (timelocal - INFO.pixhawkstart).*86400;
 

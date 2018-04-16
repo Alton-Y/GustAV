@@ -1,4 +1,4 @@
-function hardware(INFO,FMT,fig)
+function hardware(INFO,FMT,TLOG,fig)
 fig.Name = 'Hardware Data';
 clf(fig);
 
@@ -34,12 +34,28 @@ box on
 s3=subplot(4,1,3);
 hold on
 try
-a=plot(FMT.PM.TimeS,FMT.PM.LogDrop,'.k');
+    yyaxis left
+a=plot(FMT.PM.TimeS,FMT.PM.LogDrop,'.-k');
+ax = gca;
+ax.YColor = 'k';
+axis tight
 catch
     warning('No logs dropped data available');
 end
-axis tight
 ylabel('Logs Dropped');
+try
+    yyaxis right
+    b = plot(TLOG.sensors.LOGGING.TimeS,TLOG.sensors.LOGGING.health,'.-b');
+    ylabel('Log Health (MAVLINK)');
+    ylim([-0.25 1.25]);
+    ax = gca;
+ax.YColor = 'b';
+catch
+    warning('No TLOG data');
+end
+
+
+
 grid on
 box on
 % legend([a],{'Amps (Main Battery)'},'location','northwest');
@@ -48,7 +64,7 @@ linkaxes([s1,s2,s3],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
-    axis tight
+%  
 end
 clear s1 s2 s3
 

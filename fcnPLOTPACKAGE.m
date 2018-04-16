@@ -32,4 +32,4 @@ telemfig = figure(10);
 rssidata(INFO,FMT,telemfig);
 
 hardwarefig = figure(11);
-hardware(INFO,FMT,hardwarefig);
+hardware(INFO,FMT,TLOG,hardwarefig);
