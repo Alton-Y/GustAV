@@ -1,4 +1,4 @@
-function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT)
+function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT,TLOG)
 addpath('./PlotPackage')
 
 genfig=figure(1);
