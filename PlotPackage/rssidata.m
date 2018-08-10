@@ -3,7 +3,7 @@ function [] = rssidata(INFO,FMT,fig)
 %I think in the data flash log, local is the planes transceiver, remote is
 %the ground unit. In mission planner, local is the ground unit, rem is the
 %aircraft.
-
+load('Field.mat');
 
 fig.Name = 'Telem RSSI Data';
 clf(fig);
@@ -70,6 +70,9 @@ legend([txp,errp,fixed],{'Tx Buff %','Rx Err','Fixed Err'});
 %% SNR PLOT
 % GPS X Y
 mstruct = defaultm('mercator');
+
+
+
 try 
     mstruct.origin = [mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)) mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)) 0]; % TEMAC LOCATION
 catch
@@ -83,11 +86,26 @@ mstruct = defaultm(mstruct);
 subplot(3,2,2);
 colormap(flipud(jet(100)));
 cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.POS.TimeS(FMT.POS.Lat~=0));
+cdata(isnan(cdata)) = 0.01; %replace nans with bad snr
+
+[RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
+[LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
+[RoadsX,RoadsY] = mfwdtran(mstruct,Field.Roads(:,2),Field.Roads(:,1));
+[TreesX,TreesY] = mfwdtran(mstruct,Field.Treeline(:,2),Field.Treeline(:,1));
+
+
 try
-pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-mean(mean(FMT.ORGN.Alt)),ones(size(X)),cdata);
+pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-mean(mean(FMT.ORGN.Alt)),0.1./cdata+3,cdata,'filled');
 catch
- pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-FMT.POS.Alt(flying(1)),ones(size(X)),cdata);   
+ pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-FMT.POS.Alt(flying(1)),ones(size(X)),cdata,'filled');   
 end
+% Draw Runway
+hold on
+plot(RwyX,RwyY,'-k','Color',[0.2 0.2 0.2]);
+plot(LineX,LineY,'--r');
+plot(RoadsX,RoadsY,'--','Color',[0.5 0.5 0.5]);
+plot(TreesX,TreesY,'--','Color',[0.5 0.5 0.5]);
+hold off
 axis equal
 hcb=colorbar;
 title(hcb,'Avg SNR')
