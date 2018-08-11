@@ -99,6 +99,12 @@ pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-mean(mean(FMT.ORGN.Alt)),0.1./cd
 catch
  pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-FMT.POS.Alt(flying(1)),ones(size(X)),cdata,'filled');   
 end
+
+axis equal
+pxlim = xlim;
+pylim = ylim;
+pzlim = zlim;
+
 % Draw Runway
 hold on
 plot(RwyX,RwyY,'-k','Color',[0.2 0.2 0.2]);
@@ -115,6 +121,10 @@ setAxes3DPanAndZoomStyle(zoom(gca),gca,'camera')
 %     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 % catch
     axis tight
+    
+    xlim(pxlim);
+    ylim(pylim);
+    zlim(pzlim);
 % end
 
 %% DISTANCE REMAINING 
