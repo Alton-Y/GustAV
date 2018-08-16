@@ -24,6 +24,12 @@ INFO.COMPASS_DEC_DEG = rad2deg(FMT.PARM{idxMAGDEC,2});
 try
 idxFlightStart = find(diff(FMT.STAT.isFlying)==1);
 idxFlightEnd = find(diff(FMT.STAT.isFlying)==-1);
+
+% if no flight end is detected, i.e. the plane didn't land
+if isempty(idxFlightEnd)
+    idxFlightEnd = length(FMT.STAT.isFlying);
+end
+
 if length(idxFlightStart) == length(idxFlightEnd)
     INFO.flight.startTimeS = FMT.STAT.TimeS(idxFlightStart);
     INFO.flight.endTimeS = FMT.STAT.TimeS(idxFlightEnd);
