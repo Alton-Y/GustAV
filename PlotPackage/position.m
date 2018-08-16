@@ -9,10 +9,10 @@ mstruct = defaultm('mercator');
 mstruct.origin = [43.9534 -79.3207 0]; % TEMAC LOCATION
 mstruct.geoid = referenceEllipsoid('wgs84','meters');
 mstruct = defaultm(mstruct);
-[X,Y] = mfwdtran(mstruct,FMT.GPS.Lat,FMT.GPS.Lng);
-[X2,Y2] = mfwdtran(mstruct,FMT.POS.Lat,FMT.POS.Lng);
+[X,Y,Z] = mfwdtran(mstruct,FMT.GPS.Lat,FMT.GPS.Lng,FMT.GPS.Alt);
+[X2,Y2,Z2] = mfwdtran(mstruct,FMT.POS.Lat,FMT.POS.Lng,FMT.POS.Alt);
 try
-    [X3,Y3] = mfwdtran(mstruct,FMT.GPS2.Lat,FMT.GPS2.Lng);
+    [X3,Y3,Z3] = mfwdtran(mstruct,FMT.GPS2.Lat,FMT.GPS2.Lng,FMT.GPS2.Alt);
 catch
 end
 [gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
@@ -22,58 +22,59 @@ end
 [TreesX,TreesY] = mfwdtran(mstruct,Field.Treeline(:,2),Field.Treeline(:,1));
 
 try
-[cmdX,cmdY] = mfwdtran(mstruct,FMT.CMD.Lat,FMT.CMD.Lng);
+[cmdX,cmdY,cmdAlt] = mfwdtran(mstruct,FMT.CMD.Lat,FMT.CMD.Lng,FMT.CMD.Alt);
 end
 
 
+%% nsats
+s1 = subplot(2,2,1);
 
-s1 = subplot(1,2,1);
-hold on
-pxy = plot(X,Y,'-k');
-pxy2 = plot(X2,Y2,'-b');
-try 
-    pxy3 = plot(X3,Y3,'-r');
+gpsp = plot(FMT.GPS.TimeS,FMT.GPS.NSats,'k');
+try
+    hold on
+    gps2p = plot(FMT.GPS2.TimeS,FMT.GPS2.NSats,'r');
 catch
 end
 
-axis equal
-pylim = ylim;
-pxlim = xlim;
-% 
-% hold on
-
-% Draw Ground Station Position
-scatter(mean(gndX),mean(gndY),75,'r*','LineWidth',1.5)
-
-try
-% Draw Waypoint Locations
-scatter(cmdX,cmdY,50,'bd','LineWidth',1.5)
-end
-
-% Draw Runway
-plot(RwyX,RwyY,'-k','Color',[0.2 0.2 0.2]);
-plot(LineX,LineY,'--r');
-plot(RoadsX,RoadsY,'--','Color',[0.5 0.5 0.5]);
-plot(TreesX,TreesY,'--','Color',[0.5 0.5 0.5]);
-
-hold off
 grid on
-% axis equal
-xlim(pxlim);
-ylim(pylim);
+box on
+
+ylabel('Num Sats');
 try
-    legend([pxy,pxy2,pxy3],{'GPS1 Pos','EKF Pos','GPS2 Pos'});
+legend([gpsp,gps2p],{'GPS1','GPS2'});
 catch
-legend([pxy,pxy2],{'GPS1 Pos','EKF Pos'});
+    legend([gpsp],{'GPS1'});
 end
+axis tight
+
+%% hdop
+s3 = subplot(2,2,3);
+
+gpsp = plot(FMT.GPS.TimeS,FMT.GPS.HDop,'k');
+try
+    hold on
+    gps2p = plot(FMT.GPS2.TimeS,FMT.GPS2.HDop,'r');
+catch
+end
+
+grid on
+box on
+
+ylabel('HDop');
+try
+legend([gpsp,gps2p],{'GPS1','GPS2'});
+catch
+    legend([gpsp],{'GPS1'});
+end
+axis tight
 
 %% XYZ 
-s2 = subplot(1,2,2);
+s2 = subplot(2,2,2);
 hold on
-pxyz = plot3(X,Y,FMT.GPS.Alt,'k');
-pxyz2 = plot3(X2,Y2,FMT.POS.Alt,'b');
+pxyz = plot3(X,Y,Z,'k');
+pxyz2 = plot3(X2,Y2,Z2,'b');
 try
-    pxyz3 = plot3(X3,Y3,FMT.GPS2.Alt,'r');
+    pxyz3 = plot3(X3,Y3,Z3,'r');
 catch
 end
 % legend([pxyz,pxyz2],{'GPS1 Pos','EKF Pos'});
@@ -81,18 +82,44 @@ end
 
 
 try
-homeAlt = mean(FMT.ORGN.Alt(FMT.ORGN.Alt>0));
-plot3(cmdX,cmdY,FMT.CMD.Alt+homeAlt);
+homeAlt = FMT.ORGN.Alt(find((FMT.ORGN.Alt>0),1,'last'));
+plot3(cmdX(cmdAlt~=0),cmdY(cmdAlt~=0),cmdAlt(cmdAlt~=0)+homeAlt,'bd','LineWidth',1.5)
+catch
 end
 
-hold off
-setAxes3DPanAndZoomStyle(zoom(gca),gca,'camera')
+axis equal
+pylim = ylim;
+pxlim = xlim;
+pzlim = zlim;
+
+    % Draw Runway
+  
+hold on
+plot3(RwyX,RwyY,repmat(homeAlt,length(RwyX)),'-k','Color',[0.2 0.2 0.2]);
+plot3(LineX,LineY,repmat(homeAlt,length(LineX)),'--r');
+plot3(RoadsX,RoadsY,repmat(homeAlt,length(RoadsX)),'--','Color',[0.5 0.5 0.5]);
+plot3(TreesX,TreesY,repmat(homeAlt,length(TreesX)),'--','Color',[0.5 0.5 0.5]);
 axis equal
 
 
 
 
 
+setAxes3DPanAndZoomStyle(zoom(gca),gca,'camera')
+
+axis equal
+xlim(pxlim)
+ylim(pylim)
+zlim(pzlim)
+
+try
+    legend([pxyz,pxyz2,pxyz3],{'GPS1 Pos','EKF Pos','GPS2 Pos'});
+catch
+legend([pxyz,pxyz2],{'GPS1 Pos','EKF Pos'});
+end
+
+
+linkaxes([s1,s3],'x');
 
 
 
@@ -101,8 +128,44 @@ axis equal
 
 
 
-
-
+% hold on
+% pxy = plot(X,Y,'-k');
+% pxy2 = plot(X2,Y2,'-b');
+% try 
+%     pxy3 = plot(X3,Y3,'-r');
+% catch
+% end
+% 
+% axis equal
+% pylim = ylim;
+% pxlim = xlim;
+% % 
+% % hold on
+% 
+% % Draw Ground Station Position
+% scatter(mean(gndX),mean(gndY),75,'r*','LineWidth',1.5)
+% 
+% try
+% % Draw Waypoint Locations
+% scatter(cmdX,cmdY,50,'bd','LineWidth',1.5)
+% end
+% 
+% % Draw Runway
+% plot(RwyX,RwyY,'-k','Color',[0.2 0.2 0.2]);
+% plot(LineX,LineY,'--r');
+% plot(RoadsX,RoadsY,'--','Color',[0.5 0.5 0.5]);
+% plot(TreesX,TreesY,'--','Color',[0.5 0.5 0.5]);
+% 
+% hold off
+% grid on
+% % axis equal
+% xlim(pxlim);
+% ylim(pylim);
+% try
+%     legend([pxy,pxy2,pxy3],{'GPS1 Pos','EKF Pos','GPS2 Pos'});
+% catch
+% legend([pxy,pxy2],{'GPS1 Pos','EKF Pos'});
+% end
 
 
 
