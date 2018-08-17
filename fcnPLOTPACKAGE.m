@@ -33,3 +33,6 @@ rssidata(INFO,FMT,telemfig);
 
 hardwarefig = figure(11);
 hardware(INFO,FMT,TLOG,hardwarefig);
+
+sysidfig = figure(12);
+sysidexplore(INFO,FMT,sysidfig);
