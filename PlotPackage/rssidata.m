@@ -83,7 +83,7 @@ mstruct.geoid = referenceEllipsoid('wgs84','meters');
 mstruct = defaultm(mstruct);
 [X,Y] = mfwdtran(mstruct,FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
 
-subplot(3,2,2);
+subplot(3,2,[2,4]);
 colormap(flipud(jet(100)));
 cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.POS.TimeS(FMT.POS.Lat~=0));
 cdata(isnan(cdata)) = 0.01; %replace nans with bad snr
