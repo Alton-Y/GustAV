@@ -1,9 +1,15 @@
 function [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles)
 % This funciton loads the raw .mat files from the pixhawk into the
 %corresponding formatted .mat files.
+
+if nargin==2
+    load(pixhawkpath);
+elseif nargin==3
 filename = pixhawkfiles{1};
 load(strcat(pixhawkpath,'/',filename));
-
+else
+    error('Pixhawk dataflash file location error');
+end
 varList = sort(Seen);
 
 

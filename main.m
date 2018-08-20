@@ -21,8 +21,13 @@ tlogfiles = fcnFILELIST(tlogpath,'.mat');
 % SETUP
 INFO.timezone = 0;
 
-% pixhawk output
-[INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(5));
+% link to dataflash:
+% if you have the dataflash .mat path:
+[INFO, FMT] = fcnFMTLOAD(INFO,'E:\APM\LOGS\00000018.BIN-759899.mat');
+%or if you want to load from the Flight folder:
+% [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(10));
+
+
 [ INFO ] = fcnGETINFO( INFO, FMT );
 %
 %ground station files
