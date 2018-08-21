@@ -15,10 +15,10 @@ channeldata(INFO,FMT,GND,channelfig);
 
 ekffig = figure(5);
 ekfexplore(INFO,FMT,GND,ekffig);
-
+% 
 tecsfig = figure(6);
 tecsexplore(INFO,FMT,GND,tecsfig);
-
+% 
 battfig = figure(7);
 batterydata(INFO,FMT,GND,battfig);
 
@@ -29,7 +29,7 @@ motorfig = figure(9);
 motordata(INFO,FMT,motorfig);
 
 telemfig = figure(10);
-rssidata(INFO,FMT,telemfig);
+rssidata(INFO,FMT,TLOG,telemfig);
 
 hardwarefig = figure(11);
 hardware(INFO,FMT,TLOG,hardwarefig);

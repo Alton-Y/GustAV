@@ -23,7 +23,7 @@ INFO.timezone = 0;
 
 % link to dataflash:
 % if you have the dataflash .mat path:
-% [INFO, FMT] = fcnFMTLOAD(INFO,'E:\APM\LOGS\00000018.BIN-759899.mat');
+% [INFO, FMT] = fcnFMTLOAD(INFO,'E:\dataflash\00000019.BIN-862469.mat');
 %or if you want to load from the Flight folder:
 [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(10));
 
@@ -38,6 +38,10 @@ GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(1),3);
 AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(1));
 
 % TLog Files
+% if you have the tlog .mat path:
+% TLOG = fcnTLOGLOAD(INFO, 'E:\dataflash\2018-08-15 16-54-00.tlog.mat');
+
+% or if you want to load from the Flight folder:
 TLOG = fcnTLOGLOAD(INFO, tlogpath, tlogfiles(1));
 %% Plotting Package
 % close all

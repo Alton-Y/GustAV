@@ -1,4 +1,4 @@
-function [] = rssidata(INFO,FMT,fig)
+function [] = rssidata(INFO,FMT,TLOG,fig)
 %plots channel data
 %I think in the data flash log, local is the planes transceiver, remote is
 %the ground unit. In mission planner, local is the ground unit, rem is the
@@ -26,6 +26,7 @@ axis tight
 %% DISTANCE TO ORIGIN / FIRST TAKEOFF
 %note! AHR2 is backup position. Should use POS instead.
 s2 = subplot(3,2,3);
+yyaxis left
 hold on
 try %try to use EKF origin
 [actlen,az] = distance(mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)),mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)), FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
@@ -43,12 +44,17 @@ altp = plot(FMT.POS.TimeS,FMT.POS.Alt-mean(FMT.ORGN.Alt));
 catch
     altp = plot(FMT.POS.TimeS(FMT.POS.Alt>0.1),FMT.POS.Alt(FMT.POS.Alt>0.1)-FMT.POS.Alt(flying(1)));
 end
-legend([distp,altp],{'Dist. to Origin','Alt'});
+
 ylabel('m')
+
 grid on
 box on
 axis tight
 
+yyaxis right
+errp=plot(FMT.RAD.TimeS,FMT.RAD.RxErrors);
+fixed = plot(FMT.RAD.TimeS,FMT.RAD.Fixed);
+legend([distp,altp,errp,fixed],{'Dist. to Origin','Alt','Rx Err','Fixed Err'});
 
 %% TX BUFFER AND ERRORS
 s3 = subplot(3,2,5);
@@ -59,13 +65,21 @@ txp=plot(FMT.RAD.TimeS,100-FMT.RAD.TxBuf); % FMT.RAD.TxBuf: percentage of buffer
 grid on
 box on
 ax = gca;
-ax.YColor = 'k';
+% ax.YColor = 'k';
 yyaxis right
 hold on
+
+try
+    lat = nan(length(TLOG.time_s_latency(:,2)),1);
+    idx = (TLOG.time_s_latency(:,2)<100); %only plot where lat<100 sec
+    lat(idx) = TLOG.time_s_latency(idx,2);
+laten= plot(TLOG.time_s_latency(:,1),lat,'--.');
+ylabel('s');
+catch
+end
 axis tight
-errp=plot(FMT.RAD.TimeS,FMT.RAD.RxErrors);
-fixed = plot(FMT.RAD.TimeS,FMT.RAD.Fixed);
-legend([txp,errp,fixed],{'Tx Buff %','Rx Err','Fixed Err'});
+
+legend([txp,laten],{'Tx Buff %','Latency'});
 
 %% SNR PLOT
 % GPS X Y
