@@ -9,7 +9,17 @@ hold on
 
 %airspeed
 yyaxis left
-arsp=plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
+% find primary sensor data
+idxp = FMT.ARSP.Primary==0;
+allspeed = nan(size(FMT.ARSP.Airspeed));
+allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
+try
+    idxp2 = FMT.ASP2.Primary ==1;
+    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
+catch
+end
+
+arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
 ylabel('Airspeed (m/s)');
 axis tight
 ax = gca;

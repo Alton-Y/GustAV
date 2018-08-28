@@ -11,9 +11,23 @@ hold on
 
 %airspeed
 yyaxis left
-arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Airspeed,'-k');
+
+% find primary sensor data
+idxp = FMT.ARSP.Primary==0;
+allspeed = nan(size(FMT.ARSP.Airspeed));
+allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
+try
+    idxp2 = FMT.ASP2.Primary ==1;
+    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
+catch
+end
+
+arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
+
 arsp_g = plot(FMT.GPS.TimeS,FMT.GPS.Spd,'--k');
-arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
+% arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
+
+
 axis tight
 ylabel('Airspeed (m/s)');
 ax = gca;
@@ -26,9 +40,12 @@ ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 
-legend([arsp,arsp_g,arsp_avt,alt],{'Pixhawk Airspeed', 'Pixhawk GPS Speed', 'Aventech Airspeed', 'Altitude'},'location','northwest')
+    legend([arsp,arsp_g,alt],{'Pixhawk Airspeed',  'Pixhawk GPS Speed', 'Altitude'},'location','northwest')
+
+
 grid on
 box on
+yyaxis left %make left axis active
 
 s2= subplot(4,1,2);
 hold on
@@ -80,6 +97,6 @@ linkaxes([s1,s2,s3,s4],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
-        axis tight
+    axis tight
 end
 clear s1 s2 s3 s4

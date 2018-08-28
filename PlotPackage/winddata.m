@@ -9,12 +9,12 @@ hold on
 %press
 pgnd = plot(GND.ATMO.TimeS,GND.ATMO.Pressure,'-k');
 palt = plot(FMT.BARO.TimeS,FMT.BARO.Press,'--b');
-pavt = plot(AVT.ADP.TimeS,AVT.ADP.P_STATIC,'--r');
+% pavt = plot(AVT.ADP.TimeS,AVT.ADP.P_STATIC,'--r');
 
 ylabel('Pressure');
 axis tight
 % datetick('x','HH:MM:SS')
-legend([pgnd,palt,pavt],{'Pressure GND','Pressure Pixhawk','Pressure Aventech'},'location','northwest')
+legend([pgnd,palt],{'Pressure GND','Pressure Pixhawk'},'location','northwest')
 grid on
 box on
 
@@ -28,11 +28,16 @@ catch
     tair_imu = plot(FMT.IMU.TimeS,FMT.IMU.Temp,'--b'); %earlier AP version
 end
 tair_arsp = plot(FMT.ARSP.TimeS,FMT.ARSP.Temp,'-b');
-tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
-tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
-
+try
+  tair_arsp2 = plot(FMT.ASP2.TimeS,FMT.ASP2.Temp,'--k');
+  legend([tgnd,tair_imu,tair_arsp,tair_arsp2],{'Temp GND','Temp Pix IMU',...
+    'Temp Pix ARSP','Temp Pix ARSP2'},'location','northwest')
+% tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
+% tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
+catch
 legend([tgnd,tair_imu,tair_arsp,tfast,tavt],{'Temp GND','Temp Pix IMU',...
-    'Temp Pix ARSP','Temp Aventech Fast','Temp Aventech'},'location','northwest')
+    'Temp Pix ARSP'},'location','northwest')
+end
 ylabel('Temp C')
 axis tight
 % datetick('x','HH:MM:SS')

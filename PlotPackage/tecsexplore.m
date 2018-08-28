@@ -14,9 +14,22 @@ try
     
     s2=subplot(3,1,2);
     hold on
+    
+    % find primary sensor data
+    idxp = FMT.ARSP.Primary==0;
+    allspeed = nan(size(FMT.ARSP.Airspeed));
+    allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
+    try
+        idxp2 = FMT.ASP2.Primary ==1;
+        allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
+    catch
+    end
+    
     sdem=plot(FMT.TECS.TimeS,FMT.TECS.spdem,'-k');
-    s=plot(FMT.TECS.TimeS,FMT.TECS.sp,'--b');
-    legend([sdem,s],{'Demanded ARSP','Actual ARSP'},'location','northwest');
+    s=plot(FMT.TECS.TimeS,FMT.TECS.sp,'.--b');
+    raw  = plot(FMT.ARSP.TimeS,allspeed,'.-k');
+    ctuna = plot(FMT.CTUN.TimeS,FMT.CTUN.Aspd,'.-g');
+    legend([sdem,s,raw,ctuna],{'Demanded ARSP','Actual TAS','RAW EAS','ARSP EST'},'location','northwest');
     ylabel('m/s');
     axis tight
     grid on
