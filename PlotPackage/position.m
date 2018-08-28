@@ -27,7 +27,7 @@ end
 
 
 %% nsats
-s1 = subplot(2,2,1);
+s(1) = subplot(2,2,1);
 
 gpsp = plot(FMT.GPS.TimeS,FMT.GPS.NSats,'k');
 try
@@ -48,7 +48,7 @@ end
 axis tight
 
 %% hdop
-s3 = subplot(2,2,3);
+s(2) = subplot(2,2,3);
 
 gpsp = plot(FMT.GPS.TimeS,FMT.GPS.HDop,'k');
 try
@@ -118,8 +118,25 @@ catch
 legend([pxyz,pxyz2],{'GPS1 Pos','EKF Pos'});
 end
 
+%%
+s(3) = subplot(2,2,4) 
+hold on
+use = plot(FMT.GPS.TimeS,FMT.GPS.U,'k')
 
-linkaxes([s1,s3],'x');
+try
+    use2 = plot(FMT.GPS2.TimeS,FMT.GPS2.U,'r');
+catch
+    warning('Only 1 GPS in log file');
+end
+
+grid on
+box on
+axis tight
+ylim([-1 2]);
+ylabel('Used');
+
+
+linkaxes([s],'x');
 
 
 
