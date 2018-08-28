@@ -15,10 +15,10 @@ channeldata(INFO,FMT,GND,channelfig);
 
 ekffig = figure(5);
 ekfexplore(INFO,FMT,GND,ekffig);
-% 
+
 tecsfig = figure(6);
 tecsexplore(INFO,FMT,GND,tecsfig);
-% 
+
 battfig = figure(7);
 batterydata(INFO,FMT,GND,battfig);
 
@@ -36,3 +36,6 @@ hardware(INFO,FMT,TLOG,hardwarefig);
 
 sysidfig = figure(12);
 sysidexplore(INFO,FMT,sysidfig);
+
+airspeedfig = figure(13);
+airspeedexplore(INFO,FMT,airspeedfig);
