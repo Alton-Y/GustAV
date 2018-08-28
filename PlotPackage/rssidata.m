@@ -6,7 +6,7 @@ function [] = rssidata(INFO,FMT,TLOG,fig)
 load('Field.mat');
 
 fig.Name = 'Telem RSSI Data';
-clf(fig);
+% clf(fig);
 
 %% RAW RSSI AND NOISE DATA
 s1 = subplot(3,2,1);
@@ -75,11 +75,13 @@ try
     lat(idx) = TLOG.time_s_latency(idx,2);
 laten= plot(TLOG.time_s_latency(:,1),lat,'--.');
 ylabel('s');
+legend([txp,laten],{'Tx Buff %','Latency (MAVLINK)'});
 catch
+   legend([txp],{'Tx Buff %'}); 
 end
 axis tight
 
-legend([txp,laten],{'Tx Buff %','Latency'});
+
 
 %% SNR PLOT
 % GPS X Y
