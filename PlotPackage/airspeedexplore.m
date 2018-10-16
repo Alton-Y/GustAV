@@ -11,6 +11,16 @@ hold on
 
 arsp = plot(FMT.ARSP.TimeS, FMT.ARSP.Airspeed,'.-k');
 arsp2 = plot(FMT.ASP2.TimeS, FMT.ASP2.Airspeed,'.--b');
+% ratio0 = 2.3;
+% arsp3= plot(FMT.ARSP.TimeS, sqrt(abs(FMT.ARSP.RawPress).*ratio0),'r');
+% ratio1 = 1.9;
+% arsp4= plot(FMT.ASP2.TimeS, sqrt(abs(FMT.ASP2.RawPress).*ratio1),'m');
+try
+avg = plot(FMT.CTUN.TimeS,FMT.CTUN.Aspd,'.-g');
+legend([arsp,arsp2,avg],{'Sensor 0','Sensor 1','Airspeed Est'});
+catch
+    legend([arsp,arsp2],{'Sensor 0','Sensor 1'});
+end
 ylabel('Raw airspeed, m/s')
 
 box on
@@ -18,7 +28,7 @@ grid on
 
 
 
-legend([arsp,arsp2],{'Sensor 0','Sensor 1'});
+
 
 %% 
 s(2) = subplot(5,1,2);
@@ -26,7 +36,8 @@ hold on
 
 temp = plot(FMT.ARSP.TimeS, FMT.ARSP.Temp,'-k');
 temp2 = plot(FMT.ASP2.TimeS, FMT.ASP2.Temp,'--b');
-ylabel('Temp, degC')
+gndtmp = plot(FMT.BARO.TimeS, FMT.BARO.GndTemp,'--r');
+legend([temp,temp2,gndtmp],{'Sensor 0','Sensor 1','GND TEM'});
 box on
 grid on
 
@@ -60,9 +71,24 @@ arsp2p = plot(FMT.ASP2.TimeS, abs(FMT.ASP2.Airspeed.^2./FMT.ASP2.RawPress),'.--b
 
 box on
 grid on
-ylabel('AS Ratio')
+ylim([1.7 2.9]);
+ylabel('AS Ratio');
 
 
+yyaxis right
+hold on
+try
+rat = FMT.TECS.sp./interp1(FMT.CTUN.TimeS,FMT.CTUN.Aspd,FMT.TECS.TimeS);
+eastas = plot(FMT.TECS.TimeS,rat,'.r');
+ylim([0.8 1.2]);
+catch
+end
+ax = gca;
+ax.YColor = 'r';
+ylabel('EAS2TAS Ratio');
+% tempK = FMT.BARO.GndTemp + 273.15 - (0.0065 .* FMT.BARO.Alt);
+% den = FMT.BARO.Press ./ (287.26 .* tempK)
+%%
 s(5)=subplot(5,1,5); %airspeed error (should be below 0.3. Above 1 data from pitot is ignored)
 hold on
 yyaxis left

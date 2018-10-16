@@ -6,7 +6,7 @@ function [] = rssidata(INFO,FMT,TLOG,fig)
 load('Field.mat');
 
 fig.Name = 'Telem RSSI Data';
-% clf(fig);
+clf(fig);
 
 %% RAW RSSI AND NOISE DATA
 s1 = subplot(3,2,1);

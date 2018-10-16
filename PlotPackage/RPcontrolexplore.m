@@ -34,6 +34,7 @@ ax.YColor = 'k';
 % tickdata = get(gca,'XTick');
 grid on
 box on
+yyaxis left
 
 s2=subplot(4,1,2);
 yyaxis left
@@ -66,7 +67,7 @@ ax.YColor = 'k';
 % datetick('x','HH:MM:SS')
 
 % set(gca,'XTickMode','manual');
-
+yyaxis left
 
 s3=subplot(4,1,3);
 hold on
@@ -95,6 +96,7 @@ ax = gca;
 ax.YColor = 'k';
 grid on
 box on
+yyaxis left
 
 s4= subplot(4,1,4);
 yyaxis left

@@ -24,7 +24,7 @@ end
 
 arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
 
-arsp_g = plot(FMT.GPS.TimeS,FMT.GPS.Spd,'--k');
+arsp_g = plot(FMT.GPS.TimeS,FMT.GPS.Spd,'--g');
 % arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
 
 
