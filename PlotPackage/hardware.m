@@ -60,7 +60,22 @@ grid on
 box on
 % legend([a],{'Amps (Main Battery)'},'location','northwest');
 
-linkaxes([s1,s2,s3],'x');
+
+s4 = subplot(4,1,4);
+hold on
+%plot messages sent to GS (note these are from the pixhawk, not the tlog
+plot(FMT.MSG.TimeS,ones(length(FMT.MSG.TimeS),1),'.r');
+text(FMT.MSG.TimeS,ones(length(FMT.MSG.TimeS),1),FMT.MSG.MessageStr,'Rotation',90)
+
+%plot mode
+plot(INFO.segment.startTimeS,zeros(length(INFO.segment.startTimeS),1),'.b');
+text(INFO.segment.startTimeS,zeros(length(INFO.segment.startTimeS),1),INFO.segment.modeAbbr,'Rotation',90);
+
+grid on
+box on
+axis tight
+ylim([0,4]);
+linkaxes([s1,s2,s3,s4],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 catch
