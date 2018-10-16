@@ -39,3 +39,6 @@ sysidexplore(INFO,FMT,sysidfig);
 
 airspeedfig = figure(13);
 airspeedexplore(INFO,FMT,airspeedfig);
+
+altfig = figure(14);
+altitudeexplore(INFO,FMT,altfig);
