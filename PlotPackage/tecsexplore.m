@@ -64,11 +64,26 @@ box on
 s3=subplot(3,1,3);
 hold on
 thr=plot(FMT.RCOU.TimeS,FMT.RCOU.C3,'-k');
+
 legend([thr],{'THR OUT'},'location','northwest');
 ylabel('PWM');
 axis tight
 grid on
 box on
+
+yyaxis right
+hold on
+temp = FMT.CTUN.NavPitch;
+mode = fcnGETMODE(INFO,FMT.CTUN.TimeS);
+temp(mode == 0) = nan;
+dem=plot(FMT.CTUN.TimeS,temp,'--b');
+clear temp
+temp = FMT.CTUN.Pitch;
+temp(mode == 0) = nan;
+ach=plot(FMT.CTUN.TimeS,temp,'-b');
+legend([thr,dem,ach],{'THR OUT','Dem Pitch','Achieved Pitch'});
+ylabel('Pitch Angle (deg)')
+
 
 try
     linkaxes([s1,s2,s3],'x');
