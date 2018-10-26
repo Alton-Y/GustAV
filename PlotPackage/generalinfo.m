@@ -84,15 +84,21 @@ elv=plot(FMT.RCIN.TimeS,FMT.RCIN.C2,'--b');
 rud=plot(FMT.RCIN.TimeS,FMT.RCIN.C4,'-.r');
 %throttle
 thr=plot(FMT.RCIN.TimeS,FMT.RCIN.C3,'-r');
-legend([ail,elv,rud,thr],{'AIL IN','ELE IN','RUD IN','THR IN'},'location','northwest')
 ylabel('PWM')
 axis tight
 % datetick('x','HH:MM:SS')
 % axis tight
 ylim([1000 2000])
+
+yyaxis right
+plot(INFO.segment.startTimeS,zeros(length(INFO.segment.startTimeS),1),'+k');
+text(INFO.segment.startTimeS,zeros(length(INFO.segment.startTimeS),1),INFO.segment.modeAbbr,'Rotation',90);
+ylim([0 2]);
+
+yyaxis left
 grid on
 box on
-
+legend([ail,elv,rud,thr],{'AIL IN','ELE IN','RUD IN','THR IN'},'location','northwest')
 linkaxes([s1,s2,s3,s4],'x');
 try
     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
