@@ -4,17 +4,44 @@ function [] = rssidata(INFO,FMT,TLOG,fig)
 %the ground unit. In mission planner, local is the ground unit, rem is the
 %aircraft.
 load('Field.mat');
-
+warning('We are hiding 0 rssi data!')
 fig.Name = 'Telem RSSI Data';
 clf(fig);
+
+
+% if we don't have a dataflash, we can try to plot the rssi data from a
+% tlog. in a tlog, local is ground, rem is air unit. 
+%% 
+% localtime = datenum(TLOG.rssi_mavlink_radio_status_t(:,1)) + 1 + (4/24) + (16.5/60/60/24);
+% tlog_radio_timeS =  (localtime - INFO.pixhawkstart).*86400;
+% rssi_local2 = TLOG.rssi_mavlink_radio_status_t(:,2);
+% noise_local2 = TLOG.noise_mavlink_radio_status_t(:,2);
+% rssi_rem2 = TLOG.remrssi_mavlink_radio_status_t(:,2);
+% noise_rem2 = TLOG.remnoise_mavlink_radio_status_t(:,2);
+
+% hold on
+% plot(tlog_radio_timeS,rssi_local,'k')
+% plot(tlog_radio_timeS,noise_local,'k')
+% plot(tlog_radio_timeS,rssi_rem,'k')
+% plot(tlog_radio_timeS,noise_rem,'k')
+
+
 
 %% RAW RSSI AND NOISE DATA
 s1 = subplot(3,2,1);
 hold on
-rssip = plot(FMT.RAD.TimeS,FMT.RAD.RSSI,'-b');
-remrssip = plot(FMT.RAD.TimeS,FMT.RAD.RemRSSI,'-r');
-noisep = plot(FMT.RAD.TimeS,FMT.RAD.Noise,'--b');
-remnoisep = plot(FMT.RAD.TimeS,FMT.RAD.RemNoise,'--r');
+% 
+%%DATAFLASH:
+rssip = plot(FMT.RAD.TimeS(FMT.RAD.RSSI>0),FMT.RAD.RSSI(FMT.RAD.RSSI>0),'.b');
+remrssip = plot(FMT.RAD.TimeS(FMT.RAD.RemRSSI>0),FMT.RAD.RemRSSI(FMT.RAD.RemRSSI>0),'.r');
+noisep = plot(FMT.RAD.TimeS(FMT.RAD.Noise>0),FMT.RAD.Noise(FMT.RAD.Noise),'--b');
+remnoisep = plot(FMT.RAD.TimeS(FMT.RAD.RemNoise>0),FMT.RAD.RemNoise(FMT.RAD.RemNoise>0),'--r');
+
+%%TLOG:
+% rssip = plot(tlog_radio_timeS,rssi_rem2,'-b');
+% remrssip = plot(tlog_radio_timeS,rssi_local2,'-r');
+% noisep = plot(tlog_radio_timeS,noise_rem2,'--b');
+% remnoisep = plot(tlog_radio_timeS,noise_local2,'--r');
 
 grid on
 box on
@@ -22,6 +49,9 @@ box on
 ylabel('RSSI');
 legend([rssip,remrssip,noisep,remnoisep],{'RSSI','RSSI Remote','Noise','Noise Remote'});
 axis tight
+
+
+
 
 %% DISTANCE TO ORIGIN / FIRST TAKEOFF
 %note! AHR2 is backup position. Should use POS instead.
@@ -52,7 +82,7 @@ box on
 axis tight
 
 yyaxis right
-errp=plot(FMT.RAD.TimeS,FMT.RAD.RxErrors);
+errp=plot(FMT.RAD.TimeS(FMT.RAD.RxErrors>0),FMT.RAD.RxErrors(FMT.RAD.RxErrors>0));
 fixed = plot(FMT.RAD.TimeS,FMT.RAD.Fixed);
 legend([distp,altp,errp,fixed],{'Dist. to Origin','Alt','Rx Err','Fixed Err'});
 
@@ -90,19 +120,30 @@ mstruct = defaultm('mercator');
 
 
 try 
-    mstruct.origin = [mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)) mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)) 0]; % TEMAC LOCATION
+    mstruct.origin = [mean(FMT.ORGN.Lat(FMT.ORGN.Lat>0)) mean(FMT.ORGN.Lng(FMT.ORGN.Lat>0)) 0]; %LOCATION
 catch
-    mstruct.origin = [FMT.POS.Lat(flying(1))  FMT.POS.Lng(flying(1)) 0]; % TEMAC LOCATION
+    mstruct.origin = [FMT.POS.Lat(flying(1))  FMT.POS.Lng(flying(1)) 0]; %LOCATION
 
 end
-mstruct.geoid = referenceEllipsoid('wgs84','meters');
-mstruct = defaultm(mstruct);
-[X,Y] = mfwdtran(mstruct,FMT.POS.Lat(FMT.POS.Lat~=0),FMT.POS.Lng(FMT.POS.Lat~=0));
 
-subplot(3,2,[2,4]);
 colormap(flipud(jet(100)));
 cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.POS.TimeS(FMT.POS.Lat~=0));
-cdata(isnan(cdata)) = 0.01; %replace nans with bad snr
+
+
+mstruct.geoid = referenceEllipsoid('wgs84','meters');
+mstruct = defaultm(mstruct);
+
+[X,Y] = mfwdtran(mstruct,FMT.POS.Lat(isnan(cdata)~=1),FMT.POS.Lng(isnan(cdata)~=1));
+
+% TLOG:
+% % [X,Y] = mfwdtran(mstruct,TLOG.lat_mavlink_global_position_int_t(:,2)./10000000,TLOG.lon_mavlink_global_position_int_t(:,2)./10000000);
+
+subplot(3,2,[2,4]);
+% TLOG:
+% % [C,ia,ic] =unique(tlog_radio_timeS);
+% % cdata = interp1(C,(rssi_local2(ia)./noise_local2(ia) + rssi_rem2(ia)./noise_rem2(ia))./2,(TLOG.time_boot_ms_mavlink_global_position_int_t(:,2)./1000));
+
+% cdata(isnan(cdata)) = 0.01; %replace nans with bad snr
 
 [RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
 [LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
@@ -111,7 +152,10 @@ cdata(isnan(cdata)) = 0.01; %replace nans with bad snr
 
 
 try
-pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-mean(mean(FMT.ORGN.Alt)),0.1./cdata+3,cdata,'filled');
+pxyz = scatter3(X,Y,FMT.POS.Alt(isnan(cdata)~=1)-mean(mean(FMT.ORGN.Alt)),0.1./cdata(isnan(cdata)~=1)+3,cdata(isnan(cdata)~=1),'filled');
+
+% TLOG:
+% pxyz = scatter3(X,Y,TLOG.alt_mavlink_global_position_int_t(:,2)./1000-mean(mean(FMT.ORGN.Alt)),0.1./cdata+3,cdata,'filled');
 catch
  pxyz = scatter3(X,Y,FMT.POS.Alt(FMT.POS.Lat~=0)-FMT.POS.Alt(flying(1)),ones(size(X)),cdata,'filled');   
 end
@@ -155,8 +199,8 @@ fademargin(:,2) = ((FMT.RAD.RemRSSI-FMT.RAD.RemNoise) )./2;
 rangetimes = 2.^(fademargin./6);
 distremain = rangetimes.* interp1(FMT.POS.TimeS(FMT.POS.Lat~=0),dist,FMT.RAD.TimeS);
 hold on
-plot(FMT.RAD.TimeS,distremain(:,1),'-b');
-plot(FMT.RAD.TimeS,distremain(:,2),'-r');
+plot(FMT.RAD.TimeS,distremain(distremain(:,1)>0,1),'-b');
+plot(FMT.RAD.TimeS,distremain(distremain(:,2)>0,2),'-r');
 ax = gca;
 ax.YAxis.Exponent = 0;
 legend('Dist','Dist Remote');

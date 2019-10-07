@@ -58,11 +58,11 @@ box on
 yyaxis right
 hold on
 
-Ip=plot(FMT.PIDR.TimeS,FMT.PIDR.I,'--k');
+Ip=plot(FMT.PIDR.TimeS,FMT.PIDR.I,'--r');
 ylabel('Integrator');
 legend([dem,ach,Ip],{'Demanded Roll','Achieved Roll','Roll Integrator'},'location','northwest')
 ax = gca;
-ax.YColor = 'k';
+ax.YColor = 'r';
 % set(gca,'XTickMode','manual');
 % datetick('x','HH:MM:SS')
 
@@ -119,10 +119,10 @@ ax.YColor = 'k';
 
 yyaxis right
 hold on
-Ip=plot(FMT.PIDP.TimeS,FMT.PIDP.I,'--k');
+Ip=plot(FMT.PIDP.TimeS,FMT.PIDP.I,'--r');
 axis tight
 ax = gca;
-ax.YColor = 'k';
+ax.YColor = 'r';
 ylabel('Integrator');
 
 legend([dem,ach,Ip],{'Demanded Pitch','Achieved Pitch','Pitch Integrator'},'location','northwest')

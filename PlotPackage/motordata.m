@@ -26,7 +26,7 @@ ax = gca;
 ax.YColor = 'k';
 yyaxis right
 alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
-ylabel('Altitude (m)');
+ylabel('Baro Altitude (m)');
 ax = gca;
 ax.YColor = 'b';
 axis tight
@@ -94,9 +94,9 @@ grid on
 box on
 
 linkaxes([s1,s2,s3],'x');
-try
-    xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
-catch
-    axis tight
-end
+% try
+%     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+% catch
+%     axis tight
+% end
 clear s1 s2 s3

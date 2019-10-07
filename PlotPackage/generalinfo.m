@@ -34,7 +34,7 @@ ax = gca;
 ax.YColor = 'k';
 yyaxis right
 alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
-ylabel('Altitude (m)');
+ylabel('Baro Altitude (m)');
 ax = gca;
 ax.YColor = 'b';
 axis tight

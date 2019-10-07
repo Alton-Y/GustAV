@@ -35,7 +35,11 @@ s3=subplot(4,1,3);
 hold on
 try
     yyaxis left
+    if isfield(FMT.PM,'LogDrop') == 1
 a=plot(FMT.PM.TimeS,FMT.PM.LogDrop,'.-k');
+    else
+        a=plot(FMT.DSF.TimeS,FMT.DSF.Dp,'.-k');
+    end
 ax = gca;
 ax.YColor = 'k';
 axis tight
@@ -76,11 +80,11 @@ box on
 axis tight
 ylim([0,4]);
 linkaxes([s1,s2,s3,s4],'x');
-try
-    xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
-catch
+% try
+%     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+% catch
 %  
-end
+% end
 clear s1 s2 s3
 
 end

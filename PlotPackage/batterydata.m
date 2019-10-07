@@ -57,7 +57,7 @@ else
         legend([v],{'Main Volt'},'location','northwest');
     end
 end
-
+ yyaxis left
 s2=subplot(3,1,2);
 hold on
 try
@@ -127,7 +127,7 @@ else
 end
 ylabel('mAh');
 axis tight
-s3.YLim(2) = s3.YLim(2)*2;
+% s3.YLim(2) = s3.YLim(2)*2;
 grid on
 box on
 
@@ -135,11 +135,11 @@ box on
 
 
 linkaxes([s1,s2,s3],'x');
-try
-xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
-catch
-    axis tight
-end
+% try
+% xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+% catch
+%     axis tight
+% end
 clear s1 s2 s3
 
 end

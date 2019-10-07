@@ -1,6 +1,6 @@
 function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT,TLOG)
 addpath('./PlotPackage')
-
+% 
 genfig=figure(1);
 generalinfo(INFO,FMT,GND,AVT,genfig);
 
@@ -12,7 +12,7 @@ RPcontrolexplore(INFO,FMT,GND,rollpitchcontrolfig);
 
 channelfig = figure(4);
 channeldata(INFO,FMT,GND,channelfig);
-
+% 
 ekffig = figure(5);
 ekfexplore(INFO,FMT,GND,ekffig);
 
@@ -42,3 +42,6 @@ airspeedexplore(INFO,FMT,airspeedfig);
 
 altfig = figure(14);
 altitudeexplore(INFO,FMT,altfig);
+
+logfig = figure(15);
+logging(INFO,FMT,TLOG,logfig);

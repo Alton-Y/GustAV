@@ -40,7 +40,7 @@ clear count
 %TimeS is reference to INFO.pixhawkstart so it will align with the current
 %dataflash
 
-timelocal = datenum(TLOG.onboard_control_sensors_enabled_mavlink_sys_status_t(:,1)) + 1 + (4/24) + (16.5/60/60/24);
+timelocal = datenum(TLOG.onboard_control_sensors_enabled_mavlink_sys_status_t(:,1)) - 1 + (4/24) + (16.5/60/60/24);
 timeS = (timelocal - INFO.pixhawkstart).*86400;
 
 
@@ -61,11 +61,12 @@ end
 % time_unix_usec_mavlink_system_time_t(:,2) is the pixhawk time when the
 % message was sent.
 
-
-t1 = datetime(datestr(TLOG.time_unix_usec_mavlink_system_time_t(:,1)));
+%posixtime converts to number of seconds since jan 1 1970
+%need to subtract a day here for some reason...
+t1 = datetime(datestr(TLOG.time_unix_usec_mavlink_system_time_t(:,1))) - days(1);
 t1.TimeZone = 'America/New_York';
 latency = (((posixtime(t1)-...
-    TLOG.time_unix_usec_mavlink_system_time_t(:,2).*1e-6)./86400)  +1).*86400; 
+    TLOG.time_unix_usec_mavlink_system_time_t(:,2).*1e-6)./86400)); 
 
 
 TLOG.time_s_latency(:,1) = TLOG.time_boot_ms_mavlink_system_time_t(:,2)./1000;
