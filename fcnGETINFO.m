@@ -37,7 +37,13 @@ if length(idxFlightStart) == length(idxFlightEnd)
     INFO.flight.endTimeLOCAL = INFO.pixhawkstart+FMT.STAT.TimeS(idxFlightEnd)./86400;
     INFO.flight.durationS = FMT.STAT.TimeS(idxFlightEnd) - FMT.STAT.TimeS(idxFlightStart);
 else
-    warning('Flight Log Mismatch.');
+    INFO.flight.startTimeS = FMT.STAT.TimeS(idxFlightStart(end));
+    INFO.flight.endTimeS = FMT.STAT.TimeS(idxFlightEnd(end));
+    INFO.flight.startTimeLOCAL = INFO.pixhawkstart+FMT.STAT.TimeS(idxFlightStart(end))./86400;
+    INFO.flight.endTimeLOCAL = INFO.pixhawkstart+FMT.STAT.TimeS(idxFlightEnd(end))./86400;
+    INFO.flight.durationS = FMT.STAT.TimeS(idxFlightEnd(end)) - FMT.STAT.TimeS(idxFlightStart(end));
+    
+    warning('Flight Log Mismatch. Using last flight times in log.');
     flagError = 1;
 end
 catch
