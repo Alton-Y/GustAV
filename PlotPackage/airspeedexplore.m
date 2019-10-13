@@ -71,7 +71,7 @@ arsp2p = plot(FMT.ASP2.TimeS, abs(FMT.ASP2.Airspeed.^2./FMT.ASP2.RawPress),'.--b
 
 box on
 grid on
-ylim([1.7 2.9]);
+ylim([1.7 3.1]);
 ylabel('AS Ratio');
 
 
@@ -86,6 +86,8 @@ end
 ax = gca;
 ax.YColor = 'r';
 ylabel('EAS2TAS Ratio');
+
+yyaxis left
 % tempK = FMT.BARO.GndTemp + 273.15 - (0.0065 .* FMT.BARO.Alt);
 % den = FMT.BARO.Press ./ (287.26 .* tempK)
 %%

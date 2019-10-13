@@ -4,7 +4,7 @@ function [] = motordata(INFO,FMT,fig)
 fig.Name = 'Motor Data';
 clf(fig);
 
-s1 = subplot(3,1,1);
+s1 = subplot(4,1,1);
 hold on
 
 %airspeed
@@ -37,7 +37,7 @@ grid on
 box on
 
 
-s2 = subplot(3,1,2);
+s2 = subplot(4,1,2);
 hold on
 
 %rpm
@@ -64,7 +64,7 @@ end
 grid on
 box on
 
-s3 =subplot(3,1,3);
+s3 =subplot(4,1,3);
 hold on
 
 %volts
@@ -93,7 +93,28 @@ legend([volt,amp],{'Voltage', 'Amperage'},'location','northwest')
 grid on
 box on
 
-linkaxes([s1,s2,s3],'x');
+
+s4 =subplot(4,1,4);
+hold on
+
+%power
+yyaxis left
+try
+    volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt.*FMT.BAT.Curr,'-k');
+catch
+volt=plot(FMT.CURR.TimeS,FMT.CURR.Volt*FMT.CURR.Curr,'-k');
+end
+ylabel('Electrical Power [W]');
+ax = gca;
+ax.YColor = 'k';
+
+axis tight
+legend([volt,amp],{'Power'},'location','northwest')
+grid on
+box on
+
+
+linkaxes([s1,s2,s3,s4],'x');
 % try
 %     xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 % catch
