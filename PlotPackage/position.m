@@ -71,8 +71,14 @@ axis tight
 %% XYZ 
 s2 = subplot(2,2,2);
 hold on
-pxyz = plot3(X,Y,Z,'k');
+
 pxyz2 = plot3(X2,Y2,Z2,'b');
+axis equal
+pylim = ylim;
+pxlim = xlim;
+pzlim = zlim;
+
+pxyz = plot3(X,Y,Z,'k');
 try
     pxyz3 = plot3(X3,Y3,Z3,'r');
 catch
@@ -87,10 +93,7 @@ plot3(cmdX(cmdAlt~=0),cmdY(cmdAlt~=0),cmdAlt(cmdAlt~=0)+homeAlt,'bd','LineWidth'
 catch
 end
 
-axis equal
-pylim = ylim;
-pxlim = xlim;
-pzlim = zlim;
+
 
     % Draw Runway
   
