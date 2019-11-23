@@ -99,8 +99,10 @@ hold on
 
 %power
 yyaxis left
+hold on
 try
     volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt.*FMT.BAT.Curr,'-k');
+%     plot(FMT.BAT.TimeS,smooth(FMT.BAT.Volt.*FMT.BAT.Curr,2000,'loess'),'-r')
 catch
 volt=plot(FMT.CURR.TimeS,FMT.CURR.Volt*FMT.CURR.Curr,'-k');
 end
@@ -108,11 +110,17 @@ ylabel('Electrical Power [W]');
 ax = gca;
 ax.YColor = 'k';
 
+yyaxis right
+plot(FMT.BAT.TimeS,FMT.BAT.EnrgTot,'-b');
+
+
 axis tight
 legend([volt,amp],{'Power'},'location','northwest')
 grid on
 box on
+ylabel('Wh');
 
+yyaxis left
 
 linkaxes([s1,s2,s3,s4],'x');
 % try

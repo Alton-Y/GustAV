@@ -25,7 +25,9 @@ axis tight
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-crt = plot(FMT.BARO.TimeS,FMT.BARO.CRt,'--b');
+hold on
+crt = plot(FMT.NKF1.TimeS,-FMT.NKF1.VD,'--b');
+ plot(FMT.NKF1.TimeS,smooth(-FMT.NKF1.VD,1000,'loess'),'-r');
 ylabel('Climb Rate (m/s)');
 ax = gca;
 ax.YColor = 'b';

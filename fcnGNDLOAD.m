@@ -1,13 +1,16 @@
 function GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles,version)
 %This funciton loads the CSV data from the weather station into the
 %corresponding .mat files.
-listing = weatherfiles;
+rawCSV = [];
+
 
 % leapSecs = 17;
 leapSecs = 18;
 
-rawCSV = [];
+listing = weatherfiles;
 fprintf('Loading %i Weather CSV Files.\n',length(weatherfiles));
+
+
 for num = 1:length(listing)
     
     filename = strcat(weatherpath,'/',listing{num});

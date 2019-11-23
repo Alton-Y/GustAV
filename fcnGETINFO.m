@@ -81,7 +81,7 @@ if flagError ~= 1
     for n = 1:length(INFO.flight.durationS)
         startLT = datestr(INFO.flight.startTimeLOCAL(n),'HH:MM:SS');
         endLT = datestr(INFO.flight.endTimeLOCAL(n),'HH:MM:SS');
-        durationmmss = datestr(INFO.flight.durationS(n)./86400,'MM:SS');
+        durationmmss = datestr(INFO.flight.durationS(n)./86400,'HH:MM:SS');
         try
             t1 = INFO.flight.startTimeS(n);
             t2 = INFO.flight.endTimeS(n);

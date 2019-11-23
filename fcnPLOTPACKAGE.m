@@ -1,47 +1,53 @@
-function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT,TLOG)
+function [] = fcnPLOTPACKAGE(INFO,FMT,GND,AVT,TLOG,TEMPLOG)
 addpath('./PlotPackage')
 % 
-genfig=figure(1);
-generalinfo(INFO,FMT,GND,AVT,genfig);
-
-windfig = figure(2);
-winddata(INFO,FMT,GND,AVT,windfig);
-
-rollpitchcontrolfig = figure(3);
-RPcontrolexplore(INFO,FMT,GND,rollpitchcontrolfig);
-
-channelfig = figure(4);
-channeldata(INFO,FMT,GND,channelfig);
+% genfig=figure(1);
+% generalinfo(INFO,FMT,GND,AVT,genfig);
 % 
-ekffig = figure(5);
-ekfexplore(INFO,FMT,GND,ekffig);
+% windfig = figure(2);
+% winddata(INFO,FMT,GND,AVT,windfig);
+% % % 
+% rollpitchcontrolfig = figure(3);
+% RPcontrolexplore(INFO,FMT,GND,rollpitchcontrolfig);
+% % 
+% channelfig = figure(4);
+% channeldata(INFO,FMT,GND,channelfig);
+% % 
+% ekffig = figure(5);
+% ekfexplore(INFO,FMT,GND,ekffig);
+% 
+% tecsfig = figure(6);
+% tecsexplore(INFO,FMT,GND,tecsfig);
 
-tecsfig = figure(6);
-tecsexplore(INFO,FMT,GND,tecsfig);
+% battfig = figure(7);
+% batterydata(INFO,FMT,GND,battfig);
+% 
+% posfig = figure(8);
+% position(INFO,FMT,GND,AVT,posfig);
 
-battfig = figure(7);
-batterydata(INFO,FMT,GND,battfig);
+% motorfig = figure(9);
+% motordata(INFO,FMT,motorfig);
 
-posfig = figure(8);
-position(INFO,FMT,GND,AVT,posfig);
+% telemfig = figure(10);
+% rssidata(INFO,FMT,TLOG,telemfig);
+% 
+% hardwarefig = figure(11);
+% hardware(INFO,FMT,TLOG,hardwarefig);
+% 
+% sysidfig = figure(12);
+% sysidexplore(INFO,FMT,sysidfig);
+% 
+% airspeedfig = figure(13);
+% airspeedexplore(INFO,FMT,airspeedfig);
+% 
+% altfig = figure(14);
+% altitudeexplore(INFO,FMT,altfig);
+% 
+% logfig = figure(15);
+% logging(INFO,FMT,TLOG,logfig);
 
-motorfig = figure(9);
-motordata(INFO,FMT,motorfig);
+% fig = figure(16)
+% batterydata2(INFO,FMT,GND,fig)
 
-telemfig = figure(10);
-rssidata(INFO,FMT,TLOG,telemfig);
-
-hardwarefig = figure(11);
-hardware(INFO,FMT,TLOG,hardwarefig);
-
-sysidfig = figure(12);
-sysidexplore(INFO,FMT,sysidfig);
-
-airspeedfig = figure(13);
-airspeedexplore(INFO,FMT,airspeedfig);
-
-altfig = figure(14);
-altitudeexplore(INFO,FMT,altfig);
-
-logfig = figure(15);
-logging(INFO,FMT,TLOG,logfig);
+% tempfig = figure(17)
+% tempdata(INFO,FMT,GND,TEMPLOG,tempfig);
