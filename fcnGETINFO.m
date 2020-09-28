@@ -59,9 +59,17 @@ ModeChange(:,3) = [diff(FMT.MODE.ModeNum);NaN]; %find diff between mode change
 ModeChange(:,4) = FMT.MODE.LineNo;%mode start line index
 ModeChange = ModeChange(ModeChange(:,3)~=0,:);
 %     ModeChange(:,5) = [ModeChange(2:end,4)-1;nan];
+try
 ModeChange(:,6) = [ModeChange(2:end,1)-1;FMT.STAT.TimeS(end)];
+catch
+    ModeChange(:,6) = [ModeChange(2:end,1)-1;FMT.BAT.TimeS(end)]; %for quad
+end
 % Segment Mode StartTimeUS EndTimeUS isArmed isFlying
+
+
 Modes = [(1:length(ModeChange(:,1)))',ModeChange(:,[2 1 6])];
+
+
 % end old code
 ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};
 ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};

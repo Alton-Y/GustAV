@@ -28,8 +28,8 @@ INFO.timezone = 0;
 % if you have the dataflash .mat path:
 
 % [INFO, FMT] = fcnFMTLOAD(INFO,'C:\Users\Bill\Documents\Mission Planner\logs\FIXED_WING\1\squeezetest.BIN-68525.mat');
-[INFO, FMT] = fcnFMTLOAD(INFO,'C:\Users\Bill\Desktop\dataflash\00000002.BIN-16524739.mat');
-
+[INFO, FMT] = fcnFMTLOAD(INFO,'C:\Users\Bill\Desktop\dataflash\00000006.BIN-169060.mat');
+% [INFO, FMT] = fcnFMTLOAD(INFO,'F:\APM\LOGS\00000001.BIN-41536.mat');
 %or if you want to load from the Flight folder:
 % [INFO, FMT] = fcnFMTLOAD(INFO,pixhawkpath,pixhawkfiles(10));
 
@@ -38,9 +38,11 @@ INFO.timezone = 0;
 %
 %ground station files
 
-GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(1),3);
+ GND = fcnGNDLOAD(INFO,weatherpath,weatherfiles(1),3);
+% GND = 'nan';
 
-TEMPLOG = fcnTEMPLOAD(INFO,temploggerpath,templogfiles(1));
+% TEMPLOG = fcnTEMPLOAD(INFO,temploggerpath,templogfiles(1));
+TEMPLOG = 'nan';
 
 % Aventch Files
 AVT = fcnAVTLOAD(INFO,aventechpath,aventechfiles(1));
@@ -64,8 +66,9 @@ syncFreq = 30;
 % syncDatenum holds the datenums of each synced datapoint 
 
 % syncDatenum =min(INFO.flight.startTimeLOCAL):1/syncFreq/86400:(10000 / 86400) + INFO.pixhawkstart;
-syncDatenum = (5000 / 86400) + INFO.pixhawkstart:1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
-% syncDatenum = min(INFO.flight.startTimeLOCAL):1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
+% syncDatenum = (5000 / 86400) + INFO.pixhawkstart:1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
+% syncDatenum = (5000 / 86400) + INFO.pixhawkstart:1/syncFreq/86400:(18000 / 86400) + INFO.pixhawkstart;
+syncDatenum = min(INFO.flight.startTimeLOCAL):1/syncFreq/86400:max(INFO.flight.endTimeLOCAL);
 % convert syncDatenum to TimeS for plotting
 % syncTimeS = (syncDatenum-INFO.pixhawkstart).*86400;
 % Sync FMT, GND, AVT to common syncDatenum
