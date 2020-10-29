@@ -15,7 +15,7 @@ try
     [X3,Y3,Z3] = mfwdtran(mstruct,FMT.GPS2.Lat,FMT.GPS2.Lng,FMT.GPS2.Alt);
 catch
 end
-[gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
+% [gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
 [RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
 [LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
 [RoadsX,RoadsY] = mfwdtran(mstruct,Field.Roads(:,2),Field.Roads(:,1));

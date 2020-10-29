@@ -10,7 +10,11 @@ hold on
 %airspeed
 yyaxis left
 % find primary sensor data
+try
 idxp = FMT.ARSP.Primary==0;
+catch
+    idxp = FMT.ARSP.Pri==0;
+end
 allspeed = nan(size(FMT.ARSP.Airspeed));
 allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
 try
@@ -42,9 +46,8 @@ hold on
 
 %rpm
 yyaxis left
-if isfield(FMT,'RPM')==1
-    rpm=plot(FMT.RPM.TimeS,FMT.RPM.rpm1,'.-k');
-end
+    rpm=plot(FMT.CESC.TimeS,FMT.CESC.RPM,'.-k');
+
 ylabel('RPM');
 ax = gca;
 ax.YColor = 'k';
@@ -70,18 +73,18 @@ hold on
 %volts
 yyaxis left
 try
-    volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt,'-k');
+    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage,'-k');
 catch
-volt=plot(FMT.CURR.TimeS,FMT.CURR.Volt,'-k');
+volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt,'-k');
 end
 ylabel('Volts');
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
 try
-   amp = plot(FMT.BAT.TimeS,FMT.BAT.Curr,'--b'); 
+   amp = plot(FMT.CESC.TimeS,FMT.CESC.Curr,'--b'); 
 catch
-amp = plot(FMT.CURR.TimeS,FMT.CURR.Curr,'--b');
+amp = plot(FMT.BAT.TimeS,FMT.BAT.Curr,'--b');
 end
 ylabel('Amps');
 ax = gca;
@@ -101,17 +104,17 @@ hold on
 yyaxis left
 hold on
 try
-    volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt.*FMT.BAT.Curr,'-k');
-%     plot(FMT.BAT.TimeS,smooth(FMT.BAT.Volt.*FMT.BAT.Curr,2000,'loess'),'-r')
+    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage.*FMT.CESC.Curr,'-k');
+    plot(FMT.CESC.TimeS,smooth(FMT.CESC.Voltage.*FMT.CESC.Curr,20,'loess'),'-r')
 catch
-volt=plot(FMT.CURR.TimeS,FMT.CURR.Volt*FMT.CURR.Curr,'-k');
+volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt*FMT.BAT.Curr,'-k');
 end
 ylabel('Electrical Power [W]');
 ax = gca;
 ax.YColor = 'k';
 
-yyaxis right
-plot(FMT.BAT.TimeS,FMT.BAT.EnrgTot,'-b');
+% yyaxis right
+% plot(FMT.BAT.TimeS,FMT.BAT.EnrgTot,'-b');
 
 
 axis tight

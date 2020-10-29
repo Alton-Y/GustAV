@@ -35,7 +35,7 @@ try
 % tfast = plot(AVT.ADP.TimeS,AVT.ADP.TempFast,'-.r');
 % tavt = plot(AVT.ADP.TimeS,AVT.ADP.Temp,'-r');
 catch
-legend([tgnd,tair_imu,tair_arsp,tfast,tavt],{'Temp GND','Temp Pix IMU',...
+legend([tgnd,tair_imu,tair_arsp],{'Temp GND','Temp Pix IMU',...
     'Temp Pix ARSP'},'location','northwest')
 end
 ylabel('Temp C')

@@ -4,7 +4,7 @@ function [] = rssidata(INFO,FMT,TLOG,fig)
 %the ground unit. In mission planner, local is the ground unit, rem is the
 %aircraft.
 load('Field.mat');
-warning('We are hiding 0 rssi data!')
+
 fig.Name = 'Telem RSSI Data';
 clf(fig);
 
@@ -32,10 +32,12 @@ s1 = subplot(3,2,1);
 hold on
 % 
 %%DATAFLASH:
-rssip = plot(FMT.RAD.TimeS(FMT.RAD.RSSI>0),FMT.RAD.RSSI(FMT.RAD.RSSI>0),'.b');
-remrssip = plot(FMT.RAD.TimeS(FMT.RAD.RemRSSI>0),FMT.RAD.RemRSSI(FMT.RAD.RemRSSI>0),'.r');
-noisep = plot(FMT.RAD.TimeS(FMT.RAD.Noise>0),FMT.RAD.Noise(FMT.RAD.Noise),'--b');
-remnoisep = plot(FMT.RAD.TimeS(FMT.RAD.RemNoise>0),FMT.RAD.RemNoise(FMT.RAD.RemNoise>0),'--r');
+cut = -1;
+warning('We are hiding 0 rssi data!')
+rssip = plot(FMT.RAD.TimeS(FMT.RAD.RSSI>cut),FMT.RAD.RSSI(FMT.RAD.RSSI>cut),'.b');
+remrssip = plot(FMT.RAD.TimeS(FMT.RAD.RemRSSI>cut),FMT.RAD.RemRSSI(FMT.RAD.RemRSSI>cut),'.r');
+noisep = plot(FMT.RAD.TimeS(FMT.RAD.Noise>cut),FMT.RAD.Noise(FMT.RAD.Noise>cut),'--b');
+remnoisep = plot(FMT.RAD.TimeS(FMT.RAD.RemNoise>cut),FMT.RAD.RemNoise(FMT.RAD.RemNoise>cut),'--r');
 
 %%TLOG:
 % rssip = plot(tlog_radio_timeS,rssi_rem2,'-b');

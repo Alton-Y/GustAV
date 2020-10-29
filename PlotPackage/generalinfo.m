@@ -13,7 +13,11 @@ hold on
 yyaxis left
 
 % find primary sensor data
+try
 idxp = FMT.ARSP.Primary==0;
+catch
+   idxp = FMT.ARSP.Pri==0; 
+end
 allspeed = nan(size(FMT.ARSP.Airspeed));
 allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
 try
