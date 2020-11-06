@@ -25,7 +25,7 @@ if isfield(FMT,'CUR2')==1 || isfield(FMT,'BAT2')==1
     axis tight
 
 yyaxis left
-s1.YLim(1) = s1.YLim(1)-diff(s1.YLim)/1.5;
+% s1.YLim(1) = s1.YLim(1)-diff(s1.YLim)/1.5;
 s1.YTick = t1a; %apply left axis y-tick
 else
     axis tight
@@ -40,7 +40,7 @@ if isfield(FMT,'CUR2')==1  || isfield(FMT,'BAT2')==1
     ylabel('Voltage [V]');
 end
 grid on
-grid minor
+% grid minor
 box on
 
 if isfield(FMT,'CUR2')==1 || isfield(FMT,'BAT2')==1

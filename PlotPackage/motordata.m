@@ -10,45 +10,10 @@ hold on
 %airspeed
 yyaxis left
 % find primary sensor data
-try
-idxp = FMT.ARSP.Primary==0;
-catch
-    idxp = FMT.ARSP.Pri==0;
-end
-allspeed = nan(size(FMT.ARSP.Airspeed));
-allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
-try
-    idxp2 = FMT.ASP2.Primary ==1;
-    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
-catch
-end
-
-arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
-ylabel('Airspeed (m/s)');
-axis tight
-ax = gca;
-ax.YColor = 'k';
-yyaxis right
-alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
-ylabel('Baro Altitude (m)');
-ax = gca;
-ax.YColor = 'b';
-axis tight
-% datetick('x','HH:MM:SS')
-axis tight
-legend([arsp,alt],{'Airspeed', 'Altitude'},'location','northwest')
+load=plot(FMT.CESC.TimeS,FMT.CESC.Pow,'.-k');
 grid on
 box on
-
-
-s2 = subplot(4,1,2);
-hold on
-
-%rpm
-yyaxis left
-    rpm=plot(FMT.CESC.TimeS,FMT.CESC.RPM,'.-k');
-
-ylabel('RPM');
+ylabel('Load %');
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
@@ -57,13 +22,20 @@ ylabel('PWM');
 ax = gca;
 ax.YColor = 'b';
 axis tight
+legend('Load','RC3OUT')
+
+s2 = subplot(4,1,2);
+hold on
+%rpm
+yyaxis left
+    rpm=plot(FMT.CESC.TimeS,FMT.CESC.RPM,'.-k');
+
+ylabel('RPM');
+
 % datetick('x','HH:MM:SS')
 axis tight
-if isfield(FMT,'RPM')==1
-    legend([rpm,thr],{'RPM','THR OUT'},'location','northwest')
-else
-    legend([thr],{'THR OUT'},'location','northwest')
-end
+
+    legend([rpm],{'RPM'},'location','northwest')
 grid on
 box on
 
@@ -104,12 +76,12 @@ hold on
 yyaxis left
 hold on
 try
-    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage.*FMT.CESC.Curr,'-k');
-    plot(FMT.CESC.TimeS,smooth(FMT.CESC.Voltage.*FMT.CESC.Curr,20,'loess'),'-r')
+    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage.*FMT.CESC.Curr,'-r');
+%     plot(FMT.CESC.TimeS,smooth(FMT.CESC.Voltage.*FMT.CESC.Curr,20,'loess'),'-r')
 catch
-volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt*FMT.BAT.Curr,'-k');
+
 end
-ylabel('Electrical Power [W]');
+volt2=plot(FMT.BAT.TimeS,FMT.BAT.Volt.*FMT.BAT.Curr,'-k');
 ax = gca;
 ax.YColor = 'k';
 
@@ -118,10 +90,10 @@ ax.YColor = 'k';
 
 
 axis tight
-legend([volt,amp],{'Power'},'location','northwest')
+legend([volt,volt2],{'Power ESC','Power Monitor'},'location','northwest')
 grid on
 box on
-ylabel('Wh');
+ylabel('Watts');
 
 yyaxis left
 

@@ -92,7 +92,7 @@ end
 
 box on
 grid on
-ylim([1.7 3.1]);
+ylim([1.7 4]);
 ylabel('AS Ratio');
 
 

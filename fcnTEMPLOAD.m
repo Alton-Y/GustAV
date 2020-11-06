@@ -17,7 +17,7 @@ for num = 1:length(listing)
     filename = strcat(temploggerpath,'/',listing{num});
     
     try
-        M = csvread(filename,1,0);
+        M = readmatrix(filename,'NumHeaderLines',1');
         N = zeros(length(M(:,1)),1)+num;
         fprintf('%s\n',listing{num});
     catch
@@ -168,14 +168,12 @@ end
 
 disp('Arduino Onboard Temp log')
 
-locations = ["28E94C04090000E9",...
-    "28688C0409000016",...
+locations = ["28E94C04090000E9",...    
     "288F600409000041",...
     "288A890409000083",...
     "2867630409000087"];
 
-names= ["Right Wing LE",...
-    "ESC",...
+names= ["Right Wing LE",...   
     "Nose",...
     "Battery Pack Right Wing",...
     "Battery Pack Left Wing"];
@@ -189,13 +187,13 @@ fclose(fid);
 
 TimeMS = rawCSV(:,1);
 
-offset = 218000; %offset between pixhawk start and arduino start in ms
+offset = 10000;%218000; %offset between pixhawk start and arduino start in ms
 TimeLOCAL = (TimeMS - offset)./1000./86400+ +INFO.pixhawkstart; %assume the logger was started when the pixhawk was started
 
 TEMPLOG.TimeLOCAL = TimeLOCAL;
 TEMPLOG.TimeS = (TEMPLOG.TimeLOCAL - INFO.pixhawkstart).*24.*3600;
 
-for count = 1:size(varNames,2)-2        
+for count = 1:size(locations,2)       
         TEMPLOG.Loc(1,count)= string(varNames(count+1));
         TEMPLOG.Name(1,count) = names(locations== TEMPLOG.Loc(1,count));
 end
@@ -204,6 +202,14 @@ end
 TEMPLOG.TempC = rawCSV(:,2:size(TEMPLOG.Loc,2)+1);
 TEMPLOG.TempF = convtemp(TEMPLOG.TempC, 'C','F') ;
 %
+TEMPLOG.MPPT.VOLT = rawCSV(:,12)./1000;
+TEMPLOG.MPPT.CURR = rawCSV(:,13)./1000;
+TEMPLOG.MPPT.VPV = rawCSV(:,14)./1000;
+TEMPLOG.MPPT.PPV = rawCSV(:,15)./100;
+TEMPLOG.MPPT.TEMPC = rawCSV(:,16)./100;
 
+TEMPLOG.CELL = rawCSV(:,6:11);
+
+TEMPLOG.CELLNAME = string(['CELL1';'CELL2';'CELL3';'CELL4';'CELL5';'CELL6'])';
 end
 
