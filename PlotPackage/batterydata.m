@@ -1,9 +1,9 @@
-function batterydata(INFO,FMT,GND,fig)
+function batterydata(INFO,FMT,GND,TEMPLOG,fig)
 fig.Name = 'Battery Data';
 clf(fig);
 
 
-s1=subplot(3,1,1);
+s1=subplot(4,1,1);
 hold on
 try
     v=plot(FMT.BAT.TimeS,FMT.BAT.Volt,'-k');
@@ -58,7 +58,7 @@ else
     end
 end
  yyaxis left
-s2=subplot(3,1,2);
+s2=subplot(4,1,2);
 hold on
 try
     a=plot(FMT.BAT.TimeS,FMT.BAT.Curr,'-k');
@@ -105,7 +105,7 @@ end
 
 
 
-s3=subplot(3,1,3);
+s3=subplot(4,1,3);
 hold on
 try
   a=plot(FMT.BAT.TimeS,FMT.BAT.CurrTot,'-k'); 
@@ -113,7 +113,7 @@ catch
 a=plot(FMT.CURR.TimeS,FMT.CURR.CurrTot,'-k');
 end
 s3.YLim(2) = s3.YLim(2)*1;
-
+ylabel('mAh');
 if isfield(FMT,'CUR2')==1 || isfield(FMT,'BAT2')==1
 yyaxis right
 try
@@ -132,9 +132,21 @@ grid on
 box on
 
 
-
-
-linkaxes([s1,s2,s3],'x');
+s4=subplot(4,1,4);
+hold on
+plot(FMT.BCL3.TimeS,FMT.BCL3.V1./1000,'.');
+plot(FMT.BCL3.TimeS,FMT.BCL3.V2./1000,'.');
+plot(FMT.BCL3.TimeS,FMT.BCL3.V3./1000,'.');
+plot(FMT.BCL3.TimeS,FMT.BCL3.V4./1000,'.');
+plot(FMT.BCL3.TimeS,FMT.BCL3.V5./1000,'.');
+plot(FMT.BCL3.TimeS,FMT.BCL3.V6./1000,'.');
+grid on
+box on
+ylim([2.7 4.3]);
+legend('Cell 1','Cell 2','Cell 3','Cell 4','Cell 5','Cell 6');
+ylabel('Voltage [V]');
+xlabel('Time [s]');
+linkaxes([s1,s2,s3,s4],'x');
 % try
 % xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
 % catch

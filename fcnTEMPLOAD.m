@@ -187,7 +187,7 @@ fclose(fid);
 
 TimeMS = rawCSV(:,1);
 
-offset = 10000;%218000; %offset between pixhawk start and arduino start in ms
+offset = 5000;%218000; %offset between pixhawk start and arduino start in ms
 TimeLOCAL = (TimeMS - offset)./1000./86400+ +INFO.pixhawkstart; %assume the logger was started when the pixhawk was started
 
 TEMPLOG.TimeLOCAL = TimeLOCAL;
