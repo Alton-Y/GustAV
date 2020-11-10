@@ -3,7 +3,7 @@ function [] = motordata(INFO,FMT,GND,TEMPLOG,fig)
 
 fig.Name = 'Charging Data';
 clf(fig);
-
+%%
 s1 = subplot(4,1,1);
 hold on
 
@@ -11,16 +11,17 @@ hold on
 
 % esc=plot(FMT.CESC.TimeS,FMT.CESC.Curr.*FMT.CESC.Voltage,'.b');
 draw=plot(FMT.BAT.TimeS,FMT.BAT.Curr.*FMT.BAT.Volt,'.r');
-%%
+
 
 % ppv2=plot(TEMPLOG.TimeS,TEMPLOG.MPPT.PPV,'.-m');
 ppv=plot(FMT.BAT3.TimeS,-(FMT.BAT3.Curr.*100 - fix(FMT.BAT3.Curr).*100).*4,'.k');
+mpptp=plot(FMT.BAT3.TimeS,FMT.BAT3.Volt.*fix((65534-FMT.BAT3.CurrTot)./100).*100./1000,'.b');
 grid on
 box on
 ylabel('Power [W]');
 
-legend([ppv,draw],{'MPPT-FMU','Total Load'})
-
+legend([ppv,mpptp,draw],{'MPPT-Solar','MPPT-Charge','Total Load'})
+%%
 s4 = subplot(4,1,4);
 discurr = interp1(FMT.BAT.TimeS,FMT.BAT.Curr,FMT.BAT3.TimeS)-...
     fix((65534-FMT.BAT3.CurrTot)/100)/10;
@@ -59,7 +60,8 @@ box on
 s2 = subplot(4,1,2);
 
 batpow=interp1(FMT.BAT.TimeS,(FMT.BAT.Curr.*FMT.BAT.Volt),FMT.BAT3.TimeS) -...
-    (-(FMT.BAT3.Curr.*100 - fix(FMT.BAT3.Curr).*100).*4);
+    FMT.BAT3.Volt.*fix((65534-FMT.BAT3.CurrTot)./100).*100./1000;
+%     (-(FMT.BAT3.Curr.*100 - fix(FMT.BAT3.Curr).*100).*4);
 batpowfig = plot(FMT.BAT3.TimeS,batpow,'.k');
 
 ylabel('[W]');

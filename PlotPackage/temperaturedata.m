@@ -14,9 +14,11 @@ mppt = plot(TEMPLOG.TimeS,TEMPLOG.MPPT.TEMPC,'.');
 
 a = cellstr(TEMPLOG.Name);
 a{end+1} = 'MPPT';
-legend([temps;mppt],a)
+legend([temps;mppt],a,'Location','best')
+
 ylabel('Temp C');
 axis tight
+ylim([0 30]);
 % datetick('x','HH:MM:SS')
 % legend([pgnd,palt],{'Pressure GND','Pressure Pixhawk'},'location','northwest')
 grid on

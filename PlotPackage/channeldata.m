@@ -18,7 +18,7 @@ end
 allspeed = nan(size(FMT.ARSP.Airspeed));
 allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
 try
-    idxp2 = FMT.ASP2.Primary ==1;
+    idxp2 = FMT.ASP2.Pri ==1;
     allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
 catch
 end
