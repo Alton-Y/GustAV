@@ -133,19 +133,43 @@ box on
 
 
 s4=subplot(4,1,4);
-hold on
-plot(FMT.BCL3.TimeS,FMT.BCL3.V1./1000,'.');
-plot(FMT.BCL3.TimeS,FMT.BCL3.V2./1000,'.');
-plot(FMT.BCL3.TimeS,FMT.BCL3.V3./1000,'.');
-plot(FMT.BCL3.TimeS,FMT.BCL3.V4./1000,'.');
-plot(FMT.BCL3.TimeS,FMT.BCL3.V5./1000,'.');
-plot(FMT.BCL3.TimeS,FMT.BCL3.V6./1000,'.');
-grid on
-box on
-ylim([2.7 4.3]);
-legend('Cell 1','Cell 2','Cell 3','Cell 4','Cell 5','Cell 6');
-ylabel('Voltage [V]');
-xlabel('Time [s]');
+% % hold on
+% % try
+% %     %altons format for dataflash:
+% % for i= 1:size(FMT.BCL3.V1,1)
+% % %     cell(i,1) = bi2de((bitget(FMT.BCL3.V1(i),8:-1:1)));
+% % celld(i,1) = bi2de((bitget(FMT.BCL3.V1(i),1:1:8)))+220;
+% % celld(i,2) = bi2de((bitget(FMT.BCL3.V1(i),9:1:16)))+220;    
+% % end
+% % figure
+% % clf
+% % hold on
+% % plot(FMT.BCL3.TimeLOCAL-(4/24),celld(:,1),'.')
+% % plot(FMT.BCL3.TimeLOCAL-(4/24),celld(:,2),'.')
+% % 
+% % 
+% % 
+% % 
+% % 
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V2./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V3./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V4./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V5./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V6./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V1./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V2./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V3./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V4./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V5./1000,'.');
+% % % plot(FMT.BCL3.TimeS,FMT.BCL3.V6./1000,'.');
+% % grid on
+% % box on
+% % % ylim([2.7 4.3]);
+% % legend('Cell 1','Cell 2');
+% % catch
+% % end
+% % ylabel('Voltage [V]');
+% % xlabel('Time [s]');
 linkaxes([s1,s2,s3,s4],'x');
 % try
 % xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);

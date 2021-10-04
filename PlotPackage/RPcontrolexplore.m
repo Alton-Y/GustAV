@@ -18,7 +18,7 @@ ax.YColor = 'k';
 yyaxis right
 hold on
 try
-    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.P(FMT.ATRP.Type == 0),'-k');
+    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 0),FMT.ATRP.P(FMT.ATRP.Type == 0),'.-m');
 %     i=plot(FMT.PIDR.TimeS,FMT.PIDR.P,'--r');
     legend([dem,ach,p],{'Demanded Roll Rate','Achieved Roll Rate','P Gain'},'location','northwest')
 catch
@@ -82,7 +82,7 @@ ax = gca;
 ax.YColor = 'k';
 yyaxis right
 try
-    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.P(FMT.ATRP.Type == 1),'-k');
+    p=plot(FMT.ATRP.TimeS(FMT.ATRP.Type == 1),FMT.ATRP.P(FMT.ATRP.Type == 1),'.-m');
     legend([dem,ach,p],{'Demanded Pitch Rate','Achieved Pitch Rate','P Gain'},'location','northwest')
 catch
 end

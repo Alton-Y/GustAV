@@ -157,7 +157,7 @@ else %if version is 3 - Since APR 2017
     idxP = rawCSV(:,6) > 0;
     % Combine filters
     idx = and(and(idxW,idxT),idxP);
-    
+    Light = rawCSV(idx,8);
     Humidity = rawCSV(idx,4);
     Temp = convtemp(rawCSV(idx,5), 'F','C');
     Pressure = rawCSV(idx,6);
@@ -167,7 +167,7 @@ else %if version is 3 - Since APR 2017
     %TimeMS(79)
     TimeLOCAL = (TimeMS-SyncBoardTime)./1000./86400+SyncSatTime + leapSecs./86400;
     
-
+    GND.ATMO.Irradience_Horizontal = Light;
     GND.ATMO.TimeLOCAL = TimeLOCAL;
     GND.ATMO.TimeS = (GND.ATMO.TimeLOCAL - INFO.pixhawkstart).*24.*3600;
     GND.ATMO.Humidity = Humidity;

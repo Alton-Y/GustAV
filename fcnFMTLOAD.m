@@ -45,6 +45,11 @@ INFO.pixhawkstart = pixhawkstart;
 FMT.Seen = Seen;
 FMT.PARM = PARM;
 
+%sometimes it is loaded as CESC_2 but we want CESC
+if exist('CESC_2','var') == 1
+    CESC = CESC_2;
+end
+    
 for i = 1:length(varList)
     %     if exist(varList{i}) == 1 % check if label exists but main array doesn't
     try
