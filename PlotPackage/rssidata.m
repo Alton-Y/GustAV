@@ -92,7 +92,7 @@ legend([distp,altp,errp,fixed],{'Dist. to Origin','Alt','Rx Err','Fixed Err'});
 s3 = subplot(3,2,5);
 yyaxis left
 hold on
-txp=plot(FMT.RAD.TimeS,100-FMT.RAD.TxBuf); % FMT.RAD.TxBuf: percentage of buffer not used
+txp=plot(FMT.RAD.TimeS,FMT.RAD.TxBuf); % FMT.RAD.TxBuf: number of bytes in radio ready to be sent
 
 grid on
 box on
@@ -129,7 +129,7 @@ catch
 end
 
 colormap(flipud(jet(100)));
-cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise + FMT.RAD.RemRSSI./FMT.RAD.RemNoise)./2,FMT.POS.TimeS(FMT.POS.Lat~=0));
+cdata = interp1(FMT.RAD.TimeS,(FMT.RAD.RSSI./FMT.RAD.Noise),FMT.POS.TimeS(FMT.POS.Lat~=0));
 
 
 mstruct.geoid = referenceEllipsoid('wgs84','meters');
