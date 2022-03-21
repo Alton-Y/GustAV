@@ -13,7 +13,11 @@ function [ SYNCFMT ] = fcnSYNC( FMT, plotDatenumArray, interpMethod, mode )
         % Handle .Seen and .PARM differently as they are not timebased parameters
         SYNCFMT.Seen = FMT.Seen;
         SYNCFMT.PARM = FMT.PARM;
-        SYNCFMT.STRT = FMT.STRT;
+        
+        try
+        SYNCFMT.STRT = FMT.STRT;   %strt is old and not used anymore     
+        catch
+        end
         SYNCFMT.ORGN = FMT.ORGN;
     end
     
