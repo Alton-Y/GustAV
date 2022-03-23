@@ -10,7 +10,9 @@ hold on
 %airspeed
 yyaxis left
 % find primary sensor data
-load=plot(FMT.CESC.TimeS,FMT.CESC.Pow,'.-k');
+try
+load=plot(FMT.ESC(3).TimeS,FMT.ESC(3).Pow,'.-k');
+end
 grid on
 box on
 ylabel('Load %');
@@ -28,7 +30,9 @@ s2 = subplot(4,1,2);
 hold on
 %rpm
 yyaxis left
-    rpm=plot(FMT.CESC.TimeS,FMT.CESC.RPM,'.-k');
+rpmclean = FMT.ESC(3).RPM;
+rpmclean(rpmclean>20000) = rpmclean(rpmclean>20000)-65535;
+    rpm=plot(FMT.ESC(3).TimeS,rpmclean,'.-k');
 
 ylabel('RPM');
 
@@ -44,27 +48,27 @@ hold on
 
 %volts
 yyaxis left
-try
-    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage,'-k');
-catch
-volt=plot(FMT.BAT.TimeS,FMT.BAT.Volt,'-k');
-end
+hold on
+    volt=plot(FMT.ESC(3).TimeS,FMT.ESC(3).Volt,'-k');
+
+volt2=plot(FMT.BAT(1).TimeS,FMT.BAT(1).Volt,'-.k');
+
 ylabel('Volts');
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-try
-   amp = plot(FMT.CESC.TimeS,FMT.CESC.Curr,'--b'); 
-catch
-amp = plot(FMT.BAT.TimeS,FMT.BAT.Curr,'--b');
-end
+hold on
+   amp = plot(FMT.ESC(3).TimeS,FMT.ESC(3).Curr,'--b'); 
+
+amp2 = plot(FMT.BAT(1).TimeS,FMT.BAT(1).Curr,'-.b');
+
 ylabel('Amps');
 ax = gca;
 ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 axis tight
-legend([volt,amp],{'Voltage', 'Amperage'},'location','northwest')
+legend([volt,volt2,amp,amp2],{'Volt ESC','Volt BAT','Curr ESC','Curr BAT'},'location','northwest')
 grid on
 box on
 
@@ -76,12 +80,12 @@ hold on
 yyaxis left
 hold on
 try
-    volt=plot(FMT.CESC.TimeS,FMT.CESC.Voltage.*FMT.CESC.Curr,'-r');
+    volt3=plot(FMT.ESC(3).TimeS,FMT.ESC(3).Volt.*FMT.ESC(3).Curr,'-r');
 %     plot(FMT.CESC.TimeS,smooth(FMT.CESC.Voltage.*FMT.CESC.Curr,20,'loess'),'-r')
 catch
 
 end
-volt2=plot(FMT.BAT.TimeS,FMT.BAT.Volt.*FMT.BAT.Curr,'-k');
+volt4=plot(FMT.BAT(1).TimeS,FMT.BAT(1).Volt.*FMT.BAT(1).Curr,'-k');
 ax = gca;
 ax.YColor = 'k';
 
@@ -90,7 +94,7 @@ ax.YColor = 'k';
 
 
 axis tight
-legend([volt,volt2],{'Power ESC','Power Monitor'},'location','northwest')
+legend([volt3,volt4],{'Power ESC','Power Monitor'},'location','northwest')
 grid on
 box on
 ylabel('Watts');

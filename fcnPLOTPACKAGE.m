@@ -6,7 +6,7 @@ generalinfo(INFO,FMT,GND,AVT,genfig);
 
 windfig = figure(2);
 winddata(INFO,FMT,GND,AVT,windfig);
-% 
+ 
 rollpitchcontrolfig = figure(3);
 RPcontrolexplore(INFO,FMT,GND,rollpitchcontrolfig);
 
@@ -28,14 +28,14 @@ position(INFO,FMT,GND,AVT,posfig);
 motorfig = figure(9);
 motordata(INFO,FMT,motorfig);
 
-telemfig = figure(10);
-rssidata(INFO,FMT,TLOG,telemfig);
+% telemfig = figure(10);
+% rssidata(INFO,FMT,TLOG,telemfig);
 
 hardwarefig = figure(11);
 hardware(INFO,FMT,TLOG,hardwarefig);
 
-sysidfig = figure(12);
-sysidexplore(INFO,FMT,sysidfig);
+% sysidfig = figure(12);
+% sysidexplore(INFO,FMT,sysidfig);
 
 airspeedfig = figure(13);
 airspeedexplore(INFO,FMT,airspeedfig);
@@ -46,8 +46,8 @@ altitudeexplore(INFO,FMT,altfig);
 logfig = figure(15);
 logging(INFO,FMT,TLOG,logfig);
 
-fig = figure(16)
-batterydata2(INFO,FMT,GND,fig)
+% fig = figure(16)
+% batterydata2(INFO,FMT,GND,fig)
 % 
 temperaturefig = figure(17)
 temperaturedata(INFO,FMT,GND,TEMPLOG,temperaturefig);

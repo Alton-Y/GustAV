@@ -23,16 +23,22 @@ function [ SYNCFMT ] = fcnSYNC( FMT, plotDatenumArray, interpMethod, mode )
     
     for n = 1:length(fn)
         try
+
             fn2 = fieldnames(FMT.(fn{n}));
             for j = 1:length(fn2)
 
                 
                 
                 if isempty(strfind(fn2{j},'Time')) == 1
-                    SYNCFMT.(fn{n}).(fn2{j}) = [interp1(FMT.(fn{n}).TimeLOCAL,FMT.(fn{n}).(fn2{j}),plotDatenumArray,interpMethod,NaN)]';
-                    
+                    for kk = 1:size(FMT.(fn{n}),2)
+                        try
+                            SYNCFMT.(fn{n})(kk).(fn2{j}) = [interp1(FMT.(fn{n})(kk).TimeLOCAL,FMT.(fn{n})(kk).(fn2{j}),plotDatenumArray,interpMethod,NaN)]';
+                        end
+                    end
                     if strcmp(fn{n},'MODE') == 1
-                        SYNCFMT.(fn{n}).(fn2{j}) = [interp1(FMT.(fn{n}).TimeLOCAL,FMT.(fn{n}).(fn2{j}),plotDatenumArray,'previous','extrap')]';
+                        try
+                            SYNCFMT.(fn{n}).(fn2{j}) = [interp1(FMT.(fn{n}).TimeLOCAL,FMT.(fn{n}).(fn2{j}),plotDatenumArray,'previous','extrap')]';
+                        end
                     end
                     
                 end
@@ -40,7 +46,7 @@ function [ SYNCFMT ] = fcnSYNC( FMT, plotDatenumArray, interpMethod, mode )
             end
         catch
             %         n
-            %         fn{n}
+%                     fn{n}
         end
     end
     

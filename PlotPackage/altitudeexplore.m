@@ -7,8 +7,13 @@ clf(fig);
 
 a(1) = subplot(1,3,1);
 hold on
-plot(FMT.BARO.TimeS,FMT.BARO.Alt)
+plot(FMT.BARO(1).TimeS,FMT.BARO(1).Alt)
+if isfield(FMT,'NKF1')
 plot(FMT.NKF1.TimeS,-FMT.NKF1.PD)
+else 
+   plot(FMT.XKF1(1).TimeS,-FMT.XKF1(1).PD)
+ 
+end
 plot(FMT.POS.TimeS,FMT.POS.RelHomeAlt,'--')
 plot(FMT.POS.TimeS,FMT.POS.RelOriginAlt,'--')
 try
@@ -23,7 +28,7 @@ box on
 
 a(2) = subplot(1,3,2)
 hold on
-plot(FMT.GPS.TimeS,FMT.GPS.Alt)
+plot(FMT.GPS(1).TimeS,FMT.GPS(1).Alt)
 plot(FMT.POS.TimeS,FMT.POS.Alt)
 plot(FMT.AHR2.TimeS,FMT.AHR2.Alt)
 
@@ -35,10 +40,20 @@ legend('GPS','POS','AHR2','EKF ORIGIN','AHRS HOME')
 
 a(3) = subplot(1,3,3)
 hold on
+
+if isfield(FMT,'NKF4')
 plot(FMT.NKF4.TimeS,FMT.NKF4.FS,'.') %faults
 plot(FMT.NKF4.TimeS,FMT.NKF4.TS,'.') %timeout
 plot(FMT.NKF4.TimeS,FMT.NKF4.SS,'.') %solution status
 plot(FMT.NKF4.TimeS,FMT.NKF4.GPS,'.') %gps status
+
+else
+  plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).FS,'.') %faults
+plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).TS,'.') %timeout
+plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).SS,'.') %solution status
+plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).GPS,'.') %gps status  
+    
+end
 legend('Fault','Timeout','Solution','GPS');
 grid on
 box on

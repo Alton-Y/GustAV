@@ -9,10 +9,10 @@ mstruct = defaultm('mercator');
 mstruct.origin = [43.9534 -79.3207 0]; % TEMAC LOCATION
 mstruct.geoid = referenceEllipsoid('wgs84','meters');
 mstruct = defaultm(mstruct);
-[X,Y,Z] = mfwdtran(mstruct,FMT.GPS.Lat,FMT.GPS.Lng,FMT.GPS.Alt);
+[X,Y,Z] = mfwdtran(mstruct,FMT.GPS(1).Lat,FMT.GPS(1).Lng,FMT.GPS(1).Alt);
 [X2,Y2,Z2] = mfwdtran(mstruct,FMT.POS.Lat,FMT.POS.Lng,FMT.POS.Alt);
 try
-    [X3,Y3,Z3] = mfwdtran(mstruct,FMT.GPS2.Lat,FMT.GPS2.Lng,FMT.GPS2.Alt);
+    [X3,Y3,Z3] = mfwdtran(mstruct,FMT.GPS(2).Lat,FMT.GPS(2).Lng,FMT.GPS(2).Alt);
 catch
 end
 % [gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
@@ -29,10 +29,10 @@ end
 %% nsats
 s(1) = subplot(2,2,1);
 
-gpsp = plot(FMT.GPS.TimeS,FMT.GPS.NSats,'k');
+gpsp = plot(FMT.GPS(1).TimeS,FMT.GPS(1).NSats,'k');
 try
     hold on
-    gps2p = plot(FMT.GPS2.TimeS,FMT.GPS2.NSats,'r');
+    gps2p = plot(FMT.GPS(2).TimeS,FMT.GPS(2).NSats,'r');
 catch
 end
 
@@ -50,17 +50,17 @@ axis tight
 %% hdop
 s(2) = subplot(2,2,3);
 
-gpsp = plot(FMT.GPS.TimeS,FMT.GPS.HDop,'k');
+gpsp = plot(FMT.GPA(1).TimeS,FMT.GPA(1).HAcc	,'k');
 try
     hold on
-    gps2p = plot(FMT.GPS2.TimeS,FMT.GPS2.HDop,'r');
+    gps2p = plot(FMT.GPA(2).TimeS,FMT.GPA(2).HAcc,'r');
 catch
 end
 
 grid on
 box on
 
-ylabel('HDop');
+ylabel('HAcc');
 try
 legend([gpsp,gps2p],{'GPS1','GPS2'});
 catch
@@ -98,10 +98,10 @@ end
     % Draw Runway
   
 hold on
-plot3(RwyX,RwyY,repmat(homeAlt,length(RwyX)),'-k','Color',[0.2 0.2 0.2]);
-plot3(LineX,LineY,repmat(homeAlt,length(LineX)),'--r');
-plot3(RoadsX,RoadsY,repmat(homeAlt,length(RoadsX)),'--','Color',[0.5 0.5 0.5]);
-plot3(TreesX,TreesY,repmat(homeAlt,length(TreesX)),'--','Color',[0.5 0.5 0.5]);
+% plot3(RwyX,RwyY,repmat(homeAlt,length(RwyX)),'-k','Color',[0.2 0.2 0.2]);
+% plot3(LineX,LineY,repmat(homeAlt,length(LineX)),'--r');
+% plot3(RoadsX,RoadsY,repmat(homeAlt,length(RoadsX)),'--','Color',[0.5 0.5 0.5]);
+% plot3(TreesX,TreesY,repmat(homeAlt,length(TreesX)),'--','Color',[0.5 0.5 0.5]);
 axis equal
 
 
@@ -124,10 +124,10 @@ end
 %%
 s(3) = subplot(2,2,4) 
 hold on
-use = plot(FMT.GPS.TimeS,FMT.GPS.U,'k')
+use = plot(FMT.GPS(1).TimeS,FMT.GPS(1).U,'k')
 
 try
-    use2 = plot(FMT.GPS2.TimeS,FMT.GPS2.U,'r');
+    use2 = plot(FMT.GPS(2).TimeS,FMT.GPS(2).U,'r');
 catch
     warning('Only 1 GPS in log file');
 end

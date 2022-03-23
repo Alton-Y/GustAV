@@ -10,28 +10,22 @@ hold on
 %airspeed
 yyaxis left
 % find primary sensor data
-try
-idxp = FMT.ARSP.Primary==0;
-catch
-    idxp = FMT.ARSP.Pri==0;
-end
-allspeed = nan(size(FMT.ARSP.Airspeed));
-allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
-try
-    idxp2 = FMT.ASP2.Pri ==1;
-    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
-catch
-end
 
-arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
+
+arsp = plot(FMT.CTUN.TimeS,FMT.CTUN.As,'.-k');
 ylabel('Airspeed (m/s)');
 axis tight
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
 hold on
-crt = plot(FMT.NKF1.TimeS,-FMT.NKF1.VD,'--b');
- plot(FMT.NKF1.TimeS,smooth(-FMT.NKF1.VD,1000,'loess'),'-r');
+if isfield(FMT,'NKF1')
+    crt = plot(FMT.NKF1.TimeS,-FMT.NKF1.VD,'--b');
+    plot(FMT.NKF1.TimeS,smooth(-FMT.NKF1.VD,1000,'loess'),'-r');
+else
+    crt = plot(FMT.XKF1(1).TimeS,-FMT.XKF1(1).VD,'--b');
+    plot(FMT.XKF1(1).TimeS,smooth(-FMT.XKF1(1).VD,1000,'loess'),'-r');
+end
 ylabel('Climb Rate (m/s)');
 ax = gca;
 ax.YColor = 'b';

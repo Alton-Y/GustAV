@@ -17,37 +17,26 @@ s2=subplot(4,1,2);
 hold on
 
 % find primary sensor data
-try
-idxp = FMT.ARSP.Primary==0;
-catch
-  idxp = FMT.ARSP.Pri==0;  
-end
-allspeed = nan(size(FMT.ARSP.Airspeed));
-allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
-try
-    idxp2 = FMT.ASP2.Primary ==1;
-    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
-catch
-end
+raw = plot(FMT.ARSP(1).TimeS(FMT.ARSP(1).Pri==0),FMT.ARSP(1).Airspeed(FMT.ARSP(1).Pri==0),'.-k');
+raw2 = plot(FMT.ARSP(2).TimeS(FMT.ARSP(1).Pri==1),FMT.ARSP(2).Airspeed(FMT.ARSP(2).Pri==1),'.m');
 
-raw = plot(FMT.ARSP.TimeS,allspeed,'.-k');
-legend([raw],'RAW EAS');
+avg = plot(FMT.CTUN.TimeS,FMT.CTUN.As,'.-g');
+legend([raw,avg],{'RAW EAS','EAS'},'location','northwest');
+
 try
-avg = plot(FMT.CTUN.TimeS,FMT.CTUN.Aspd,'.-g');
-legend([raw,avg],{'RAW EAS','ARSPD EST'},'location','northwest');
-catch
-end
-try
-demtas=plot(FMT.TECS.TimeS,FMT.TECS.spdem,'-k');
+demtas=plot(FMT.TECS.TimeS,FMT.TECS.spdem,'-r');
 tas=plot(FMT.TECS.TimeS,FMT.TECS.sp,'.--b');
-legend([raw,avg,tas,demtas],{'RAW EAS','ARSPD EST','TAS Filt','Dem TAS'});
+legend([raw,avg,tas,demtas],{'RAW EAS','EAS','TAS Filt','Dem TAS'});
 catch
 end
 
 try
-rat = FMT.TECS.sp./interp1(FMT.CTUN.TimeS,FMT.CTUN.Aspd,FMT.TECS.TimeS);
-demeas = plot(FMT.TECS.TimeS,FMT.TECS.spdem./rat,'--');
-legend([raw,avg,tas,demtas,demeas],{'RAW EAS','ARSPD EST','TAS Filt','Dem TAS','Dem EAS'});
+    
+% rat = FMT.TECS.sp./interp1(FMT.CTUN.TimeS,FMT.CTUN.As,FMT.TECS.TimeS);
+rat = interp1(FMT.CTUN.TimeS,FMT.CTUN.E2T,FMT.TECS.TimeS);
+demeas = plot(FMT.TECS.TimeS,FMT.TECS.spdem./rat,'--r');
+
+legend([raw,avg,tas,demtas,demeas],{'RAW EAS','EAS','TAS Filt','Dem TAS','Dem EAS'});
 catch
 end
 % yyaxis right 
@@ -91,10 +80,13 @@ ylabel('Pitch Angle (deg)')
 
 s4=subplot(4,1,4);
 hold on
+try
 notes=plot(FMT.TECS.TimeS,FMT.TECS.f,'*k');
 
 legend([notes],{'TECS FLAG'},'location','northwest');
 ylabel('FLAG');
+catch
+end
 axis tight
 grid on
 box on

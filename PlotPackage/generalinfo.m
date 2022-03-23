@@ -12,23 +12,10 @@ hold on
 %airspeed
 yyaxis left
 
-% find primary sensor data
-try
-idxp = FMT.ARSP.Primary==0;
-catch
-   idxp = FMT.ARSP.Pri==0; 
-end
-allspeed = nan(size(FMT.ARSP.Airspeed));
-allspeed(idxp) =FMT.ARSP.Airspeed(idxp);
-try
-    idxp2 = FMT.ASP2.Primary ==1;
-    allspeed(idxp2) =FMT.ASP2.Airspeed(idxp2);
-catch
-end
 
-arsp = plot(FMT.ARSP.TimeS,allspeed,'.-k');
+arsp = plot(FMT.CTUN.TimeS,FMT.CTUN.As,'.-k');
 
-arsp_g = plot(FMT.GPS.TimeS,FMT.GPS.Spd,'--g');
+arsp_g = plot(FMT.GPS(1).TimeS,FMT.GPS(1).Spd,'--g');
 % arsp_avt = plot(AVT.OUT.TimeS, AVT.OUT.ARSP, '-r');
 
 
@@ -37,14 +24,14 @@ ylabel('Airspeed (m/s)');
 ax = gca;
 ax.YColor = 'k';
 yyaxis right
-alt = plot(FMT.BARO.TimeS,FMT.BARO.Alt,'--b');
-ylabel('Baro Altitude (m)');
+alt = plot(FMT.POS.TimeS,FMT.POS.RelHomeAlt,'--b');
+ylabel('AGL Altitude (m)');
 ax = gca;
 ax.YColor = 'b';
 axis tight
 % datetick('x','HH:MM:SS')
 
-    legend([arsp,arsp_g,alt],{'Pixhawk Airspeed',  'Pixhawk GPS Speed', 'Altitude'},'location','northwest')
+    legend([arsp,arsp_g,alt],{'Pixhawk Airspeed',  'Pixhawk GPS Speed', 'RelHomeAlt'},'location','northwest')
 
 
 grid on
@@ -56,7 +43,7 @@ hold on
 %yaw
 yaw=plot(FMT.ATT.TimeS,FMT.ATT.Yaw,'-k');
 %track
-track = plot(FMT.GPS.TimeS,FMT.GPS.GCrs,'--b');
+track = plot(FMT.GPS(1).TimeS,FMT.GPS(1).GCrs,'--b');
 legend([yaw,track],{'Heading','Track'},'location','northwest')
 ylabel('Direction (deg)')
 axis tight

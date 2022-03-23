@@ -9,14 +9,14 @@ clf(fig);
 s(1) = subplot(5,1,1);
 hold on
 
-arsp = plot(FMT.ARSP.TimeS, FMT.ARSP.Airspeed,'.-k');
+arsp = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).Airspeed,'.-k');
 try
-arsp2 = plot(FMT.ASP2.TimeS, FMT.ASP2.Airspeed,'.--b');
+arsp2 = plot(FMT.ARSP(2).TimeS, FMT.ARSP(2).Airspeed,'.--b');
 catch
     warning('Only one airspeed sensor in data');
 end
 
-avg = plot(FMT.CTUN.TimeS,FMT.CTUN.Aspd,'.-g');
+avg = plot(FMT.CTUN.TimeS,FMT.CTUN.As,'.-g');
 try
 legend([arsp,arsp2,avg],{'Sensor 0','Sensor 1','Airspeed Est'});
 catch
@@ -35,12 +35,12 @@ grid on
 s(2) = subplot(5,1,2);
 hold on
 
-temp = plot(FMT.ARSP.TimeS, FMT.ARSP.Temp,'-k');
+temp = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).Temp,'-k');
 try
-temp2 = plot(FMT.ASP2.TimeS, FMT.ASP2.Temp,'--b');
+temp2 = plot(FMT.ARSP(2).TimeS, FMT.ARSP(2).Temp,'--b');
 catch
 end
-gndtmp = plot(FMT.BARO.TimeS, FMT.BARO.GndTemp,'--r');
+gndtmp = plot(FMT.BARO(1).TimeS, FMT.BARO(1).GndTemp,'.r');
 try
 legend([temp,temp2,gndtmp],{'Sensor 0','Sensor 1','GND TEM'});
 catch
@@ -54,9 +54,9 @@ grid on
 s(3) = subplot(5,1,3);
 yyaxis left
 hold on
-arsph = plot(FMT.ARSP.TimeS, FMT.ARSP.Health,'+-k');
+arsph = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).H,'+-k');
 try
-arsp2h = plot(FMT.ASP2.TimeS, FMT.ASP2.Health,'+--b');
+arsp2h = plot(FMT.ARSP(2).TimeS, FMT.ARSP(2).H,'+--b');
 catch
 end
 ylim([-2 1]);
@@ -64,13 +64,12 @@ ylabel('Health')
 
 yyaxis right
 hold on
+
+  arspp = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).Pri,'.-k');  
+
 try
-arspp = plot(FMT.ARSP.TimeS, FMT.ARSP.Primary,'.-k');
-catch
-  arspp = plot(FMT.ARSP.TimeS, FMT.ARSP.Pri,'.-k');  
-end
-try
-arsp2p = plot(FMT.ASP2.TimeS, FMT.ASP2.Primary,'.--b');
+arsp2p = plot(FMT.ARSP(1).TimeS,FMT.ARSP(2).Pri,'.--b');
+arsp3p = plot(FMT.XKFS(1).TimeS,FMT.XKFS(1).AI,'.--g');
 catch
 end
 ylim([0 3]);
@@ -84,9 +83,9 @@ ylabel('Primary')
 %% 
 s(4) = subplot(5,1,4);
 hold on
-arspp = plot(FMT.ARSP.TimeS, abs(FMT.ARSP.Airspeed.^2./FMT.ARSP.RawPress),'.-k');
+arspp = plot(FMT.ARSP(1).TimeS, abs(FMT.ARSP(1).Airspeed.^2./FMT.ARSP(1).RawPress),'.-k');
 try
-arsp2p = plot(FMT.ASP2.TimeS, abs(FMT.ASP2.Airspeed.^2./FMT.ASP2.RawPress),'.--b');
+arsp2p = plot(FMT.ARSP(2).TimeS, abs(FMT.ARSP(2).Airspeed.^2./FMT.ARSP(2).RawPress),'.--b');
 catch
 end
 
@@ -99,8 +98,9 @@ ylabel('AS Ratio');
 yyaxis right
 hold on
 try
-rat = FMT.TECS.sp./interp1(FMT.CTUN.TimeS,FMT.CTUN.Aspd,FMT.TECS.TimeS);
+rat = FMT.TECS.sp./interp1(FMT.CTUN.TimeS,FMT.CTUN.As,FMT.TECS.TimeS);
 eastas = plot(FMT.TECS.TimeS,rat,'.r');
+eastas2 = plot(FMT.CTUN.TimeS,FMT.CTUN.E2T,'.g')
 ylim([0.8 1.2]);
 catch
 end
@@ -113,6 +113,7 @@ yyaxis left
 % den = FMT.BARO.Press ./ (287.26 .* tempK)
 %%
 s(5)=subplot(5,1,5); %airspeed error (should be below 0.3. Above 1 data from pitot is ignored)
+if isfield(FMT,'NKF4')
 hold on
 yyaxis left
 imu1=plot(FMT.NKF4.TimeS,FMT.NKF4.SVT,'--b');
@@ -133,6 +134,30 @@ ylabel('Airspeed Innovation');
 grid on
 box on
 
+
+else
+    
+    hold on
+yyaxis left
+imu1=plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).SVT,'--b');
+imu2=plot(FMT.XKF4(2).TimeS,FMT.XKF4(2).SVT,'--r');
+maxl = plot([min(FMT.XKF4(1).TimeS) max(FMT.XKF4(1).TimeS)],[1 1],'-r');
+ax = gca;
+ax.YColor = 'k';
+ylabel('Error Ratio');
+axis tight
+
+yyaxis right
+hold on
+ivt= plot(FMT.XKF3(1).TimeS,FMT.XKF3(1).IVT,'-k');
+ivt2= plot(FMT.XKF3(2).TimeS,FMT.XKF3(2).IVT,'--k');
+ax = gca;
+ax.YColor = 'k';
+ylabel('Airspeed Innovation');
+grid on
+box on
+
+end
 axis tight
 linkaxes(s,'x');
 axis tight

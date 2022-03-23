@@ -6,7 +6,7 @@ if isfield(FMT,'GPS') == 0
     % No GPS DATA FOUND
     INFO.statusGPS = -1;
     fprintf('GPS: NOT FOUND\n');
-elseif sum(FMT.GPS.GWk)==0 && sum(FMT.GPS.GMS)==0
+elseif sum(FMT.GPS(1).GWk)==0 && sum(FMT.GPS(1).GMS)==0
     INFO.statusGPS = 0;
     fprintf('GPS: NO LOCK\n');
 else
@@ -93,12 +93,12 @@ if flagError ~= 1
         try
             t1 = INFO.flight.startTimeS(n);
             t2 = INFO.flight.endTimeS(n);
-            idxARSP = (FMT.ARSP.TimeS >= t1 & FMT.ARSP.TimeS <= t2);
-            idxBARO = (FMT.BARO.TimeS >= t1 & FMT.BARO.TimeS <= t2);
-            idxGPS = (FMT.GPS.TimeS >= t1 & FMT.GPS.TimeS <= t2);
-            maxIAS = max(FMT.ARSP.Airspeed(idxARSP));
-            maxAGL = max(FMT.BARO.Alt(idxBARO));
-            maxGS = max(FMT.GPS.Spd(idxGPS));
+            idxARSP = (FMT.CTUN.TimeS >= t1 & FMT.CTUN.TimeS <= t2);
+            idxBARO = (FMT.POS.TimeS >= t1 & FMT.POS.TimeS <= t2);
+            idxGPS = (FMT.GPS(1).TimeS >= t1 & FMT.GPS(1).TimeS <= t2);
+            maxIAS = max(FMT.CTUN.As(idxARSP));
+            maxAGL = max(FMT.POS.RelHomeAlt(idxBARO));
+            maxGS = max(FMT.GPS(1).Spd(idxGPS)); %value from first sensor
             
         catch
             maxGS = nan;
