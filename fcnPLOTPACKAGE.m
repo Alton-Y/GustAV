@@ -21,15 +21,13 @@ tecsexplore(INFO,FMT,GND,tecsfig);
 
 battfig = figure(7);
 batterydata(INFO,FMT,GND,TEMPLOG,battfig);
-
-posfig = figure(8);
-position(INFO,FMT,GND,AVT,posfig);
+ 
 % 
 motorfig = figure(9);
 motordata(INFO,FMT,motorfig);
 
-% telemfig = figure(10);
-% rssidata(INFO,FMT,TLOG,telemfig);
+telemfig = figure(10);
+rssidata(INFO,FMT,TLOG,telemfig);
 
 hardwarefig = figure(11);
 hardware(INFO,FMT,TLOG,hardwarefig);
@@ -57,3 +55,14 @@ chargingdata(INFO,FMT,GND,TEMPLOG,fig)
 
 fig = figure(19)
 navexplore(INFO,FMT,fig)
+
+fig = figure(20)
+position(INFO,FMT,GND,AVT,fig);
+
+
+fig = figure(21)
+RPcontrolexplorePITCH(INFO,FMT,GND,fig);
+
+
+fig = figure(22)
+RPcontrolexploreROLL(INFO,FMT,GND,fig);
