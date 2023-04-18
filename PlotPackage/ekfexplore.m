@@ -27,6 +27,7 @@ else
     att=plot(FMT.ATT.TimeS,FMT.ATT.Roll,'-k');
 imu1=plot(FMT.XKF1(1).TimeS,FMT.XKF1(1).Roll,'--b');
 imu2=plot(FMT.XKF1(2).TimeS,FMT.XKF1(2).Roll,'--r');
+dcm=plot(FMT.AHR2.TimeS,FMT.AHR2.Roll,'--m');
 ax = gca;
 ax.YColor = 'k';
 ylabel('Angle (deg)');
@@ -34,7 +35,7 @@ yyaxis right
 pi = plot(FMT.XKF4(1).TimeS,FMT.XKF4(1).PI,'.b');
 ax = gca;
 ax.YColor = 'b';
-legend([att,imu1,imu2,pi],{'Roll ATT','Roll IMU1','Roll IMU2','EKF Instance'},'location','northwest');
+legend([att,imu1,imu2,dcm,pi],{'Roll ATT','Roll IMU1','Roll IMU2','DCM','EKF Instance'},'location','northwest');
 ylabel('Instance');
 axis tight
 grid on
@@ -61,11 +62,12 @@ else
 att=plot(FMT.ATT.TimeS,FMT.ATT.Pitch,'-k');
 imu1=plot(FMT.XKF1(1).TimeS,FMT.XKF1(1).Pitch,'--b');
 imu2=plot(FMT.XKF1(2).TimeS,FMT.XKF1(2).Pitch,'--r');
+dcm=plot(FMT.AHR2.TimeS,FMT.AHR2.Pitch,'--m');
 ylabel('Angle (deg)');
 axis tight
 grid on
 box on
-legend([att,imu1,imu2],{'Pitch ATT','Pitch IMU1','Pitch IMU2'},'location','northwest');
+legend([att,imu1,imu2,dcm],{'Pitch ATT','Pitch IMU1','Pitch IMU2','DCM'},'location','northwest');
 
 end
 s3=subplot(4,1,3); %airspeed error (should be below 0.3. Above 1 data from pitot is ignored)
@@ -155,9 +157,9 @@ legend([imu1,imu2,maxl],{'SM IMU1','SM IMU2','MAX ERROR'},'location','northwest'
 end
 
 linkaxes([s1,s2,s3,s4],'x');
-try
-xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
-catch
+% try
+% xlim([min(INFO.flight.startTimeS),max(INFO.flight.endTimeS)]);
+% catch
     axis tight
-end
+% end
 clear s1 s2 s3
