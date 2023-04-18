@@ -26,9 +26,9 @@ try
     if exist('GPS_0','var') == 1
         GPS = GPS_0;
     end
-    LogStart_GPSidx = find(GPS(:,5)>0,1); %GPS(:,5) = FMT.GPS.GWk
-    GWk = GPS(LogStart_GPSidx,5);
-    GMS = GPS(LogStart_GPSidx,4); %GPS(:,4) = FMT.GPS.GMS;
+    LogStart_GPSidx = find(GPS(:,6)>0,1); %GPS(:,5) = FMT.GPS.GWk
+    GWk = GPS(LogStart_GPSidx,6);
+    GMS = GPS(LogStart_GPSidx,5); %GPS(:,4) = FMT.GPS.GMS;
     GMS = GMS - GPS(LogStart_GPSidx,2)./1e3; %GPS(:,2) = MT.GPS.TimeUS
     
     jd = gps2jd(GWk,GMS./1000);
@@ -91,7 +91,14 @@ for i = 1:length(varList)
                 eval(sprintf('FMT.%s(:,1).%s = %s_112(:,%i);',varList{i},label{j},varList{i},j));
                 catch
                 end
-                
+                try
+                eval(sprintf('FMT.%s(:,1).%s = %s_122(:,%i);',varList{i},label{j},varList{i},j));
+                catch
+                end
+                try
+                eval(sprintf('FMT.%s(:,1).%s = %s_124(:,%i);',varList{i},label{j},varList{i},j));
+                catch
+                end
                     
             end
             
@@ -128,7 +135,7 @@ for i = 1:length(varList)
         
        
         
-%         try
+        try
             for kk = 1:size(FMT.(varList{i}),2)
                 try
                 FMT.(varList{i})(:,kk).TimeS(:,1) = [FMT.(varList{i})(:,kk).TimeUS]./1e6;
@@ -136,7 +143,7 @@ for i = 1:length(varList)
                 catch
                 end
             end
-%         end
+        end
 %     end
 end
 
