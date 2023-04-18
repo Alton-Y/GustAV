@@ -71,8 +71,8 @@ Modes = [(1:length(ModeChange(:,1)))',ModeChange(:,[2 1 6])];
 
 
 % end old code
-ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};
-ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOITER',' ',' ','GUIDED'};
+ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER','TAKEOFF',' ','GUIDED'};
+ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOITER','TKOFF',' ','GUIDED'};
 INFO.segment.mode = Modes(:,2);
 INFO.segment.modeStr = ModeStr(Modes(:,2)+1)';
 INFO.segment.modeAbbr = ModeAbbr(Modes(:,2)+1)';
