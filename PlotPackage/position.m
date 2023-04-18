@@ -1,7 +1,7 @@
 function [] = position(INFO,FMT,GND,AVT,fig)
 %Plots ground station data
 fig.Name = 'Position Plot';
-load('Field.mat');
+% load('Field.mat');
 clf(fig)
 
 % GPS X Y
@@ -16,10 +16,10 @@ try
 catch
 end
 % [gndX,gndY] = mfwdtran(mstruct,GND.GPS.Lat,GND.GPS.Lon);
-[RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
-[LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
-[RoadsX,RoadsY] = mfwdtran(mstruct,Field.Roads(:,2),Field.Roads(:,1));
-[TreesX,TreesY] = mfwdtran(mstruct,Field.Treeline(:,2),Field.Treeline(:,1));
+% [RwyX,RwyY] = mfwdtran(mstruct,Field.Runway(:,2),Field.Runway(:,1));
+% [LineX,LineY] = mfwdtran(mstruct,Field.Flightline(:,2),Field.Flightline(:,1));
+% [RoadsX,RoadsY] = mfwdtran(mstruct,Field.Roads(:,2),Field.Roads(:,1));
+% [TreesX,TreesY] = mfwdtran(mstruct,Field.Treeline(:,2),Field.Treeline(:,1));
 
 try
 [cmdX,cmdY,cmdAlt] = mfwdtran(mstruct,FMT.CMD.Lat,FMT.CMD.Lng,FMT.CMD.Alt);
