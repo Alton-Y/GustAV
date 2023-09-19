@@ -27,7 +27,7 @@ end
 
 
 %% nsats
-s(1) = subplot(2,2,1);
+s(1) = subplot(3,2,1);
 
 gpsp = plot(FMT.GPS(1).TimeS,FMT.GPS(1).NSats,'k');
 try
@@ -48,28 +48,24 @@ end
 axis tight
 
 %% hdop
-s(2) = subplot(2,2,3);
-
+s(2) = subplot(3,2,3);
+hold on
 gpsp = plot(FMT.GPA(1).TimeS,FMT.GPA(1).HAcc	,'k');
-try
-    hold on
-    gps2p = plot(FMT.GPA(2).TimeS,FMT.GPA(2).HAcc,'r');
-catch
-end
+gps2p = plot(FMT.GPA(2).TimeS,FMT.GPA(2).HAcc,'r');
+
+yaw = plot(FMT.GPA(1).TimeS,FMT.GPA(1).YAcc);
 
 grid on
 box on
 
 ylabel('HAcc');
-try
-legend([gpsp,gps2p],{'GPS1','GPS2'});
-catch
-    legend([gpsp],{'GPS1'});
-end
+legend([gpsp,gps2p,yaw],{'GPS1','GPS2','Yaw'});
+
+
 axis tight
 
 %% XYZ 
-s2 = subplot(2,2,2);
+s2 = subplot(3,2,2);
 hold on
 
 pxyz2 = plot3(X2,Y2,Z2,'b');
@@ -122,7 +118,7 @@ legend([pxyz,pxyz2],{'GPS1 Pos','EKF Pos'});
 end
 
 %%
-s(3) = subplot(2,2,4) 
+s(3) = subplot(3,2,4) 
 hold on
 use = plot(FMT.GPS(1).TimeS,FMT.GPS(1).U,'k')
 
@@ -139,12 +135,29 @@ ylim([-1 2]);
 ylabel('Used');
 
 
+
+
+try
+s(5)= subplot(3,2,5)
+hold on
+plot(FMT.GPA(1).TimeS,FMT.GPA(1).Delta)
+plot(FMT.GPA(2).TimeS,FMT.GPA(2).Delta)
+ylabel('Delta, ms')
+legend('GPS1','GPS2')
+grid on
+
+s(6)=subplot(3,2,6)
+hold on
+plot(FMT.GPS(1).TimeS,FMT.GPS(1).Yaw)
+plot(FMT.GPS(2).TimeS,FMT.GPS(2).Yaw)
+
+plot(FMT.ATT.TimeS,FMT.ATT.Yaw)
+legend('GPS1','GPS2','ATT')
+ylabel('heading')
+grid on
+
+end
 linkaxes([s],'x');
-
-
-
-
-
 
 
 
