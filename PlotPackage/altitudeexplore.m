@@ -32,8 +32,8 @@ plot(FMT.GPS(1).TimeS,FMT.GPS(1).Alt)
 plot(FMT.POS.TimeS,FMT.POS.Alt)
 plot(FMT.AHR2.TimeS,FMT.AHR2.Alt)
 
-plot(FMT.ORGN.TimeS(FMT.ORGN.Type==0),FMT.ORGN.Alt(FMT.ORGN.Type==0),'bd')
-plot(FMT.ORGN.TimeS(FMT.ORGN.Type==1),FMT.ORGN.Alt(FMT.ORGN.Type==1),'rd')
+plot(FMT.ORGN(1).TimeS(FMT.ORGN(1).Type==0),FMT.ORGN(1).Alt(FMT.ORGN(1).Type==0),'bd')
+plot(FMT.ORGN(1).TimeS(FMT.ORGN(1).Type==1),FMT.ORGN(1).Alt(FMT.ORGN(1).Type==1),'rd')
 grid on
 box on
 legend('GPS','POS','AHR2','EKF ORIGIN','AHRS HOME')

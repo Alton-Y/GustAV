@@ -18,8 +18,9 @@ hold on
 
 % find primary sensor data
 raw = plot(FMT.ARSP(1).TimeS(FMT.ARSP(1).Pri==0),FMT.ARSP(1).Airspeed(FMT.ARSP(1).Pri==0),'.-k');
+try
 raw2 = plot(FMT.ARSP(2).TimeS(FMT.ARSP(1).Pri==1),FMT.ARSP(2).Airspeed(FMT.ARSP(2).Pri==1),'.m');
-
+end
 avg = plot(FMT.CTUN.TimeS,FMT.CTUN.As,'.-g');
 legend([raw,avg],{'RAW EAS','EAS'},'location','northwest');
 

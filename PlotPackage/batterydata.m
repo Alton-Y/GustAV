@@ -114,6 +114,14 @@ catch
 end
 s3.YLim(2) = s3.YLim(2)*1;
 ylabel('Wh');
+  
+
+try
+b=plot(FMT.ESC(3).TimeS,cumtrapz(FMT.ESC(3).TimeS,FMT.ESC(3).Curr.*FMT.ESC(3).Volt)./3600)
+ legend([a,b],{'Main Total Draw','Main Total ESC'},'location','northwest');
+catch
+      legend([a],{'Main Total Draw'},'location','northwest');
+end
 % if isfield(FMT,'CUR2')==1 || isfield(FMT,'BAT2')==1
 %     yyaxis right
 %     try
@@ -123,7 +131,7 @@ ylabel('Wh');
 %     end
 %     legend([a,a2],{'Main Total Draw','Second Total Draw'},'location','northwest');
 % else
-    legend([a],{'Main Total Draw'},'location','northwest');
+
 % end
 % ylabel('mAh');
 axis tight
