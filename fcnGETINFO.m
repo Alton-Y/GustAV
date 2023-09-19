@@ -57,7 +57,7 @@ end
 ModeChange = [FMT.MODE.TimeS,FMT.MODE.ModeNum]; %Copy mode
 ModeChange(:,3) = [diff(FMT.MODE.ModeNum);NaN]; %find diff between mode change
 ModeChange(:,4) = FMT.MODE.LineNo;%mode start line index
-ModeChange = ModeChange(ModeChange(:,3)~=0,:);
+% ModeChange = ModeChange(ModeChange(:,3)~=0,:); %remove repeats. 
 %     ModeChange(:,5) = [ModeChange(2:end,4)-1;nan];
 try
 ModeChange(:,6) = [ModeChange(2:end,1)-1;FMT.STAT.TimeS(end)];
@@ -71,8 +71,8 @@ Modes = [(1:length(ModeChange(:,1)))',ModeChange(:,[2 1 6])];
 
 
 % end old code
-ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER','TAKEOFF',' ','GUIDED'};
-ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOITER','TKOFF',' ','GUIDED'};
+ModeStr = {'MANUAL','CIRCLE','STABILIZE','TRAINING','ACRO','FBWA','FBWB','CRUISE','AUTOTUNE',' ','AUTO','RTL','LOITER','TAKEOFF',' ','GUIDED',' ',' ',' ',' ',' ',' ',' ',' ','THERMAL'};
+ModeAbbr = {'MANUAL','CIRCLE','STAB','TRAIN','ACRO','FBWA','FBWB','CRUISE','TUNE',' ','AUTO','RTL','LOIT','TKOFF',' ','GUID',' ',' ',' ',' ',' ',' ',' ',' ','THRM'};
 INFO.segment.mode = Modes(:,2);
 INFO.segment.modeStr = ModeStr(Modes(:,2)+1)';
 INFO.segment.modeAbbr = ModeAbbr(Modes(:,2)+1)';
