@@ -25,6 +25,8 @@ try
     
     if exist('GPS_0','var') == 1
         GPS = GPS_0;
+    else
+        GPS = GPS_1;
     end
     LogStart_GPSidx = find(GPS(:,6)>0,1); %GPS(:,5) = FMT.GPS.GWk
     GWk = GPS(LogStart_GPSidx,6);
@@ -74,7 +76,9 @@ for i = 1:length(varList)
             
             if exist(sprintf('%s',varList{i}))
                 %AP4 and earlier, and some params in 4.1 that don't have multiples
+                try
                 eval(sprintf('FMT.%s(:,1).%s = %s(:,%i);',varList{i},label{j},varList{i},j));
+                end
 %                 eval(sprintf('clear %s;',varList{i}));
             elseif exist(sprintf('%s_0',varList{i}))
                 %AP4.1 and later
