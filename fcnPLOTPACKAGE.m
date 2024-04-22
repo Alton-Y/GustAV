@@ -12,7 +12,7 @@ RPcontrolexplore(INFO,FMT,GND,rollpitchcontrolfig);
 
 channelfig = figure(4);
 channeldata(INFO,FMT,GND,channelfig);
-
+ 
 ekffig = figure(5);
 ekfexplore(INFO,FMT,GND,ekffig);
 
@@ -56,13 +56,18 @@ chargingdata(INFO,FMT,GND,TEMPLOG,fig)
 fig = figure(19)
 navexplore(INFO,FMT,fig)
 
-fig = figure(20)
+fig = figure(21)
 position(INFO,FMT,GND,AVT,fig);
 
 
-fig = figure(21)
+fig = figure(22)
 RPcontrolexplorePITCH(INFO,FMT,GND,fig);
 
 
-fig = figure(22)
+fig = figure(23)
 RPcontrolexploreROLL(INFO,FMT,GND,fig);
+
+
+fig = figure(24)
+tecs2explore(INFO,FMT,fig);
+

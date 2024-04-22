@@ -9,7 +9,9 @@ clf(fig);
 s(1) = subplot(5,1,1);
 hold on
 
-arsp = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).Airspeed,'.-k');
+arsp = plot(FMT.ARSP(1).TimeS, FMT.ARSP(1).Airspeed,'.k');
+% plot(FMT.ARSP(1).TimeS, sqrt(FMT.ARSP(1).DiffPress.*2.27),'-k');
+
 try
 arsp2 = plot(FMT.ARSP(2).TimeS, FMT.ARSP(2).Airspeed,'.--b');
 catch

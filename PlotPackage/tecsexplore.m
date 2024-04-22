@@ -3,10 +3,58 @@ fig.Name = 'TECS Explore';
 clf(fig);
 try
     s1=subplot(4,1,1);
+    %%
     hold on
-    hdem=plot(FMT.TECS.TimeS,FMT.TECS.hdem,'-k');
+    hdem= plot(FMT.TECS.TimeS,FMT.TECS.hin,'-r');
+    hdem_in = FMT.TECS.hin;
+    hgt_dem = FMT.TECS.hin;
+    max_sink_scaler = 1;
+    maxSinkRate = 4.33;
+   
+    % thrgoeszero = find((FMT.TECS.th == 0 & (gradient(FMT.TECS.th)<0)));
+    hgt_dem_in_prev = hdem_in(1) 
+    hgt_dem_rate_ltd = hdem_in(1);
+
+    for i = 1:size(hdem_in,1)
+        hgt_dem_in_raw = hdem_in(i);
+
+
+        if (FMT.TECS.th(i) ==0)
+            hdem_in(i) = hgt_dem_in_prev;
+        else
+            hdem_in(i) = hgt_dem_in_raw;
+        end
+
+        sink_rate_limit = maxSinkRate*max_sink_scaler;
+        hgt_dem(i) = 0.5*( hdem_in(i) + hgt_dem_in_prev);
+        hgt_dem_in_prev = hdem_in(i);
+
+        if (hgt_dem(i) - hgt_dem_rate_ltd) < (-sink_rate_limit*0.1)
+            hgt_dem_rate_ltd = hgt_dem_rate_ltd - sink_rate_limit*0.1;
+        else
+            hgt_dem_rate_ltd = hgt_dem(i);
+        end
+
+        %supposed to be a lpf here...
+        hgt_dem(i) = hgt_dem_rate_ltd;
+
+        hgt_dem_alpha = 0.1 / max(0.1 + 3,0.1);
+        if (FMT.TECS.th(i) ==0 | FMT.TECS.dhdem>4.3)
+            max_sink_scaler = max_sink_scaler.*(1-hgt_dem_alpha);
+        else
+            max_sink_scaler = max_sink_scaler*(1-hgt_dem_alpha) + hgt_dem_alpha;
+        end
+
+    end
+    
+
+
+    maxdecentcondition = plot(FMT.TECS.TimeS,hdem_in,'.')
+     hdemltd=plot(FMT.TECS.TimeS,FMT.TECS.hdem,'-k');   
+     myhdem = plot(FMT.TECS.TimeS,hgt_dem,'.');
+     %%
     h=plot(FMT.TECS.TimeS,FMT.TECS.h,'--b');
-    legend([hdem,h],{'Demanded ALT','Actual ALT'},'location','northwest');
+    legend([hdem,hdemltd,h],{'Demanded ALT','Rate Limited Alt Demand','Actual ALT'},'location','northwest');
     ylabel('m AGL');
     axis tight
     grid on

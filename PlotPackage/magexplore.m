@@ -1,6 +1,5 @@
-function magexplore(INFO,FMT,TLOG,fig)
-fig.Name = 'Compass Data';
-clf(fig);
+figure(92)
+clf(92)
 % 
 % Field	Description
 % MagX, MagY. MagZ	Raw magnetic field values for x, y and z axis
@@ -84,4 +83,3 @@ linkaxes([s1,s2,s3,s4,s5],'x');
 % end
 clear s1 s2 s3
 
-end

@@ -47,8 +47,8 @@ scaled_value = (FMT.PIDR.FF + FMT.PIDR.P  + FMT.PIDR.I).*100;
 scaled_value(scaled_value>4500)=4500;
 scaled_value(scaled_value<-4500)=-4500;
 
-pwmout = 1521+ ((scaled_value.*(2070-1521))./4500);
-pwmout(scaled_value <0) = 1521-((-scaled_value(scaled_value<0)*(1521-925))./4500);
+pwmout = 1500+ ((scaled_value.*(2011-1500))./4500);
+pwmout(scaled_value <0) = 1500-((-scaled_value(scaled_value<0)*(1500-998))./4500);
 %  if (scaled_value > 0) {
 %         return servo_trim + uint16_t( (scaled_value * (float)(servo_max - servo_trim)) / (float)high_out);
 %     } else {
@@ -62,15 +62,17 @@ hold on
 
 ylabel('PWM')
 
-plot(FMT.RCOU.TimeS,FMT.RCOU.C1,'.')
+% plot(FMT.RCOU.TimeS,FMT.RCOU.C1,'.')
 % plot(FMT.PIDR.TimeS,pwmout,'.' );
 
-% yyaxis right
-% ylabel('AIL')
-% plot(FMT.AETR.TimeS,FMT.AETR.Ail./(4500),'.')
-
+yyaxis right
+ylabel('AIL')
+hold on
+plot(FMT.AETR.TimeS,FMT.AETR.Ail.*0.01,'.-r');
+plot(FMT.PIDR.TimeS,FMT.PIDR.Act.*cell2mat(FMT.PARM(763,2)).*(interp1(FMT.AETR.TimeS,FMT.AETR.SS,FMT.PIDR.TimeS)),'.-b');
 % legend('FF','P','D','Location','best')
 grid on
+% legend('PWM','Ail','FF perf')
 
 axis tight
 
